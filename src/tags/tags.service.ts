@@ -1,26 +1,59 @@
-import { Injectable } from '@nestjs/common';
-import { CreateTagDto } from './dto/create-tag.dto';
-import { UpdateTagDto } from './dto/update-tag.dto';
+import { BadRequestException, Injectable } from '@nestjs/common'
+import { PrismaService } from 'src/prisma.service'
+import { CreateTagDto } from './dto/create-tag.dto'
+import { UpdateTagDto } from './dto/update-tag.dto'
 
 @Injectable()
 export class TagsService {
-  create(createTagDto: CreateTagDto) {
-    return 'This action adds a new tag';
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(createTagDto: CreateTagDto) {
+    try {
+      const tag = await this.prisma.tag.create({
+        data: {
+          name: createTagDto.name,
+          products: { connect: createTagDto.productId.map((id) => ({ id })) },
+        },
+      })
+      return tag
+    } catch (error) {
+      throw new BadRequestException(error.message)
+    }
   }
 
-  findAll() {
-    return `This action returns all tags`;
+  async findAll() {
+    try {
+      const tags = await this.prisma.tag.findMany()
+      return tags
+    } catch (error) {
+      throw new BadRequestException(error.message)
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tag`;
+  async findOne(id: string) {
+    try {
+      const tag = await this.prisma.tag.findUnique({ where: { id } })
+      return tag
+    } catch (error) {
+      throw new BadRequestException(error.message)
+    }
   }
 
-  update(id: number, updateTagDto: UpdateTagDto) {
-    return `This action updates a #${id} tag`;
+  async update(id: string, updateTagDto: UpdateTagDto) {
+    try {
+      const tag = await this.prisma.tag.update({ where: { id }, data: updateTagDto })
+      return tag
+    } catch (error) {
+      throw new BadRequestException(error.message)
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} tag`;
+  async remove(id: string) {
+    try {
+      const tag = await this.prisma.tag.delete({ where: { id } })
+      return tag
+    } catch (error) {
+      throw new BadRequestException(error.message)
+    }
   }
 }
