@@ -1,0 +1,160 @@
+type: collection.insomnia.rest/5.0
+name: My first collection
+meta:
+  id: wrk_f55975e6fd16491cbee99bc0774e7b25
+  created: 1748571655350
+  modified: 1748571655350
+collection:
+  - name: auth
+    meta:
+      id: fld_3f7f23876afd4e72a5b37682b7a98883
+      created: 1748722435690
+      modified: 1748722435690
+      sortKey: -1748722435690
+    children:
+      - url: https://dokyo.onrender.com/api/auth/signin
+        name: sign-in
+        meta:
+          id: req_53ad0ea66cc44a68b1431577335ca7a3
+          created: 1748571655376
+          modified: 1748728075888
+          isPrivate: false
+          sortKey: -1748722447118
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email": "andreylovecats@gmail.com"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: https://dokyo.onrender.com/api/auth/verify-otp
+        name: verify-otp
+        meta:
+          id: req_4f2fe253631849e8a5c3f2dc3a51216f
+          created: 1748715608313
+          modified: 1748728071508
+          isPrivate: false
+          sortKey: -1748722447018
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"otp": 213008
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: https://dokyo.onrender.com/api/users/me
+        name: New Request
+        meta:
+          id: req_eed04ec3b1a8443caf91ed0c6d412e93
+          created: 1748720762327
+          modified: 1748728065861
+          isPrivate: false
+          sortKey: -1748722446918
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+            id: pair_d51bca79921647f0ad0f4804103e0a91
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQyN2M3OTY1LWI5OWMtNDk4ZS04YzY1LWY5Njg5M2M5NmMyOSIsImlhdCI6MTc0ODcyMTY3NiwiZXhwIjoxNzQ4NzI1Mjc2fQ.oVCYFet6nQ2Rh15NWWrzD2EpMBChlkyC0iHBxDVdGK8
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: https://dokyo.onrender.com/api/auth/new-tokens
+        name: New Request
+        meta:
+          id: req_f95a0b41b98041ddbffd62e7ede253f3
+          created: 1748721439111
+          modified: 1748728011887
+          isPrivate: false
+          sortKey: -1748722446818
+        method: POST
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: https://dokyo.onrender.com/api/auth/logout
+        name: New Request
+        meta:
+          id: req_032910eda78449428c46d03463d04653
+          created: 1748721760801
+          modified: 1748728061203
+          isPrivate: false
+          sortKey: -1748722446718
+        method: POST
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_67f9a51319f83881563a2fb0362e676dd679dea9
+    created: 1748571655353
+    modified: 1748726818125
+  cookies:
+    - key: refreshToken
+      domain: localhost
+      path: /api/auth
+      secure: true
+      httpOnly: true
+      hostOnly: false
+      pathIsDefault: true
+      creation: 2025-05-31T21:26:58.125Z
+      lastAccessed: 2025-05-31T21:26:58.125Z
+      sameSite: none
+      id: b335db7f-91d7-40e2-bd4b-4b47d289c230
+environments:
+  name: Base Environment
+  meta:
+    id: env_67f9a51319f83881563a2fb0362e676dd679dea9
+    created: 1748571655352
+    modified: 1748571655352
+    isPrivate: false

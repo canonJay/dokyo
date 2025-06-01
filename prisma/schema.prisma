@@ -18,9 +18,14 @@ model User {
   id         String   @id @default(uuid())
   username   String?  @unique
   email      String   @unique
-  isVerified Boolean  @default(false)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  isVerified Boolean  @default(false) @map("is_verified")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  role       Role     @default(USER)
+
+  reviews Review[]
+
+  products Product[]
 
   OTPcode OTPcode[]
 
@@ -31,11 +36,76 @@ model OTPcode {
   id        String   @id @default(uuid())
   code      Int
   expiresAt DateTime
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   user   User?   @relation(fields: [userId], references: [id])
   userId String?
 
   @@map("otp_codes")
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String
+
+  products  Product[]
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  @@map("categories")
+}
+
+model Tag {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  products Product[]
+
+  @@map("tags")
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  price       Int
+  images      String[]
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  category Category[]
+
+  tags Tag[]
+
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String?
+
+  reviews Review[]
+
+  @@map("products")
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  text      String
+  rating    Int      @default(0)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String?
+
+  product   Product? @relation(fields: [productId], references: [id])
+  productId String?
+
+  @@map("reviews")
+}
+
+enum Role {
+  ADMIN
+  SALLER
+  USER
 }
