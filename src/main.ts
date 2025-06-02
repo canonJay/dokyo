@@ -6,6 +6,7 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify'
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { AppModule } from './app.module'
 
 async function bootstrap() {
@@ -18,6 +19,14 @@ async function bootstrap() {
   app.register(fastifyCookie, {
     secret: configService.get('COOKIE_SECRET') as string
   });
+
+  const config = new DocumentBuilder()
+    .setTitle('API')
+    .setDescription('API description')
+    .setVersion('1.0')
+    .build()
+  const document = SwaggerModule.createDocument(app, config)
+  SwaggerModule.setup('swagger', app, document)
 
 	app.enableCors({
 		origin: ['http://localhost:5173'],
