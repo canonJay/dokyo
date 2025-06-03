@@ -124,7 +124,9 @@ exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   username: 'username',
   email: 'email',
+  balance: 'balance',
   isVerified: 'isVerified',
+  isBanned: 'isBanned',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   role: 'role'
@@ -174,6 +176,16 @@ exports.Prisma.ReviewScalarFieldEnum = {
   productId: 'productId'
 };
 
+exports.Prisma.PaymentScalarFieldEnum = {
+  id: 'id',
+  amount: 'amount',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  productId: 'productId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -194,13 +206,20 @@ exports.Role = exports.$Enums.Role = {
   USER: 'USER'
 };
 
+exports.PaymentStatus = exports.$Enums.PaymentStatus = {
+  PENDING: 'PENDING',
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   OTPcode: 'OTPcode',
   Category: 'Category',
   Tag: 'Tag',
   Product: 'Product',
-  Review: 'Review'
+  Review: 'Review',
+  Payment: 'Payment'
 };
 
 /**
