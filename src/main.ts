@@ -29,7 +29,7 @@ async function bootstrap() {
   SwaggerModule.setup('swagger', app, document)
 
 	app.enableCors({
-		origin: ['http://localhost:5173'],
+		origin: ['*'],
 		credentials: true,
 		exposedHeaders: 'set-cookie'
 	})
