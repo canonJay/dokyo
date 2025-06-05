@@ -4,6 +4,7 @@ import { AdminModule } from './admin/admin.module'
 import { AuthModule } from './auth/auth.module'
 import { CotegorysModule } from './cotegorys/cotegorys.module'
 import { isDevEnv } from './libs/common/utils/is-dev'
+import { MailerModule } from './mailer/mailer.module'
 import { PaymentsModule } from './payments/payments.module'
 import { PrismaService } from './prisma.service'
 import { ProductsModule } from './products/products.module'
@@ -15,7 +16,7 @@ import { UsersModule } from './users/users.module'
   imports: [UsersModule, ConfigModule.forRoot({
     ignoreEnvFile: !isDevEnv,
     isGlobal: true,
-  }), AuthModule, ProductsModule, CotegorysModule, TagsModule, ReviewsModule, AdminModule, PaymentsModule], 
+  }), AuthModule, ProductsModule, CotegorysModule, TagsModule, ReviewsModule, AdminModule, PaymentsModule, MailerModule], 
   controllers: [],
   providers: [PrismaService],
   exports: [PrismaService],

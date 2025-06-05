@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/
 import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
 import { FastifyReply } from 'fastify'
-import { Resend } from 'resend'
+import { MailerService } from 'src/mailer/mailer.service'
 import { UsersService } from 'src/users/users.service'
 import { AuthDto, VerifyOtpDto } from './dto/auth.dto'
 import { OtpService } from './otp.service'
@@ -12,15 +12,12 @@ export class AuthService {
 	public	constructor(private userService: UsersService, 
 		private otpService: OtpService,
 		private configService: ConfigService,
-		private jwt: JwtService
-	) {
-		this.resend = new Resend(configService.get('EMAIL_API_KEY'))
-	}
+		private jwt: JwtService,
+		private mailerService: MailerService
+	) {}
 
 	private EXPIRE_DAY_REFRESH_TOKEN = 20
  REFRESH_TOKEN_NAME = 'refreshToken'
-
-	private resend: Resend
 
 	async signin(dto: AuthDto) {
 		const user = await this.userService.findByEmail(dto.email)
@@ -90,12 +87,14 @@ export class AuthService {
 	}
 
 	private async sendOtp(email: string, otp: number) {
-		await this.resend.emails.send({
-			from: 'onboarding@resend.dev',
-			to: email,
-			subject: 'Your OTP code',
-			html: `Your OTP code is ${otp}`,
-		})
+		console.log('Sending OTP to', email)
+
+		try {
+			await this.mailerService.sendEmail(email, 'Your OTP code', `Your OTP code is ${otp}`)
+		} catch (error) {
+			console.log('Error sending OTP', error)
+			throw new BadRequestException(error)
+		}
 	}
 
 	async getNewTokens(refreshToken: string) {

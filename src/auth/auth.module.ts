@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { JwtModule } from '@nestjs/jwt'
 import { getJwtConfig } from 'src/config/jwt.config'
+import { MailerService } from 'src/mailer/mailer.service'
 import { PrismaService } from 'src/prisma.service'
 import { UsersService } from 'src/users/users.service'
 import { AuthController } from './auth.controller'
@@ -18,6 +19,6 @@ import { OtpService } from './otp.service'
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, UsersService, OtpService, JwtStrategy, PrismaService],
+  providers: [AuthService, UsersService, OtpService, JwtStrategy, PrismaService, MailerService],
 })
 export class AuthModule {}
