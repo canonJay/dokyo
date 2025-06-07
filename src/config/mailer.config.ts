@@ -4,9 +4,9 @@ import { ConfigService } from '@nestjs/config'
 export function getMailerConfig(configService: ConfigService): MailerOptions {
   return {
     transport: {
-    host: "smtp.yandex.ru",
-    port: 465,
-    secure: true,
+    host: "mail.nic.ru",
+    port: 587,
+    secure: false,
     auth: {
       user: "noreply@dokyo.ru",
       pass: "d33gClqT9hdSWK9Wj",
