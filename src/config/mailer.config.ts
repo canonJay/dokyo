@@ -13,7 +13,7 @@ export function getMailerConfig(configService: ConfigService): MailerOptions {
     },
   },
     defaults: {
-      from: `Dokyo Team <${configService.get('MAILER_FROM_EMAIL')}>`,
+      from: `Dokyo Team <noreply@dokyo.ru>`,
     },
   }
 }
