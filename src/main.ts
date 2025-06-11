@@ -30,7 +30,7 @@ async function bootstrap() {
 
 	app.enableCors({
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH', 'HEAD', 'CONNECT', 'TRACE'],
-		origin: ['*'],
+		origin: ['*', 'http://localhost:5173/'],
 		credentials: true,
 		exposedHeaders: 'set-cookie'
 	})
