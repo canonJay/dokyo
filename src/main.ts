@@ -2,6 +2,7 @@ import fastifyCookie from '@fastify/cookie';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import * as cookieParser from 'cookie-parser';
 import {
   FastifyAdapter,
   NestFastifyApplication,
@@ -19,6 +20,8 @@ async function bootstrap() {
   app.register(fastifyCookie, {
     secret: configService.get('COOKIE_SECRET') as string,
   });
+
+  app.use(cookieParser());
 
   const config = new DocumentBuilder()
     .setTitle('API')
