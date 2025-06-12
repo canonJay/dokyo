@@ -139,7 +139,7 @@ export class AuthService {
 
 		rep.setCookie(this.REFRESH_TOKEN_NAME, refreshToken, {
 			httpOnly: true,
-			domain: 'localhost',
+			domain: '.onrender.com',
 			expires: expiresInRefresh,
 			secure: false,
 			sameSite: 'lax',
@@ -149,7 +149,7 @@ export class AuthService {
 
 		rep.cookie(this.REFRESH_TOKEN_NAME, '', {
 			httpOnly: true,
-			domain: 'localhost',
+			domain: '.onrender.com',
 			expires: new Date(0),
 			secure: false,
 			sameSite: 'lax'
