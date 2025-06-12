@@ -141,8 +141,8 @@ export class AuthService {
 			httpOnly: true,
 			domain: '.onrender.com',
 			expires: expiresInRefresh,
-			secure: false,
-			sameSite: 'lax',
+			secure: true,
+			sameSite: 'strict'
 		});
 	}
 	removeRefreshTokenFromResponse(rep: FastifyReply) {
@@ -151,8 +151,8 @@ export class AuthService {
 			httpOnly: true,
 			domain: '.onrender.com',
 			expires: new Date(0),
-			secure: false,
-			sameSite: 'lax'
+			secure: true,
+			sameSite: 'strict'
 		})
 	}
 
