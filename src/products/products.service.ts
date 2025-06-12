@@ -16,10 +16,10 @@ export class ProductsService {
           price: createProductDto.price,
           images: createProductDto.images,
           category: {
-            connect: createProductDto.categoryIds.map(category => ({ id: category })),
+            connect: (createProductDto.categoryIds ?? []).map(category => ({ id: category })),
           },
           tags: {
-            connect: createProductDto.tagIds.map(tag => ({ id: tag })),
+            connect: (createProductDto.tagIds ?? []).map(tag => ({ id: tag })),
           },
           user: {
             connect: { id: userId },
@@ -69,10 +69,10 @@ export class ProductsService {
         data: {
           ...updateProductDto,
           category: {
-            connect: updateProductDto.categoryIds.map(category => ({ id: category })),
+            connect: (updateProductDto.categoryIds ?? []).map(category => ({ id: category })),
           },
           tags: {
-            connect: updateProductDto.tagIds.map(tag => ({ id: tag })),
+            connect: (updateProductDto.tagIds ?? []).map(tag => ({ id: tag })),
           },
         },
       })
