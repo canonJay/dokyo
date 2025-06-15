@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger'
+import { Role } from 'prisma/generated/prisma'
 import { Authorization } from 'src/auth/decorators/auth.decorator'
 import { Authorized } from 'src/auth/decorators/authorized.decorator'
 import { CreateProductDto } from './dto/create-product.dto'
@@ -10,7 +11,7 @@ import { ProductsService } from './products.service'
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Authorization()
+  @Authorization(Role.SALLER)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Create a product' })
   @ApiResponse({ status: 200, description: 'Product created' })
@@ -50,7 +51,7 @@ export class ProductsController {
     return this.productsService.findOne(id);
   }
 
-  @Authorization()
+  @Authorization(Role.SALLER)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update a product' })
   @ApiResponse({ status: 200, description: 'Product updated' })
@@ -62,7 +63,7 @@ export class ProductsController {
     return this.productsService.update(id, updateProductDto, userId);
   }
 
-  @Authorization()
+  @Authorization(Role.SALLER)
   @ApiOperation({ summary: 'Delete a product' })
   @ApiResponse({ status: 200, description: 'Product deleted' })
   @ApiResponse({ status: 400, description: 'Product not deleted' })
