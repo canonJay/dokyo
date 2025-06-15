@@ -1,3 +1,4 @@
+import fastifyCookie from '@fastify/cookie'
 import { ValidationPipe } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
@@ -16,9 +17,9 @@ async function bootstrap() {
   );
 
   const configService = app.get(ConfigService);
-  // app.register(fastifyCookie, {
-  //   secret: configService.get('COOKIE_SECRET') as string,
-  // });
+  await app.register(fastifyCookie, {
+    secret: configService.get('COOKIE_SECRET') as string,
+  });
 
   app.use(cookieParser());
 
