@@ -1,4 +1,4 @@
-import fastifyCookie from '@fastify/cookie'
+import * as fastifyCookie from '@fastify/cookie'
 import { ValidationPipe } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
