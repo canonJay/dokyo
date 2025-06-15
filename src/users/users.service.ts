@@ -7,6 +7,14 @@ import { UpdateUserDto } from './dto/update-user.dto'
 export class UsersService {
 
   constructor(private prisma: PrismaService) {}
+
+	getAdmin(userId: string) {
+		return this.prisma.user.update({
+			where: { id: userId },
+			data: { role: 'ADMIN' },
+		})
+	}
+
   create(createUserDto: CreateUserDto) {
     return this.prisma.user.create({
       data: createUserDto,
