@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger'
-import { Auth } from 'src/auth/decorators/auth.decorator'
+import { Authorization } from 'src/auth/decorators/auth.decorator'
 import { CreateTagDto } from './dto/create-tag.dto'
 import { UpdateTagDto } from './dto/update-tag.dto'
 import { TagsService } from './tags.service'
@@ -14,7 +14,7 @@ export class TagsController {
   @ApiResponse({ status: 400, description: 'Tag not created' })
   @ApiBody({ type: CreateTagDto })
   @Post()
-  @Auth()
+  @Authorization()
   @ApiBearerAuth()
   create(@Body() createTagDto: CreateTagDto) {
     return this.tagsService.create(createTagDto);
@@ -42,7 +42,7 @@ export class TagsController {
   @ApiParam({ name: 'id', description: 'The id of the tag' })
   @ApiBody({ type: UpdateTagDto })
   @Patch(':id')
-  @Auth()
+  @Authorization()
   update(@Param('id') id: string, @Body() updateTagDto: UpdateTagDto) {
     return this.tagsService.update(id, updateTagDto);
   }
@@ -52,7 +52,7 @@ export class TagsController {
   @ApiResponse({ status: 400, description: 'Tag not deleted' })
   @ApiParam({ name: 'id', description: 'The id of the tag' })
   @Delete(':id')
-  @Auth()
+  @Authorization()
   remove(@Param('id') id: string) {
     return this.tagsService.remove(id);
   }

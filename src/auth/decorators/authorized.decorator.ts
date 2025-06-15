@@ -1,25 +1,26 @@
-import { applyDecorators, UseGuards } from '@nestjs/common'
-import { AuthGuard } from '@nestjs/passport'
-import { Role } from 'prisma/generated/prisma'
-import { RolesGuard } from '../guards/role.guard'
-import { Roles } from './role.decorator'
+import { createParamDecorator, ExecutionContext, UnauthorizedException } from '@nestjs/common'
+import { User } from 'prisma/generated/prisma'
 
 /**
- * Декоратор для авторизации пользователей с определенными ролями.
+ * Декоратор для получения авторизованного пользователя из контекста запроса.
  *
- * Этот декоратор применяет защиту на основе ролей и аутентификации.
- * Если указаны роли, применяется также декоратор Roles.
+ * Этот декоратор позволяет извлекать данные пользователя из объекта запроса.
+ * Если указан параметр, возвращает конкретное свойство пользователя,
+ * иначе возвращает весь объект пользователя.
  *
- * @param roles - Массив ролей, для которых требуется доступ.
- * @returns Декораторы, применяемые к методу или классу.
+ * @param data - Имя свойства пользователя, которое нужно извлечь.
+ * @param ctx - Контекст выполнения, содержащий информацию о текущем запросе.
+ * @returns Значение свойства пользователя или весь объект пользователя.
  */
-export function Authorization(...roles: Role[]) {
-	if (roles.length > 0) {
-		return applyDecorators(
-			Roles(...roles),
-			UseGuards(AuthGuard, RolesGuard)
-		)
-	}
+export const Authorized = createParamDecorator(
+	(data: keyof User, ctx: ExecutionContext) => {
+		const request = ctx.switchToHttp().getRequest()
+		const user = request.user
 
-	return applyDecorators(UseGuards(AuthGuard))
-}
+		if (!user) {
+			throw new UnauthorizedException('Пользователь не авторизован')
+		}
+
+		return data ? user[data] : user
+	}
+)

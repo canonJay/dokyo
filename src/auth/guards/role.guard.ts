@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { Role } from 'prisma/generated/prisma'
-import { ROLES_KEY } from '../decorators/role.decorator'
+import { ROLES_KEY } from '../decorators/roles.decorator'
 
 /**
  * Guard для проверки ролей пользователя.

@@ -1,8 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger'
-import { User } from 'prisma/generated/prisma'
-import { Auth } from 'src/auth/decorators/auth.decorator'
-import { CurrentUser } from 'src/auth/decorators/user.decorator'
+import { Authorization } from 'src/auth/decorators/auth.decorator'
+import { Authorized } from 'src/auth/decorators/authorized.decorator'
 import { CreateProductDto } from './dto/create-product.dto'
 import { UpdateProductDto } from './dto/update-product.dto'
 import { ProductsService } from './products.service'
@@ -11,15 +10,15 @@ import { ProductsService } from './products.service'
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Auth() 
+  @Authorization()
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Create a product' })
   @ApiResponse({ status: 200, description: 'Product created' })
   @ApiResponse({ status: 400, description: 'Product not created' })
   @ApiBody({ type: CreateProductDto })
   @Post()
-  create(@Body() createProductDto: CreateProductDto, @CurrentUser() user: User) {
-    return this.productsService.create(createProductDto, user.id);
+  create(@Body() createProductDto: CreateProductDto, @Authorized("id") userId: string) {
+    return this.productsService.create(createProductDto, userId);
   }
 
   @ApiBearerAuth()
@@ -31,7 +30,7 @@ export class ProductsController {
     return this.productsService.findAll();
   }
 
-  @Auth()
+  @Authorization()
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get a product by seller id' })
   @ApiResponse({ status: 200, description: 'Product' })
@@ -51,7 +50,7 @@ export class ProductsController {
     return this.productsService.findOne(id);
   }
 
-  @Auth() 
+  @Authorization()
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update a product' })
   @ApiResponse({ status: 200, description: 'Product updated' })
@@ -59,17 +58,17 @@ export class ProductsController {
   @ApiParam({ name: 'id', description: 'The id of the product' })
   @ApiBody({ type: UpdateProductDto })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto, @CurrentUser() user: User) {
-    return this.productsService.update(id, updateProductDto, user.id);
+  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto,  @Authorized("id") userId: string) {
+    return this.productsService.update(id, updateProductDto, userId);
   }
 
-  @Auth()
+  @Authorization()
   @ApiOperation({ summary: 'Delete a product' })
   @ApiResponse({ status: 200, description: 'Product deleted' })
   @ApiResponse({ status: 400, description: 'Product not deleted' })
   @ApiParam({ name: 'id', description: 'The id of the product' })
   @Delete(':id')
-  remove(@Param('id') id: string, @CurrentUser() user: User) {
-    return this.productsService.remove(id, user.id);
+  remove(@Param('id') id: string,  @Authorized("id") userId: string) {
+    return this.productsService.remove(id, userId);
   }
 }

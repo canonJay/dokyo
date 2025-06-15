@@ -11,12 +11,13 @@ import { ProductsModule } from './products/products.module'
 import { ReviewsModule } from './reviews/reviews.module'
 import { TagsModule } from './tags/tags.module'
 import { UsersModule } from './users/users.module'
+import { MessagesModule } from './messages/messages.module';
 
 @Module({
   imports: [UsersModule, ConfigModule.forRoot({
     ignoreEnvFile: !isDevEnv,
     isGlobal: true,
-  }), AuthModule, ProductsModule, CotegorysModule, TagsModule, ReviewsModule, AdminModule, PaymentsModule, MailerModule], 
+  }), AuthModule, ProductsModule, CotegorysModule, TagsModule, ReviewsModule, AdminModule, PaymentsModule, MailerModule, MessagesModule], 
   controllers: [],
   providers: [PrismaService],
   exports: [PrismaService],

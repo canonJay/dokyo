@@ -1,5 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
 import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger'
+import { Role } from 'prisma/generated/prisma'
+import { Authorization } from 'src/auth/decorators/auth.decorator'
 import { CotegorysService } from './cotegorys.service'
 import { CreateCotegoryDto } from './dto/create-cotegory.dto'
 import { UpdateCotegoryDto } from './dto/update-cotegory.dto'
@@ -8,6 +10,7 @@ import { UpdateCotegoryDto } from './dto/update-cotegory.dto'
 export class CotegorysController {
   constructor(private readonly cotegorysService: CotegorysService) {}
 
+  @Authorization(Role.ADMIN)
   @ApiOperation({ summary: 'Create a category' })
   @ApiResponse({ status: 200, description: 'Category created' })
   @ApiResponse({ status: 400, description: 'Category not created' })
@@ -34,6 +37,7 @@ export class CotegorysController {
     return this.cotegorysService.findOne(id);
   }
 
+  @Authorization(Role.ADMIN)
   @ApiOperation({ summary: 'Update a category' })
   @ApiResponse({ status: 200, description: 'Category updated' })
   @ApiResponse({ status: 400, description: 'Category not updated' })
@@ -44,6 +48,7 @@ export class CotegorysController {
     return this.cotegorysService.update(id, updateCotegoryDto);
   }
 
+  @Authorization(Role.SALLER)
   @ApiOperation({ summary: 'Add a product to a category' })
   @ApiResponse({ status: 200, description: 'Product added to category' })
   @ApiResponse({ status: 400, description: 'Product not added to category' })
@@ -54,6 +59,7 @@ export class CotegorysController {
     return this.cotegorysService.addProductToCategory(id, productId);
   }
 
+  @Authorization(Role.SALLER)
   @ApiOperation({ summary: 'Remove a product from a category' })
   @ApiResponse({ status: 200, description: 'Product removed from category' })
   @ApiResponse({ status: 400, description: 'Product not removed from category' })
@@ -64,6 +70,7 @@ export class CotegorysController {
     return this.cotegorysService.removeProductFromCategory(id, productId);
   }
 
+  @Authorization(Role.ADMIN)
   @ApiOperation({ summary: 'Delete a category' })
   @ApiResponse({ status: 200, description: 'Category deleted' })
   @ApiResponse({ status: 400, description: 'Category not deleted' })

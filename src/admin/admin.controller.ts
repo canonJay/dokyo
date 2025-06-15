@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Put } from '@nestjs/common'
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger'
-import { User } from 'prisma/generated/prisma'
-import { Auth } from 'src/auth/decorators/auth.decorator'
-import { CurrentUser } from 'src/auth/decorators/user.decorator'
+import { Role } from 'prisma/generated/prisma'
+import { Authorization } from 'src/auth/decorators/auth.decorator'
+import { Authorized } from 'src/auth/decorators/authorized.decorator'
 import { CreatePaymentDto } from 'src/payments/dto/create-payment.dto'
 import { PaymentsService } from 'src/payments/payments.service'
 import { CreateProductDto } from 'src/products/dto/create-product.dto'
@@ -20,7 +20,7 @@ export class AdminController {
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 200, description: 'Users list', type: [CreateUserDto] })
-  // @Authorization("ADMIN")
+  @Authorization(Role.ADMIN)
   @Get('users')
   async getUsers() {
     return this.usersService.findAll()
@@ -31,7 +31,7 @@ export class AdminController {
   @ApiParam({ name: 'id', description: 'User id', type: String })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 200, description: 'User', type: CreateUserDto })
-  // @Authorization("ADMIN")
+  @Authorization(Role.ADMIN)
   @Get('users/:id')
   async getUser(@Param('id') id: string) {
     return this.usersService.findById(id)
@@ -43,7 +43,7 @@ export class AdminController {
   @ApiBody({ type: CreateUserDto })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 200, description: 'User', type: CreateUserDto })
-  // @Authorization("ADMIN")
+  @Authorization(Role.ADMIN)
   @Put('users/:id')
   async updateUser(@Param('id') id: string, @Body() updateUserDto: CreateUserDto) {
     return this.usersService.update(id, updateUserDto, id)
@@ -54,7 +54,7 @@ export class AdminController {
   @ApiParam({ name: 'id', description: 'User id', type: String })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 200, description: 'User', type: CreateUserDto })
-  // @Authorization("ADMIN")
+  @Authorization(Role.ADMIN)
   @Delete('users/:id')
   async deleteUser(@Param('id') id: string) {
     return this.usersService.remove(id)
@@ -65,7 +65,7 @@ export class AdminController {
   @ApiParam({ name: 'id', description: 'User id', type: String })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 200, description: 'User', type: CreateUserDto })
-  // @Authorization("ADMIN")
+  @Authorization(Role.ADMIN)
   @Put('users/:id/ban')
   async banUser(@Param('id') id: string) {
     return this.usersService.ban(id)
@@ -76,7 +76,7 @@ export class AdminController {
   @ApiParam({ name: 'id', description: 'User id', type: String })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 200, description: 'User', type: CreateUserDto })
-  // @Authorization("ADMIN")
+  @Authorization(Role.ADMIN)
   @Put('users/:id/unban')
   async unbanUser(@Param('id') id: string) {
     return this.usersService.unban(id)
@@ -87,7 +87,7 @@ export class AdminController {
   @ApiParam({ name: 'id', description: 'User id', type: String })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 200, description: 'User', type: CreateUserDto })
-  // @Authorization("ADMIN")
+  @Authorization(Role.ADMIN)
   @Put('users/:id/make-admin')
   async makeAdmin(@Param('id') id: string) {
     return this.usersService.makeAdmin(id)
@@ -98,7 +98,7 @@ export class AdminController {
   @ApiParam({ name: 'id', description: 'User id', type: String })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 200, description: 'User reviews', type: [CreateReviewDto] })
-  // @Authorization("ADMIN")
+  @Authorization(Role.ADMIN)
   @Get('users/:id/reviews')
   async getUserReviews(@Param('id') id: string) {
     return this.usersService.userReviews(id)
@@ -109,7 +109,7 @@ export class AdminController {
   @ApiParam({ name: 'id', description: 'User id', type: String })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 200, description: 'User products', type: [CreateProductDto] })
-  // @Authorization("ADMIN")
+  @Authorization(Role.ADMIN)
   @Get('users/:id/products')
   async getUserProducts(@Param('id') id: string) {
     return this.usersService.userProducts(id)
@@ -120,7 +120,7 @@ export class AdminController {
   @ApiParam({ name: 'id', description: 'User id', type: String })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 200, description: 'User payments', type: [CreatePaymentDto] })
-  // @Authorization("ADMIN")
+  @Authorization(Role.ADMIN)
   @Get('users/:id/payments')
   async getUserPayments(@Param('id') id: string) {
     return this.usersService.userPayments(id)
@@ -131,7 +131,7 @@ export class AdminController {
   @ApiParam({ name: 'id', description: 'User id', type: String })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 200, description: 'User payments statistics', type: CreatePaymentDto })
-  // @Authorization("ADMIN")
+  @Authorization(Role.ADMIN)
   @Get('users/:id/payments-statistics')
   async getUserPaymentsStatistics(@Param('id') id: string) {
     return this.usersService.userPaymentsStatistics(id)
@@ -142,7 +142,7 @@ export class AdminController {
   @ApiParam({ name: 'id', description: 'User id', type: String })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 200, description: 'User reviews statistics', type: CreateReviewDto })
-  // @Authorization("ADMIN")
+  @Authorization(Role.ADMIN)
   @Get('users/:id/reviews-statistics')
   async getUserReviewsStatistics(@Param('id') id: string) {
     return this.usersService.userReviewsStatistics(id)
@@ -153,7 +153,7 @@ export class AdminController {
   @ApiParam({ name: 'id', description: 'User id', type: String })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 200, description: 'User products statistics', type: CreateProductDto })
-  // @Authorization("ADMIN")
+  @Authorization(Role.ADMIN)
   @Get('users/:id/products-statistics')
   async getUserProductsStatistics(@Param('id') id: string) {
     return this.usersService.userProductsStatistics(id)
@@ -163,7 +163,7 @@ export class AdminController {
   @ApiOperation({ summary: 'Get all reviews' })
   @ApiResponse({ status: 200, description: 'Reviews list', type: [CreateReviewDto] })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  // @Authorization(Role.ADMIN)
+  @Authorization(Role.ADMIN)
   @Get('reviews')
   async getReviews() {
     return this.reviewsService.findAll()
@@ -174,39 +174,38 @@ export class AdminController {
   @ApiParam({ name: 'id', description: 'Review id', type: String })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 200, description: 'Review', type: CreateReviewDto })
-  // @Authorization("ADMIN")
+  @Authorization(Role.ADMIN)
   @Get('reviews/:id')
   async getReview(@Param('id') id: string) {
     return this.reviewsService.findOne(id)
   }
 
   @ApiBearerAuth()
-  @Auth()
+  @Authorization(Role.ADMIN)
   @ApiOperation({ summary: 'Update review by id' })
   @ApiParam({ name: 'id', description: 'Review id', type: String })
   @ApiBody({ type: CreateReviewDto })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 200, description: 'Review', type: CreateReviewDto })
-  // @Authorization("ADMIN")
   @Put('reviews/:id')
-  async updateReview(@Param('id') id: string, @Body() updateReviewDto: CreateReviewDto, @CurrentUser() user: User) {
-    return this.reviewsService.update(id, updateReviewDto, user.id)
+  async updateReview(@Param('id') id: string, @Body() updateReviewDto: CreateReviewDto,@Authorized("id") userId: string) {
+    return this.reviewsService.update(id, updateReviewDto, userId)
   }
 
   @ApiBearerAuth()
-  @Auth()
+  @Authorization(Role.ADMIN)
   @ApiOperation({ summary: 'Delete review by id' })
   @ApiParam({ name: 'id', description: 'Review id', type: String })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 200, description: 'Review', type: CreateReviewDto })
-  // @Authorization("ADMIN")
+  @Authorization(Role.ADMIN)
   @Delete('reviews/:id')
-  async deleteReview(@Param('id') id: string, @CurrentUser() user: User) {
-    return this.reviewsService.remove(id, user.id)
+  async deleteReview(@Param('id') id: string, @Authorized("id") userId: string) {
+    return this.reviewsService.remove(id, userId)
   }
 
   @ApiBearerAuth()
-  @Auth()
+  @Authorization(Role.ADMIN)
   @ApiOperation({ summary: 'Get all reviews by product id' })
   @ApiParam({ name: 'id', description: 'Product id', type: String })
   @ApiResponse({ status: 200, description: 'Reviews list', type: [CreateReviewDto] })
@@ -221,7 +220,7 @@ export class AdminController {
   @ApiOperation({ summary: 'Get all products' })
   @ApiResponse({ status: 200, description: 'Products list', type: [CreateProductDto] })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  // @Authorization(Role.ADMIN)
+  @Authorization(Role.ADMIN)
   @Get('products')
   async getProducts() {
     return this.productsService.findAll()
@@ -232,7 +231,7 @@ export class AdminController {
   @ApiParam({ name: 'id', description: 'Product id', type: String })
   @ApiResponse({ status: 200, description: 'Product', type: CreateProductDto })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  // @Authorization(Role.ADMIN)
+  @Authorization(Role.ADMIN)
   async getProductById(@Param('id') id: string) {
     return this.productsService.findOne(id)
   }
@@ -243,10 +242,10 @@ export class AdminController {
   @ApiBody({ type: CreateProductDto })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 200, description: 'Product', type: CreateProductDto })
-  // @Authorization(Role.ADMIN)
+  @Authorization(Role.ADMIN)
   @Put('products/:id')
-  async updateProduct(@Param('id') id: string, @Body() updateProductDto: CreateProductDto, @CurrentUser() user: User) {
-    return this.productsService.update(id, updateProductDto, user.id)
+  async updateProduct(@Param('id') id: string, @Body() updateProductDto: CreateProductDto, @Authorized("id") userId: string) {
+    return this.productsService.update(id, updateProductDto, userId)
   }
 
   @ApiBearerAuth()
@@ -254,10 +253,10 @@ export class AdminController {
   @ApiParam({ name: 'id', description: 'Product id', type: String })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 200, description: 'Product', type: CreateProductDto })
-  // @Authorization(Role.ADMIN)
+  @Authorization(Role.ADMIN)
   @Delete('products/:id')
-  async deleteProduct(@Param('id') id: string, @CurrentUser() user: User) {
-    return this.productsService.remove(id, user.id)
+  async deleteProduct(@Param('id') id: string, @Authorized("id") userId: string) {
+    return this.productsService.remove(id, userId)
   }
 
   @ApiBearerAuth()
@@ -265,7 +264,7 @@ export class AdminController {
   @ApiParam({ name: 'id', description: 'Product id', type: String })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 200, description: 'Product payments statistics', type: CreatePaymentDto })
-  // @Authorization(Role.ADMIN)
+  @Authorization(Role.ADMIN)
   @Get('products/:id/payments-statistics')
   async getProductPaymentsStatistics(@Param('id') id: string) {
     return this.productsService.productPaymentsStatistics(id)
@@ -275,7 +274,7 @@ export class AdminController {
   @ApiOperation({ summary: 'Get top products by sales' })
   @ApiResponse({ status: 200, description: 'Top products by sales', type: [CreateProductDto] })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  // @Authorization(Role.ADMIN)
+  @Authorization(Role.ADMIN)
   @Get('products/top-by-sales')
   async getTopProductsBySales() {
     return this.productsService.topProductsBySales()
@@ -285,7 +284,7 @@ export class AdminController {
   @ApiOperation({ summary: 'Get top products by sum of sales' })
   @ApiResponse({ status: 200, description: 'Top products by sum of sales', type: [CreateProductDto] })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  // @Authorization(Role.ADMIN)
+  @Authorization(Role.ADMIN)
   @Get('products/top-by-sum-of-sales')
   async getTopProductsBySumOfSales() {  
     return this.productsService.topProductsBySumOfSales()
@@ -295,7 +294,7 @@ export class AdminController {
   @ApiOperation({ summary: 'Get all payments statistics' })
   @ApiResponse({ status: 200, description: 'Payments statistics', type: CreatePaymentDto })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  // @Authorization(Role.ADMIN)
+  @Authorization(Role.ADMIN)
   @Get('payments/statistics')
   async getPaymentsStatistics() {
     return this.productsService.paymentsStatistics()
@@ -305,7 +304,7 @@ export class AdminController {
   @ApiOperation({ summary: 'Get all payments' })
   @ApiResponse({ status: 200, description: 'Payments list', type: [CreatePaymentDto] })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  // @Authorization(Role.ADMIN)
+  @Authorization(Role.ADMIN)
   @Get('payments')
   async getPayments() {
     return this.paymentsService.findAll()
@@ -316,7 +315,7 @@ export class AdminController {
   @ApiParam({ name: 'id', description: 'Payment id', type: String })
   @ApiResponse({ status: 200, description: 'Payment', type: CreatePaymentDto })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  // @Authorization(Role.ADMIN)
+  @Authorization(Role.ADMIN)
   @Get('payments/:id')
   async getPaymentById(@Param('id') id: string) { 
     return this.paymentsService.findOne(id)

@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger'
 import { User } from 'prisma/generated/prisma'
-import { Auth } from 'src/auth/decorators/auth.decorator'
-import { CurrentUser } from 'src/auth/decorators/user.decorator'
+import { Authorization } from 'src/auth/decorators/auth.decorator'
+import { Authorized } from 'src/auth/decorators/authorized.decorator'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { UsersService } from './users.service'
@@ -11,10 +11,10 @@ import { UsersService } from './users.service'
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Auth()
+  @Authorization()
   @ApiBearerAuth()
   @Get('me')
-  getMe(@CurrentUser() user: User) {
+  getMe(@Authorized() user: User) {
     return user
   }
 
@@ -36,25 +36,25 @@ export class UsersController {
   }
 
   @ApiBearerAuth()
-  @Auth()
+  @Authorization()
   @ApiOperation({ summary: 'Update a user' })
   @ApiResponse({ status: 200, description: 'User updated' })
   @ApiResponse({ status: 400, description: 'User not updated' })
   @ApiParam({ name: 'id', description: 'The id of the user' })
   @ApiBody({ type: UpdateUserDto })
   @Patch(':id')
-    update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto, @CurrentUser() user: User) {
-    return this.usersService.update(id, updateUserDto, user.id);
+    update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto, @Authorized("id") userId: string) {
+    return this.usersService.update(id, updateUserDto, userId);
   }
 
   @ApiBearerAuth()
-  @Auth()
+  @Authorization()
   @ApiOperation({ summary: 'Delete a user' })
   @ApiResponse({ status: 200, description: 'User deleted' })
   @ApiResponse({ status: 400, description: 'User not deleted' })
   @ApiParam({ name: 'id', description: 'The id of the user' })
   @Delete('me')
-  remove(@CurrentUser() user: User) {
-    return this.usersService.remove(user.id);
+  remove(@Authorized("id") userId: string) {
+    return this.usersService.remove(userId);
   }
 }

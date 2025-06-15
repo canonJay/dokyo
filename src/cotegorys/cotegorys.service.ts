@@ -14,9 +14,13 @@ export class CotegorysService {
         data: {
           name: createCotegoryDto.name,
           products: {
-            connect: createCotegoryDto.products.map(product => ({ id: product })),
+            connect: (createCotegoryDto.products ?? []).map(prrduct => ({ id: prrduct })),
           },
         },
+        select: {
+          name: true, 
+          products: true
+        }
       })
       return category
     } catch (error) {
@@ -51,7 +55,7 @@ export class CotegorysService {
         data: {
           name: updateCotegoryDto.name,
           products: {
-            connect: updateCotegoryDto.products.map(product => ({ id: product })),
+            connect: (updateCotegoryDto.products ?? []).map(prrduct => ({ id: prrduct })),
           },
         },
       })

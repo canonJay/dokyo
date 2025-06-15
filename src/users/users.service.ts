@@ -40,9 +40,15 @@ export class UsersService {
   }
 
   findById(id: string) {
-    return this.prisma.user.findUnique({
+    const user = this.prisma.user.findUnique({
       where: { id },
     })
+
+		if (!user) {
+      throw new BadRequestException('User not found')
+    }
+
+    return user
   }
 
   update(id: string, updateUserDto: UpdateUserDto, userId: string) {

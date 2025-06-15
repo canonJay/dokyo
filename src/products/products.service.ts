@@ -87,7 +87,7 @@ export class ProductsService {
       const product = await this.prisma.product.delete({
         where: { id, userId },
       })
-      return product
+      return true
     } catch (error) {
       throw new BadRequestException(error.message)
     }
