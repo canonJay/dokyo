@@ -13,7 +13,7 @@ import { WsAuthGuard } from 'src/auth/guards/ws-auth.guard'
 import { JoinChatDto, LeaveChatDto, SendMessageDto } from './dto/ws-message.dto'
 import { MessagesService } from './messages.service'
 
-@WebSocketGateway(4201, {
+@WebSocketGateway(4200, {
   cors: {
     origin: true,
     credentials: true,
