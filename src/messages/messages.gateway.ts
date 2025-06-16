@@ -14,6 +14,7 @@ import { JoinChatDto, LeaveChatDto, SendMessageDto } from './dto/ws-message.dto'
 import { MessagesService } from './messages.service'
 
 @WebSocketGateway(4200, {
+  path: '/socket.io/',
   cors: {
     origin: true,
     credentials: true,
