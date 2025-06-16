@@ -12,12 +12,13 @@ import { ReviewsModule } from './reviews/reviews.module'
 import { TagsModule } from './tags/tags.module'
 import { UsersModule } from './users/users.module'
 import { MessagesModule } from './messages/messages.module';
+import { ChatsModule } from './chats/chats.module';
 
 @Module({
   imports: [UsersModule, ConfigModule.forRoot({
     ignoreEnvFile: !isDevEnv,
     isGlobal: true,
-  }), AuthModule, ProductsModule, CotegorysModule, TagsModule, ReviewsModule, AdminModule, PaymentsModule, MailerModule, MessagesModule], 
+  }), AuthModule, ProductsModule, CotegorysModule, TagsModule, ReviewsModule, AdminModule, PaymentsModule, MailerModule, MessagesModule, ChatsModule], 
   controllers: [],
   providers: [PrismaService],
   exports: [PrismaService],

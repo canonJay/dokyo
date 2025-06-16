@@ -24,6 +24,10 @@ model User {
 
   products Product[]
 
+  chats Chat[]
+
+  messages Messages[]
+
   payments Payment[]
 
   OTPcode OTPcode[]
@@ -71,6 +75,7 @@ model Product {
   title       String
   description String
   price       Int
+  oldPrice    Int      @default(0) @map("old_prise")
   images      String[]
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
@@ -120,6 +125,32 @@ model Payment {
   productId String?
 
   @@map("payments")
+}
+
+model Chat {
+  id    String @id @default(uuid())
+  users User[]
+
+  messages Messages[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model Messages {
+  id   String @id @default(uuid())
+  text String
+
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String?
+
+  chat   Chat?   @relation(fields: [chatId], references: [id])
+  chatId String?
+
+  sender String
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 }
 
 enum Role {

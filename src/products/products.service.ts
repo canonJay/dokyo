@@ -11,7 +11,7 @@ export class ProductsService {
     try {
       const product = await this.prisma.product.create({
         data: {
-          title: createProductDto.title,
+          title: createProductDto.title, 
           description: createProductDto.description,
           price: createProductDto.price,
           images: createProductDto.images,
