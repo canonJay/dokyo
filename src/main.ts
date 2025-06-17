@@ -33,6 +33,11 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
 
+  const allowedOrigins = [
+    'http://localhost:5173',
+    'https://dokyo.ru/'
+  ]
+
   app.enableCors({
     methods: [
       'GET',
@@ -45,7 +50,11 @@ async function bootstrap() {
       'CONNECT',
       'TRACE',
     ],
-    origin: ['http://localhost:5173', "https://dokyo.ru/"],
+    origin: (origin, callback) => {
+      if(!origin || allowedOrigins.includes(origin)) {
+        callback(null, origin || '*')
+      }
+    },
     credentials: true,
     exposedHeaders: 'set-cookie',
   });
