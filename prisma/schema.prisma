@@ -157,6 +157,7 @@ enum Role {
   ADMIN
   SALLER
   USER
+  MODER
 }
 
 enum PaymentStatus {

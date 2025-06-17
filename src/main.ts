@@ -45,7 +45,7 @@ async function bootstrap() {
       'CONNECT',
       'TRACE',
     ],
-    origin: ['http://localhost:5173'],
+    origin: ['http://localhost:5173', "https://dokyo.ru/"],
     credentials: true,
     exposedHeaders: 'set-cookie',
   });
