@@ -35,7 +35,7 @@ async function bootstrap() {
 
   const allowedOrigins = [
     'http://localhost:5173',
-    'https://dokyo.ru/'
+    'https://dokyo.ru'
   ]
 
   app.enableCors({
@@ -51,8 +51,10 @@ async function bootstrap() {
       'TRACE',
     ],
     origin: (origin, callback) => {
-      if(!origin || allowedOrigins.includes(origin)) {
+      if (!origin || allowedOrigins.includes(origin)) {
         callback(null, origin || '*')
+      } else {
+        callback(null, false)
       }
     },
     credentials: true,
