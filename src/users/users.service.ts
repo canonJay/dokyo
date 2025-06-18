@@ -17,7 +17,10 @@ export class UsersService {
 
   create(createUserDto: CreateUserDto) {
     return this.prisma.user.create({
-      data: createUserDto,
+      data: {
+				email: createUserDto.email,
+				role: createUserDto.isSuccess ? "SALLER" : "USER"  
+			},
     })
   }
 
