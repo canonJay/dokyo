@@ -5,7 +5,7 @@ import { PrismaService } from 'src/prisma.service'
 export class OtpService {
 	public	constructor(private prisma: PrismaService) {}
 
-	async generateOtp(email: string) {
+	async generateOtp(email: string, isSuccess: boolean) {
 		const otp = Math.floor(100000 + Math.random() * 900000)
 		const expiresAt = new Date(Date.now() + 5 * 60 * 1000) // 5 минут
 
@@ -13,6 +13,7 @@ export class OtpService {
 		 const otpCode = await this.prisma.oTPcode.create({
 			data: {
 				code: otp,
+				isSuccess: isSuccess,
 				expiresAt,
 				user: {
 					connect: {

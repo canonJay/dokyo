@@ -26,7 +26,7 @@ export class AuthService {
 			return this.signup(dto)
 		}
 
-		const otp = await this.otpService.generateOtp(dto.email)
+		const otp = await this.otpService.generateOtp(dto.email, dto.isSuccess)
 
 		try {
 			await this.sendOtp(dto.email, otp)
@@ -73,7 +73,7 @@ export class AuthService {
 
 	private async signup(dto: AuthDto) {
 		const user = await this.userService.create(dto)
-		const otp = await this.otpService.generateOtp(dto.email)
+		const otp = await this.otpService.generateOtp(dto.email, dto.isSuccess)
 
 		try {
 			await this.sendOtp(dto.email, otp)

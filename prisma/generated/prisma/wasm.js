@@ -124,6 +124,8 @@ exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   username: 'username',
   email: 'email',
+  phone: 'phone',
+  isSuccess: 'isSuccess',
   balance: 'balance',
   isVerified: 'isVerified',
   isBanned: 'isBanned',
@@ -135,6 +137,7 @@ exports.Prisma.UserScalarFieldEnum = {
 exports.Prisma.OTPcodeScalarFieldEnum = {
   id: 'id',
   code: 'code',
+  isSuccess: 'isSuccess',
   expiresAt: 'expiresAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -220,7 +223,9 @@ exports.Prisma.NullsOrder = {
 exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',
   SALLER: 'SALLER',
-  USER: 'USER'
+  USER: 'USER',
+  SUPPORT: 'SUPPORT',
+  MODER: 'MODER'
 };
 
 exports.PaymentStatus = exports.$Enums.PaymentStatus = {
