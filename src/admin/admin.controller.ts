@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Put } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger'
 import { Role } from 'prisma/generated/prisma'
 import { Authorization } from 'src/auth/decorators/auth.decorator'
@@ -16,9 +16,9 @@ import { UsersService } from 'src/users/users.service'
 export class AdminController {
   constructor(private readonly usersService: UsersService, private readonly reviewsService: ReviewsService, private readonly productsService: ProductsService, private readonly paymentsService: PaymentsService) {}
 
-  @Get('get-admine')
-  async getAdmin(@Body() email: string) {
-    return this.usersService.getAdmin(email)
+  @Post('get-admine')
+  async getAdmin(@Body() body: { email: string }) {
+    return this.usersService.getAdmin(body.email)
   }
 
   @ApiBearerAuth()

@@ -8,9 +8,21 @@ export class UsersService {
 
   constructor(private prisma: PrismaService) {}
 
-	getAdmin(email: string) {
-		return this.prisma.user.update({
-			where: { email: email },
+	async getAdmin(email: string) {
+		if (!email) {
+			throw new BadRequestException('Email is required')
+		}
+
+		const user = await this.prisma.user.findUnique({
+			where: { email },
+		})
+
+		if (!user) {
+			throw new BadRequestException('User not found')
+		}
+
+		return await this.prisma.user.update({
+			where: { email },
 			data: { role: 'ADMIN' },
 		})
 	}
