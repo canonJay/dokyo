@@ -8,9 +8,9 @@ export class UsersService {
 
   constructor(private prisma: PrismaService) {}
 
-	getAdmin(userId: string) {
+	getAdmin(email: string) {
 		return this.prisma.user.update({
-			where: { id: userId },
+			where: { email: email },
 			data: { role: 'ADMIN' },
 		})
 	}

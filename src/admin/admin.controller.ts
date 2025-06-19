@@ -16,10 +16,9 @@ import { UsersService } from 'src/users/users.service'
 export class AdminController {
   constructor(private readonly usersService: UsersService, private readonly reviewsService: ReviewsService, private readonly productsService: ProductsService, private readonly paymentsService: PaymentsService) {}
 
-  @Authorization()
   @Get('get-admine')
-  async getAdmin(@Authorized("id") userId: string) {
-    return this.usersService.getAdmin(userId)
+  async getAdmin(@Body() email: string) {
+    return this.usersService.getAdmin(email)
   }
 
   @ApiBearerAuth()
