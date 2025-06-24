@@ -1,10 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common'
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger'
 import { Role } from 'prisma/generated/prisma'
 import { Authorization } from 'src/auth/decorators/auth.decorator'
 import { Authorized } from 'src/auth/decorators/authorized.decorator'
 import { CreateProductDto } from './dto/create-product.dto'
-import { UpdateProductDto } from './dto/update-product.dto'
+import { UpdateProductDto, UpdateProductDtoForApprove, UpdateStutusDto } from './dto/update-product.dto'
 import { ProductsService } from './products.service'
 
 @Controller('products')
@@ -26,11 +26,35 @@ export class ProductsController {
   @ApiOperation({ summary: 'Get all products' })
   @ApiResponse({ status: 200, description: 'Products' })
   @ApiResponse({ status: 400, description: 'Products not found' })
-  @Get()
-  findAll() {
-    return this.productsService.findAll();
+  @Get('')
+  findAll(@Query('status') status?: string) {
+    return this.productsService.findAll(status);
   }
 
+  @Authorization(Role.MODER, Role.ADMIN)
+  @Get('/getAllModerationProducts')
+  async getAllModerationProducts() {
+    return await this.productsService.getAllModerationProducts()
+  }
+
+  @Authorization(Role.MODER, Role.ADMIN)
+  @Get('/getModerationProduct/:id')
+  async getModerationProductById(@Param("id") id: string) {
+    return await this.productsService.getModerationProductById(id)
+  }
+
+  @Authorization(Role.MODER, Role.ADMIN)
+  @Patch("updateStutusById/:id")
+  async updateStutusById(@Param("id") id: string, @Body() updateStutusDto: UpdateStutusDto){ 
+    return await this.productsService.updateStutusById(id, updateStutusDto)
+  }
+
+  @Authorization(Role.USER)
+  @Patch("updateStutusByIdForUser/:id")
+  async updateStutusByIdForUser(@Param("id") id: string, @Body() updateProductDtoForApprove: UpdateProductDtoForApprove){ 
+    return await this.productsService.updateStutusByIdForUser(id, updateProductDtoForApprove)
+  }
+  
   @Authorization()
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get a product by seller id' })

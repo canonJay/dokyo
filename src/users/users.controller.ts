@@ -1,6 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Patch, Post } from '@nestjs/common'
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger'
-import { User } from 'prisma/generated/prisma'
 import { Authorization } from 'src/auth/decorators/auth.decorator'
 import { Authorized } from 'src/auth/decorators/authorized.decorator'
 import { CreateUserDto } from './dto/create-user.dto'
@@ -14,8 +13,8 @@ export class UsersController {
   @Authorization()
   @ApiBearerAuth()
   @Get('me')
-  getMe(@Authorized() user: User) {
-    return user
+  async getMe(@Authorized("id") userId: string) {
+    return await this.usersService.findById(userId)
   }
 
   @ApiOperation({ summary: 'Create a user' })
@@ -43,8 +42,8 @@ export class UsersController {
   @ApiParam({ name: 'id', description: 'The id of the user' })
   @ApiBody({ type: UpdateUserDto })
   @Patch(':id')
-    update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto, @Authorized("id") userId: string) {
-    return this.usersService.update(id, updateUserDto, userId);
+    update( @Body() updateUserDto: UpdateUserDto, @Authorized("id") userId: string) {
+    return this.usersService.update(updateUserDto, userId);
   }
 
   @ApiBearerAuth()

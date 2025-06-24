@@ -74,6 +74,17 @@ export namespace $Enums {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
+export const ProductStutus: {
+  DRAFT: 'DRAFT',
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  PUBLISHED: 'PUBLISHED'
+};
+
+export type ProductStutus = (typeof ProductStutus)[keyof typeof ProductStutus]
+
+
 export const PaymentStatus: {
   PENDING: 'PENDING',
   SUCCESS: 'SUCCESS',
@@ -87,6 +98,10 @@ export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
 export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
+
+export type ProductStutus = $Enums.ProductStutus
+
+export const ProductStutus: typeof $Enums.ProductStutus
 
 export type PaymentStatus = $Enums.PaymentStatus
 
@@ -6469,6 +6484,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
+    stutus: $Enums.ProductStutus | null
   }
 
   export type ProductMaxAggregateOutputType = {
@@ -6480,6 +6496,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
+    stutus: $Enums.ProductStutus | null
   }
 
   export type ProductCountAggregateOutputType = {
@@ -6492,6 +6509,7 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     userId: number
+    stutus: number
     _all: number
   }
 
@@ -6515,6 +6533,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     userId?: true
+    stutus?: true
   }
 
   export type ProductMaxAggregateInputType = {
@@ -6526,6 +6545,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     userId?: true
+    stutus?: true
   }
 
   export type ProductCountAggregateInputType = {
@@ -6538,6 +6558,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     userId?: true
+    stutus?: true
     _all?: true
   }
 
@@ -6637,6 +6658,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     userId: string | null
+    stutus: $Enums.ProductStutus
     _count: ProductCountAggregateOutputType | null
     _avg: ProductAvgAggregateOutputType | null
     _sum: ProductSumAggregateOutputType | null
@@ -6668,6 +6690,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
+    stutus?: boolean
     category?: boolean | Product$categoryArgs<ExtArgs>
     tags?: boolean | Product$tagsArgs<ExtArgs>
     user?: boolean | Product$userArgs<ExtArgs>
@@ -6686,6 +6709,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
+    stutus?: boolean
     user?: boolean | Product$userArgs<ExtArgs>
   }, ExtArgs["result"]["product"]>
 
@@ -6699,6 +6723,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
+    stutus?: boolean
     user?: boolean | Product$userArgs<ExtArgs>
   }, ExtArgs["result"]["product"]>
 
@@ -6712,9 +6737,10 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
+    stutus?: boolean
   }
 
-  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "price" | "oldPrice" | "images" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["product"]>
+  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "price" | "oldPrice" | "images" | "createdAt" | "updatedAt" | "userId" | "stutus", ExtArgs["result"]["product"]>
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | Product$categoryArgs<ExtArgs>
     tags?: boolean | Product$tagsArgs<ExtArgs>
@@ -6749,6 +6775,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       userId: string | null
+      stutus: $Enums.ProductStutus
     }, ExtArgs["result"]["product"]>
     composites: {}
   }
@@ -7186,6 +7213,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Product", 'DateTime'>
     readonly updatedAt: FieldRef<"Product", 'DateTime'>
     readonly userId: FieldRef<"Product", 'String'>
+    readonly stutus: FieldRef<"Product", 'ProductStutus'>
   }
     
 
@@ -12318,7 +12346,8 @@ export namespace Prisma {
     images: 'images',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    userId: 'userId'
+    userId: 'userId',
+    stutus: 'stutus'
   };
 
   export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
@@ -12461,6 +12490,20 @@ export namespace Prisma {
    * Reference to a field of type 'Role[]'
    */
   export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ProductStutus'
+   */
+  export type EnumProductStutusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductStutus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ProductStutus[]'
+   */
+  export type ListEnumProductStutusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductStutus[]'>
     
 
 
@@ -12777,6 +12820,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Product"> | Date | string
     updatedAt?: DateTimeFilter<"Product"> | Date | string
     userId?: StringNullableFilter<"Product"> | string | null
+    stutus?: EnumProductStutusFilter<"Product"> | $Enums.ProductStutus
     category?: CategoryListRelationFilter
     tags?: TagListRelationFilter
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
@@ -12794,6 +12838,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrderInput | SortOrder
+    stutus?: SortOrder
     category?: CategoryOrderByRelationAggregateInput
     tags?: TagOrderByRelationAggregateInput
     user?: UserOrderByWithRelationInput
@@ -12814,6 +12859,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Product"> | Date | string
     updatedAt?: DateTimeFilter<"Product"> | Date | string
     userId?: StringNullableFilter<"Product"> | string | null
+    stutus?: EnumProductStutusFilter<"Product"> | $Enums.ProductStutus
     category?: CategoryListRelationFilter
     tags?: TagListRelationFilter
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
@@ -12831,6 +12877,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrderInput | SortOrder
+    stutus?: SortOrder
     _count?: ProductCountOrderByAggregateInput
     _avg?: ProductAvgOrderByAggregateInput
     _max?: ProductMaxOrderByAggregateInput
@@ -12851,6 +12898,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Product"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Product"> | Date | string
     userId?: StringNullableWithAggregatesFilter<"Product"> | string | null
+    stutus?: EnumProductStutusWithAggregatesFilter<"Product"> | $Enums.ProductStutus
   }
 
   export type ReviewWhereInput = {
@@ -13415,6 +13463,7 @@ export namespace Prisma {
     images?: ProductCreateimagesInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
+    stutus?: $Enums.ProductStutus
     category?: CategoryCreateNestedManyWithoutProductsInput
     tags?: TagCreateNestedManyWithoutProductsInput
     user?: UserCreateNestedOneWithoutProductsInput
@@ -13432,6 +13481,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId?: string | null
+    stutus?: $Enums.ProductStutus
     category?: CategoryUncheckedCreateNestedManyWithoutProductsInput
     tags?: TagUncheckedCreateNestedManyWithoutProductsInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutProductInput
@@ -13447,6 +13497,7 @@ export namespace Prisma {
     images?: ProductUpdateimagesInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stutus?: EnumProductStutusFieldUpdateOperationsInput | $Enums.ProductStutus
     category?: CategoryUpdateManyWithoutProductsNestedInput
     tags?: TagUpdateManyWithoutProductsNestedInput
     user?: UserUpdateOneWithoutProductsNestedInput
@@ -13464,6 +13515,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
+    stutus?: EnumProductStutusFieldUpdateOperationsInput | $Enums.ProductStutus
     category?: CategoryUncheckedUpdateManyWithoutProductsNestedInput
     tags?: TagUncheckedUpdateManyWithoutProductsNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutProductNestedInput
@@ -13480,6 +13532,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId?: string | null
+    stutus?: $Enums.ProductStutus
   }
 
   export type ProductUpdateManyMutationInput = {
@@ -13491,6 +13544,7 @@ export namespace Prisma {
     images?: ProductUpdateimagesInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stutus?: EnumProductStutusFieldUpdateOperationsInput | $Enums.ProductStutus
   }
 
   export type ProductUncheckedUpdateManyInput = {
@@ -13503,6 +13557,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
+    stutus?: EnumProductStutusFieldUpdateOperationsInput | $Enums.ProductStutus
   }
 
   export type ReviewCreateInput = {
@@ -14115,6 +14170,13 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
+  export type EnumProductStutusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProductStutus | EnumProductStutusFieldRefInput<$PrismaModel>
+    in?: $Enums.ProductStutus[] | ListEnumProductStutusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProductStutus[] | ListEnumProductStutusFieldRefInput<$PrismaModel>
+    not?: NestedEnumProductStutusFilter<$PrismaModel> | $Enums.ProductStutus
+  }
+
   export type CategoryListRelationFilter = {
     every?: CategoryWhereInput
     some?: CategoryWhereInput
@@ -14145,6 +14207,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
+    stutus?: SortOrder
   }
 
   export type ProductAvgOrderByAggregateInput = {
@@ -14161,6 +14224,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
+    stutus?: SortOrder
   }
 
   export type ProductMinOrderByAggregateInput = {
@@ -14172,11 +14236,22 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
+    stutus?: SortOrder
   }
 
   export type ProductSumOrderByAggregateInput = {
     price?: SortOrder
     oldPrice?: SortOrder
+  }
+
+  export type EnumProductStutusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProductStutus | EnumProductStutusFieldRefInput<$PrismaModel>
+    in?: $Enums.ProductStutus[] | ListEnumProductStutusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProductStutus[] | ListEnumProductStutusFieldRefInput<$PrismaModel>
+    not?: NestedEnumProductStutusWithAggregatesFilter<$PrismaModel> | $Enums.ProductStutus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumProductStutusFilter<$PrismaModel>
+    _max?: NestedEnumProductStutusFilter<$PrismaModel>
   }
 
   export type ProductNullableScalarRelationFilter = {
@@ -14775,6 +14850,10 @@ export namespace Prisma {
     push?: string | string[]
   }
 
+  export type EnumProductStutusFieldUpdateOperationsInput = {
+    set?: $Enums.ProductStutus
+  }
+
   export type CategoryUpdateManyWithoutProductsNestedInput = {
     create?: XOR<CategoryCreateWithoutProductsInput, CategoryUncheckedCreateWithoutProductsInput> | CategoryCreateWithoutProductsInput[] | CategoryUncheckedCreateWithoutProductsInput[]
     connectOrCreate?: CategoryCreateOrConnectWithoutProductsInput | CategoryCreateOrConnectWithoutProductsInput[]
@@ -15239,6 +15318,23 @@ export namespace Prisma {
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
+  export type NestedEnumProductStutusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProductStutus | EnumProductStutusFieldRefInput<$PrismaModel>
+    in?: $Enums.ProductStutus[] | ListEnumProductStutusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProductStutus[] | ListEnumProductStutusFieldRefInput<$PrismaModel>
+    not?: NestedEnumProductStutusFilter<$PrismaModel> | $Enums.ProductStutus
+  }
+
+  export type NestedEnumProductStutusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProductStutus | EnumProductStutusFieldRefInput<$PrismaModel>
+    in?: $Enums.ProductStutus[] | ListEnumProductStutusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProductStutus[] | ListEnumProductStutusFieldRefInput<$PrismaModel>
+    not?: NestedEnumProductStutusWithAggregatesFilter<$PrismaModel> | $Enums.ProductStutus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumProductStutusFilter<$PrismaModel>
+    _max?: NestedEnumProductStutusFilter<$PrismaModel>
+  }
+
   export type NestedEnumPaymentStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
     in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
@@ -15293,6 +15389,7 @@ export namespace Prisma {
     images?: ProductCreateimagesInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
+    stutus?: $Enums.ProductStutus
     category?: CategoryCreateNestedManyWithoutProductsInput
     tags?: TagCreateNestedManyWithoutProductsInput
     reviews?: ReviewCreateNestedManyWithoutProductInput
@@ -15308,6 +15405,7 @@ export namespace Prisma {
     images?: ProductCreateimagesInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
+    stutus?: $Enums.ProductStutus
     category?: CategoryUncheckedCreateNestedManyWithoutProductsInput
     tags?: TagUncheckedCreateNestedManyWithoutProductsInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutProductInput
@@ -15485,6 +15583,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Product"> | Date | string
     updatedAt?: DateTimeFilter<"Product"> | Date | string
     userId?: StringNullableFilter<"Product"> | string | null
+    stutus?: EnumProductStutusFilter<"Product"> | $Enums.ProductStutus
   }
 
   export type ChatUpsertWithWhereUniqueWithoutUsersInput = {
@@ -15700,6 +15799,7 @@ export namespace Prisma {
     images?: ProductCreateimagesInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
+    stutus?: $Enums.ProductStutus
     tags?: TagCreateNestedManyWithoutProductsInput
     user?: UserCreateNestedOneWithoutProductsInput
     reviews?: ReviewCreateNestedManyWithoutProductInput
@@ -15716,6 +15816,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId?: string | null
+    stutus?: $Enums.ProductStutus
     tags?: TagUncheckedCreateNestedManyWithoutProductsInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutProductInput
     payments?: PaymentUncheckedCreateNestedManyWithoutProductInput
@@ -15751,6 +15852,7 @@ export namespace Prisma {
     images?: ProductCreateimagesInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
+    stutus?: $Enums.ProductStutus
     category?: CategoryCreateNestedManyWithoutProductsInput
     user?: UserCreateNestedOneWithoutProductsInput
     reviews?: ReviewCreateNestedManyWithoutProductInput
@@ -15767,6 +15869,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId?: string | null
+    stutus?: $Enums.ProductStutus
     category?: CategoryUncheckedCreateNestedManyWithoutProductsInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutProductInput
     payments?: PaymentUncheckedCreateNestedManyWithoutProductInput
@@ -16115,6 +16218,7 @@ export namespace Prisma {
     images?: ProductCreateimagesInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
+    stutus?: $Enums.ProductStutus
     category?: CategoryCreateNestedManyWithoutProductsInput
     tags?: TagCreateNestedManyWithoutProductsInput
     user?: UserCreateNestedOneWithoutProductsInput
@@ -16131,6 +16235,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId?: string | null
+    stutus?: $Enums.ProductStutus
     category?: CategoryUncheckedCreateNestedManyWithoutProductsInput
     tags?: TagUncheckedCreateNestedManyWithoutProductsInput
     payments?: PaymentUncheckedCreateNestedManyWithoutProductInput
@@ -16210,6 +16315,7 @@ export namespace Prisma {
     images?: ProductUpdateimagesInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stutus?: EnumProductStutusFieldUpdateOperationsInput | $Enums.ProductStutus
     category?: CategoryUpdateManyWithoutProductsNestedInput
     tags?: TagUpdateManyWithoutProductsNestedInput
     user?: UserUpdateOneWithoutProductsNestedInput
@@ -16226,6 +16332,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
+    stutus?: EnumProductStutusFieldUpdateOperationsInput | $Enums.ProductStutus
     category?: CategoryUncheckedUpdateManyWithoutProductsNestedInput
     tags?: TagUncheckedUpdateManyWithoutProductsNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutProductNestedInput
@@ -16283,6 +16390,7 @@ export namespace Prisma {
     images?: ProductCreateimagesInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
+    stutus?: $Enums.ProductStutus
     category?: CategoryCreateNestedManyWithoutProductsInput
     tags?: TagCreateNestedManyWithoutProductsInput
     user?: UserCreateNestedOneWithoutProductsInput
@@ -16299,6 +16407,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId?: string | null
+    stutus?: $Enums.ProductStutus
     category?: CategoryUncheckedCreateNestedManyWithoutProductsInput
     tags?: TagUncheckedCreateNestedManyWithoutProductsInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutProductInput
@@ -16378,6 +16487,7 @@ export namespace Prisma {
     images?: ProductUpdateimagesInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stutus?: EnumProductStutusFieldUpdateOperationsInput | $Enums.ProductStutus
     category?: CategoryUpdateManyWithoutProductsNestedInput
     tags?: TagUpdateManyWithoutProductsNestedInput
     user?: UserUpdateOneWithoutProductsNestedInput
@@ -16394,6 +16504,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
+    stutus?: EnumProductStutusFieldUpdateOperationsInput | $Enums.ProductStutus
     category?: CategoryUncheckedUpdateManyWithoutProductsNestedInput
     tags?: TagUncheckedUpdateManyWithoutProductsNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutProductNestedInput
@@ -16673,6 +16784,7 @@ export namespace Prisma {
     images?: ProductCreateimagesInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
+    stutus?: $Enums.ProductStutus
   }
 
   export type MessagesCreateManyUserInput = {
@@ -16738,6 +16850,7 @@ export namespace Prisma {
     images?: ProductUpdateimagesInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stutus?: EnumProductStutusFieldUpdateOperationsInput | $Enums.ProductStutus
     category?: CategoryUpdateManyWithoutProductsNestedInput
     tags?: TagUpdateManyWithoutProductsNestedInput
     reviews?: ReviewUpdateManyWithoutProductNestedInput
@@ -16753,6 +16866,7 @@ export namespace Prisma {
     images?: ProductUpdateimagesInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stutus?: EnumProductStutusFieldUpdateOperationsInput | $Enums.ProductStutus
     category?: CategoryUncheckedUpdateManyWithoutProductsNestedInput
     tags?: TagUncheckedUpdateManyWithoutProductsNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutProductNestedInput
@@ -16768,6 +16882,7 @@ export namespace Prisma {
     images?: ProductUpdateimagesInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stutus?: EnumProductStutusFieldUpdateOperationsInput | $Enums.ProductStutus
   }
 
   export type ChatUpdateWithoutUsersInput = {
@@ -16880,6 +16995,7 @@ export namespace Prisma {
     images?: ProductUpdateimagesInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stutus?: EnumProductStutusFieldUpdateOperationsInput | $Enums.ProductStutus
     tags?: TagUpdateManyWithoutProductsNestedInput
     user?: UserUpdateOneWithoutProductsNestedInput
     reviews?: ReviewUpdateManyWithoutProductNestedInput
@@ -16896,6 +17012,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
+    stutus?: EnumProductStutusFieldUpdateOperationsInput | $Enums.ProductStutus
     tags?: TagUncheckedUpdateManyWithoutProductsNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutProductNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutProductNestedInput
@@ -16911,6 +17028,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
+    stutus?: EnumProductStutusFieldUpdateOperationsInput | $Enums.ProductStutus
   }
 
   export type ProductUpdateWithoutTagsInput = {
@@ -16922,6 +17040,7 @@ export namespace Prisma {
     images?: ProductUpdateimagesInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stutus?: EnumProductStutusFieldUpdateOperationsInput | $Enums.ProductStutus
     category?: CategoryUpdateManyWithoutProductsNestedInput
     user?: UserUpdateOneWithoutProductsNestedInput
     reviews?: ReviewUpdateManyWithoutProductNestedInput
@@ -16938,6 +17057,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
+    stutus?: EnumProductStutusFieldUpdateOperationsInput | $Enums.ProductStutus
     category?: CategoryUncheckedUpdateManyWithoutProductsNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutProductNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutProductNestedInput
@@ -16953,6 +17073,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
+    stutus?: EnumProductStutusFieldUpdateOperationsInput | $Enums.ProductStutus
   }
 
   export type ReviewCreateManyProductInput = {

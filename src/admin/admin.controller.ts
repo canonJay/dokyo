@@ -51,7 +51,7 @@ export class AdminController {
   @Authorization(Role.ADMIN)
   @Put('users/:id')
   async updateUser(@Param('id') id: string, @Body() updateUserDto: CreateUserDto) {
-    return this.usersService.update(id, updateUserDto, id)
+    return this.usersService.adminUpdate(updateUserDto, id)
   }
 
   @ApiBearerAuth()
@@ -215,7 +215,7 @@ export class AdminController {
   @ApiParam({ name: 'id', description: 'Product id', type: String })
   @ApiResponse({ status: 200, description: 'Reviews list', type: [CreateReviewDto] })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  // @Authorization(Role.ADMIN)
+  @Authorization(Role.ADMIN)
   @Get('products/:id/reviews')
   async getReviewsByProductId(@Param('id') id: string) {
     return this.reviewsService.getProductReviews(id)

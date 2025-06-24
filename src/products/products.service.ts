@@ -1,7 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
+import { ProductStutus } from 'prisma/generated/prisma'
 import { PrismaService } from 'src/prisma.service'
 import { CreateProductDto } from './dto/create-product.dto'
-import { UpdateProductDto } from './dto/update-product.dto'
+import { UpdateProductDto, UpdateProductDtoForApprove, UpdateStutusDto } from './dto/update-product.dto'
 
 @Injectable()
 export class ProductsService {
@@ -33,12 +34,59 @@ export class ProductsService {
     }
   }
 
-  async findAll() {
+  async findAll(stutus?: string) {
     try {
-      const products = await this.prisma.product.findMany()
-      return products
+      return await this.prisma.product.findMany({
+        where: stutus ? { stutus: stutus as ProductStutus } : undefined
+      });
     } catch (error) {
-      throw new BadRequestException(error.message)
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async getAllModerationProducts(){
+    try{
+      return await this.prisma.product.findMany({where:{stutus: "PENDING"}})
+    }catch(error) {
+      return new BadRequestException(error)
+    }
+  }
+  
+
+  async getModerationProductById(id: string){ 
+    try{
+      return await this.prisma.product.findUnique({
+        where: {
+          id
+        }
+      })
+    }catch(error){
+      return new BadRequestException(error)
+    }
+  }
+
+  async updateStutusById(id: string, updateStutusDto: UpdateStutusDto) {
+    try{
+      return await this.prisma.product.update({
+        where: {id},
+        data: { stutus: updateStutusDto.stutus }
+      })
+    }catch(error){
+      return new BadRequestException(error)
+    }
+  }
+
+  async updateStutusByIdForUser(id: string, updateProductDtoForApprove: UpdateProductDtoForApprove){
+    try{
+      return await this.prisma.product.update({
+        where: {id},
+        data: {
+          ...updateProductDtoForApprove,
+          stutus: "PENDING"
+        }
+      })
+    }catch(error){
+      return new BadRequestException(error)
     }
   }
 

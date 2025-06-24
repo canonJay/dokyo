@@ -23,6 +23,34 @@ export class ChatsService {
     }
   }
 
+  async createSupportChat(userId: string) {
+    // Получаем всех support-юзеров
+    const supportUsers = await this.prisma.user.findMany({
+      where: { role: 'SUPPORT' }
+    });
+
+    if (!supportUsers.length) {
+      throw new Error('Нет доступных сотрудников поддержки');
+    }
+
+    // Выбираем случайного support-юзера
+    const randomSupport = supportUsers[Math.floor(Math.random() * supportUsers.length)];
+
+    // Создаём чат между пользователем и support-юзером
+    const chat = await this.prisma.chat.create({
+      data: {
+        users: {
+          connect: [
+            { id: userId },
+            { id: randomSupport.id }
+          ]
+        }
+      }
+    });
+
+    return chat;
+  }
+
   async findMyChats(userId: string) {
     try{ 
       const chats = await this.prisma.chat.findMany({

@@ -65,6 +65,12 @@ export class UsersService {
   findById(id: string) {
     const user = this.prisma.user.findUnique({
       where: { id },
+			include: {
+				reviews: true,
+				products: true,
+				chats: true,
+				payments: true
+			}
     })
 
 		if (!user) {
@@ -74,7 +80,14 @@ export class UsersService {
     return user
   }
 
-  update(id: string, updateUserDto: UpdateUserDto, userId: string) {
+  update(updateUserDto: UpdateUserDto, userId: string) {
+    return this.prisma.user.update({
+      where: { id: userId },
+      data: updateUserDto,
+    })
+  }
+
+	adminUpdate(updateUserDto: UpdateUserDto, userId: string) {
     return this.prisma.user.update({
       where: { id: userId },
       data: updateUserDto,

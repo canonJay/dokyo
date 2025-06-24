@@ -167,7 +167,8 @@ exports.Prisma.ProductScalarFieldEnum = {
   images: 'images',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  userId: 'userId'
+  userId: 'userId',
+  stutus: 'stutus'
 };
 
 exports.Prisma.ReviewScalarFieldEnum = {
@@ -226,6 +227,14 @@ exports.Role = exports.$Enums.Role = {
   USER: 'USER',
   SUPPORT: 'SUPPORT',
   MODER: 'MODER'
+};
+
+exports.ProductStutus = exports.$Enums.ProductStutus = {
+  DRAFT: 'DRAFT',
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  PUBLISHED: 'PUBLISHED'
 };
 
 exports.PaymentStatus = exports.$Enums.PaymentStatus = {
