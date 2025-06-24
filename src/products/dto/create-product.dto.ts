@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator'
+import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, Max, Min } from 'class-validator'
 
 export class CreateProductDto {
 
@@ -24,6 +24,8 @@ export class CreateProductDto {
 		example: 100,
 	})
 	@IsNumber()
+	@Min(50)
+	@Max(99999999)
 	@IsNotEmpty()
 	price: number
 
