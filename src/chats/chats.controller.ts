@@ -10,8 +10,7 @@ export class ChatsController {
   constructor(private readonly chatsService: ChatsService) {}
 
   @Authorization()
-  @Post()
-  create(@Body() createChatDto: CreateChatDto) {
+  @Post()  create(@Body() createChatDto: CreateChatDto) {
     return this.chatsService.create(createChatDto);
   }
 
@@ -27,7 +26,11 @@ export class ChatsController {
     return this.chatsService.findMyChats(userId);
   }
 
-
+  @Authorization()
+  @Get('/getMyChatByUserId/:userId')
+  async getMyChatById(@Param("userId") userId: string, @Authorized('id') authUserid: string) {
+    return await this.chatsService.getMyChatByUserId(userId, authUserid)
+  }
 
   @Authorization()
   @Get(':id')

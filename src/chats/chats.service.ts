@@ -57,12 +57,31 @@ export class ChatsService {
         where: {
           users: { some: { id: userId } },
         },
+        include: {
+          users: true
+        }
       })
 
       return chats
     } catch (error) {
       console.log(error)
       throw new Error('Failed to find chats')
+    }
+  }
+
+  async getMyChatByUserId(userId: string, authUserId: string) {
+    try {
+      const chat = await this.prisma.chat.findFirst({
+        where: {
+          AND: [
+            { users: { some: { id: userId } } },
+            { users: { some: { id: authUserId } } },
+          ],
+        },
+      });
+      return chat;
+    } catch (error) {
+      // обработка ошибки
     }
   }
 
