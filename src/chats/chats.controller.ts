@@ -16,6 +16,7 @@ export class ChatsController {
   }
 
   @Authorization(Role.USER)
+  @Post("createSupportChat")
   async createSupportChat(@Authorized("id") userId: string){
     return this.chatsService.createSupportChat(userId)
   }
