@@ -1,15 +1,21 @@
+import { HttpService } from '@nestjs/axios'
 import { Injectable } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import { PrismaService } from 'src/prisma.service'
 import { CreatePaymentDto } from './dto/create-payment.dto'
 import { UpdatePaymentDto } from './dto/update-payment.dto'
 
 @Injectable()
 export class PaymentsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService, private readonly httpService: HttpService, configService: ConfigService) {}
+
+  URL = "https://tome.ge/api/v1"  
 
   async create(createPaymentDto: CreatePaymentDto) {
     try {
       const payment = await this.prisma.payment.create({ data: createPaymentDto })
+
+      
       return payment
     } catch (error) {
       throw new Error(error)

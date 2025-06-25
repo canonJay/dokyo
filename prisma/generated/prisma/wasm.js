@@ -181,14 +181,21 @@ exports.Prisma.ReviewScalarFieldEnum = {
   productId: 'productId'
 };
 
+exports.Prisma.OrderScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  paymentId: 'paymentId',
+  userId: 'userId'
+};
+
 exports.Prisma.PaymentScalarFieldEnum = {
   id: 'id',
   amount: 'amount',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  userId: 'userId',
-  productId: 'productId'
+  userId: 'userId'
 };
 
 exports.Prisma.ChatScalarFieldEnum = {
@@ -239,8 +246,8 @@ exports.ProductStutus = exports.$Enums.ProductStutus = {
 
 exports.PaymentStatus = exports.$Enums.PaymentStatus = {
   PENDING: 'PENDING',
-  SUCCESS: 'SUCCESS',
-  FAILED: 'FAILED'
+  SUCCESSDED: 'SUCCESSDED',
+  CANCELED: 'CANCELED'
 };
 
 exports.Prisma.ModelName = {
@@ -250,6 +257,7 @@ exports.Prisma.ModelName = {
   Tag: 'Tag',
   Product: 'Product',
   Review: 'Review',
+  Order: 'Order',
   Payment: 'Payment',
   Chat: 'Chat',
   Messages: 'Messages'
