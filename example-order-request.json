@@ -1,0 +1,9 @@
+{
+  "userId": "user-uuid-here",
+  "productsId": [
+    "product-uuid-1",
+    "product-uuid-2"
+  ],
+  "settlement_method": "CARD",
+  "return_url": "https://your-site.com/payment-success"
+} 

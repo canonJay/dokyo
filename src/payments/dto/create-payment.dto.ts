@@ -1,15 +1,18 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator'
+export class CreatePaymentDto {}
 
-export class CreatePaymentDto {
-  @IsNotEmpty()
-  @IsNumber()
-  amount: number
 
-  @IsNotEmpty()
-  @IsString()
-  userId: string
+export class CreateRefundDto {
+  operation_id: string;
+  amount: {
+    value: string;
+    currency: string;
+  };
+  description: string;
+}
 
-  @IsNotEmpty()
-  @IsString()
-  productId: string
+export class NotificationDto {
+  type: string;
+  event: string;
+  signature: string;
+  object: any;
 }

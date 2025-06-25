@@ -185,6 +185,7 @@ exports.Prisma.OrderScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  stutus: 'stutus',
   paymentId: 'paymentId',
   userId: 'userId'
 };
@@ -195,6 +196,7 @@ exports.Prisma.PaymentScalarFieldEnum = {
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  settlementMethod: 'settlementMethod',
   userId: 'userId'
 };
 
@@ -244,10 +246,26 @@ exports.ProductStutus = exports.$Enums.ProductStutus = {
   PUBLISHED: 'PUBLISHED'
 };
 
+exports.OrderStutus = exports.$Enums.OrderStutus = {
+  PENDING: 'PENDING',
+  CONFIRMED: 'CONFIRMED',
+  PROCESSING: 'PROCESSING',
+  SHIPPED: 'SHIPPED',
+  DELIVERED: 'DELIVERED',
+  CANCELLED: 'CANCELLED',
+  REFUNDED: 'REFUNDED',
+  RETURNED: 'RETURNED'
+};
+
 exports.PaymentStatus = exports.$Enums.PaymentStatus = {
   PENDING: 'PENDING',
   SUCCESSDED: 'SUCCESSDED',
   CANCELED: 'CANCELED'
+};
+
+exports.SettlementMethod = exports.$Enums.SettlementMethod = {
+  CARD: 'CARD',
+  SBP: 'SBP'
 };
 
 exports.Prisma.ModelName = {

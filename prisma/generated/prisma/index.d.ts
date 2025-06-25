@@ -68,7 +68,29 @@ export type Messages = $Result.DefaultSelection<Prisma.$MessagesPayload>
  * Enums
  */
 export namespace $Enums {
-  export const Role: {
+  export const SettlementMethod: {
+  CARD: 'CARD',
+  SBP: 'SBP'
+};
+
+export type SettlementMethod = (typeof SettlementMethod)[keyof typeof SettlementMethod]
+
+
+export const OrderStutus: {
+  PENDING: 'PENDING',
+  CONFIRMED: 'CONFIRMED',
+  PROCESSING: 'PROCESSING',
+  SHIPPED: 'SHIPPED',
+  DELIVERED: 'DELIVERED',
+  CANCELLED: 'CANCELLED',
+  REFUNDED: 'REFUNDED',
+  RETURNED: 'RETURNED'
+};
+
+export type OrderStutus = (typeof OrderStutus)[keyof typeof OrderStutus]
+
+
+export const Role: {
   ADMIN: 'ADMIN',
   SALLER: 'SALLER',
   USER: 'USER',
@@ -99,6 +121,14 @@ export const PaymentStatus: {
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
 
 }
+
+export type SettlementMethod = $Enums.SettlementMethod
+
+export const SettlementMethod: typeof $Enums.SettlementMethod
+
+export type OrderStutus = $Enums.OrderStutus
+
+export const OrderStutus: typeof $Enums.OrderStutus
 
 export type Role = $Enums.Role
 
@@ -9080,6 +9110,7 @@ export namespace Prisma {
     id: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    stutus: $Enums.OrderStutus | null
     paymentId: string | null
     userId: string | null
   }
@@ -9088,6 +9119,7 @@ export namespace Prisma {
     id: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    stutus: $Enums.OrderStutus | null
     paymentId: string | null
     userId: string | null
   }
@@ -9096,6 +9128,7 @@ export namespace Prisma {
     id: number
     createdAt: number
     updatedAt: number
+    stutus: number
     paymentId: number
     userId: number
     _all: number
@@ -9106,6 +9139,7 @@ export namespace Prisma {
     id?: true
     createdAt?: true
     updatedAt?: true
+    stutus?: true
     paymentId?: true
     userId?: true
   }
@@ -9114,6 +9148,7 @@ export namespace Prisma {
     id?: true
     createdAt?: true
     updatedAt?: true
+    stutus?: true
     paymentId?: true
     userId?: true
   }
@@ -9122,6 +9157,7 @@ export namespace Prisma {
     id?: true
     createdAt?: true
     updatedAt?: true
+    stutus?: true
     paymentId?: true
     userId?: true
     _all?: true
@@ -9203,6 +9239,7 @@ export namespace Prisma {
     id: string
     createdAt: Date
     updatedAt: Date
+    stutus: $Enums.OrderStutus
     paymentId: string | null
     userId: string | null
     _count: OrderCountAggregateOutputType | null
@@ -9228,6 +9265,7 @@ export namespace Prisma {
     id?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    stutus?: boolean
     paymentId?: boolean
     userId?: boolean
     products?: boolean | Order$productsArgs<ExtArgs>
@@ -9240,6 +9278,7 @@ export namespace Prisma {
     id?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    stutus?: boolean
     paymentId?: boolean
     userId?: boolean
     payment?: boolean | Order$paymentArgs<ExtArgs>
@@ -9250,6 +9289,7 @@ export namespace Prisma {
     id?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    stutus?: boolean
     paymentId?: boolean
     userId?: boolean
     payment?: boolean | Order$paymentArgs<ExtArgs>
@@ -9260,11 +9300,12 @@ export namespace Prisma {
     id?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    stutus?: boolean
     paymentId?: boolean
     userId?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "paymentId" | "userId", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "stutus" | "paymentId" | "userId", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     products?: boolean | Order$productsArgs<ExtArgs>
     payment?: boolean | Order$paymentArgs<ExtArgs>
@@ -9291,6 +9332,7 @@ export namespace Prisma {
       id: string
       createdAt: Date
       updatedAt: Date
+      stutus: $Enums.OrderStutus
       paymentId: string | null
       userId: string | null
     }, ExtArgs["result"]["order"]>
@@ -9722,6 +9764,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Order", 'String'>
     readonly createdAt: FieldRef<"Order", 'DateTime'>
     readonly updatedAt: FieldRef<"Order", 'DateTime'>
+    readonly stutus: FieldRef<"Order", 'OrderStutus'>
     readonly paymentId: FieldRef<"Order", 'String'>
     readonly userId: FieldRef<"Order", 'String'>
   }
@@ -10226,6 +10269,7 @@ export namespace Prisma {
     status: $Enums.PaymentStatus | null
     createdAt: Date | null
     updatedAt: Date | null
+    settlementMethod: $Enums.SettlementMethod | null
     userId: string | null
   }
 
@@ -10235,6 +10279,7 @@ export namespace Prisma {
     status: $Enums.PaymentStatus | null
     createdAt: Date | null
     updatedAt: Date | null
+    settlementMethod: $Enums.SettlementMethod | null
     userId: string | null
   }
 
@@ -10244,6 +10289,7 @@ export namespace Prisma {
     status: number
     createdAt: number
     updatedAt: number
+    settlementMethod: number
     userId: number
     _all: number
   }
@@ -10263,6 +10309,7 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     updatedAt?: true
+    settlementMethod?: true
     userId?: true
   }
 
@@ -10272,6 +10319,7 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     updatedAt?: true
+    settlementMethod?: true
     userId?: true
   }
 
@@ -10281,6 +10329,7 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     updatedAt?: true
+    settlementMethod?: true
     userId?: true
     _all?: true
   }
@@ -10377,6 +10426,7 @@ export namespace Prisma {
     status: $Enums.PaymentStatus
     createdAt: Date
     updatedAt: Date
+    settlementMethod: $Enums.SettlementMethod
     userId: string | null
     _count: PaymentCountAggregateOutputType | null
     _avg: PaymentAvgAggregateOutputType | null
@@ -10405,6 +10455,7 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    settlementMethod?: boolean
     userId?: boolean
     order?: boolean | Payment$orderArgs<ExtArgs>
     user?: boolean | Payment$userArgs<ExtArgs>
@@ -10416,6 +10467,7 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    settlementMethod?: boolean
     userId?: boolean
     user?: boolean | Payment$userArgs<ExtArgs>
   }, ExtArgs["result"]["payment"]>
@@ -10426,6 +10478,7 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    settlementMethod?: boolean
     userId?: boolean
     user?: boolean | Payment$userArgs<ExtArgs>
   }, ExtArgs["result"]["payment"]>
@@ -10436,10 +10489,11 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    settlementMethod?: boolean
     userId?: boolean
   }
 
-  export type PaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "amount" | "status" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["payment"]>
+  export type PaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "amount" | "status" | "createdAt" | "updatedAt" | "settlementMethod" | "userId", ExtArgs["result"]["payment"]>
   export type PaymentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     order?: boolean | Payment$orderArgs<ExtArgs>
     user?: boolean | Payment$userArgs<ExtArgs>
@@ -10463,6 +10517,7 @@ export namespace Prisma {
       status: $Enums.PaymentStatus
       createdAt: Date
       updatedAt: Date
+      settlementMethod: $Enums.SettlementMethod
       userId: string | null
     }, ExtArgs["result"]["payment"]>
     composites: {}
@@ -10894,6 +10949,7 @@ export namespace Prisma {
     readonly status: FieldRef<"Payment", 'PaymentStatus'>
     readonly createdAt: FieldRef<"Payment", 'DateTime'>
     readonly updatedAt: FieldRef<"Payment", 'DateTime'>
+    readonly settlementMethod: FieldRef<"Payment", 'SettlementMethod'>
     readonly userId: FieldRef<"Payment", 'String'>
   }
     
@@ -13646,6 +13702,7 @@ export namespace Prisma {
     id: 'id',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
+    stutus: 'stutus',
     paymentId: 'paymentId',
     userId: 'userId'
   };
@@ -13659,6 +13716,7 @@ export namespace Prisma {
     status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
+    settlementMethod: 'settlementMethod',
     userId: 'userId'
   };
 
@@ -13794,6 +13852,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'OrderStutus'
+   */
+  export type EnumOrderStutusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderStutus'>
+    
+
+
+  /**
+   * Reference to a field of type 'OrderStutus[]'
+   */
+  export type ListEnumOrderStutusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderStutus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'PaymentStatus'
    */
   export type EnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus'>
@@ -13804,6 +13876,20 @@ export namespace Prisma {
    * Reference to a field of type 'PaymentStatus[]'
    */
   export type ListEnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'SettlementMethod'
+   */
+  export type EnumSettlementMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SettlementMethod'>
+    
+
+
+  /**
+   * Reference to a field of type 'SettlementMethod[]'
+   */
+  export type ListEnumSettlementMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SettlementMethod[]'>
     
 
 
@@ -14267,6 +14353,7 @@ export namespace Prisma {
     id?: StringFilter<"Order"> | string
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
+    stutus?: EnumOrderStutusFilter<"Order"> | $Enums.OrderStutus
     paymentId?: StringNullableFilter<"Order"> | string | null
     userId?: StringNullableFilter<"Order"> | string | null
     products?: ProductListRelationFilter
@@ -14278,6 +14365,7 @@ export namespace Prisma {
     id?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    stutus?: SortOrder
     paymentId?: SortOrderInput | SortOrder
     userId?: SortOrderInput | SortOrder
     products?: ProductOrderByRelationAggregateInput
@@ -14293,6 +14381,7 @@ export namespace Prisma {
     NOT?: OrderWhereInput | OrderWhereInput[]
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
+    stutus?: EnumOrderStutusFilter<"Order"> | $Enums.OrderStutus
     userId?: StringNullableFilter<"Order"> | string | null
     products?: ProductListRelationFilter
     payment?: XOR<PaymentNullableScalarRelationFilter, PaymentWhereInput> | null
@@ -14303,6 +14392,7 @@ export namespace Prisma {
     id?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    stutus?: SortOrder
     paymentId?: SortOrderInput | SortOrder
     userId?: SortOrderInput | SortOrder
     _count?: OrderCountOrderByAggregateInput
@@ -14317,6 +14407,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Order"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
+    stutus?: EnumOrderStutusWithAggregatesFilter<"Order"> | $Enums.OrderStutus
     paymentId?: StringNullableWithAggregatesFilter<"Order"> | string | null
     userId?: StringNullableWithAggregatesFilter<"Order"> | string | null
   }
@@ -14330,6 +14421,7 @@ export namespace Prisma {
     status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
     createdAt?: DateTimeFilter<"Payment"> | Date | string
     updatedAt?: DateTimeFilter<"Payment"> | Date | string
+    settlementMethod?: EnumSettlementMethodFilter<"Payment"> | $Enums.SettlementMethod
     userId?: StringNullableFilter<"Payment"> | string | null
     order?: XOR<OrderNullableScalarRelationFilter, OrderWhereInput> | null
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
@@ -14341,6 +14433,7 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    settlementMethod?: SortOrder
     userId?: SortOrderInput | SortOrder
     order?: OrderOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
@@ -14355,6 +14448,7 @@ export namespace Prisma {
     status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
     createdAt?: DateTimeFilter<"Payment"> | Date | string
     updatedAt?: DateTimeFilter<"Payment"> | Date | string
+    settlementMethod?: EnumSettlementMethodFilter<"Payment"> | $Enums.SettlementMethod
     userId?: StringNullableFilter<"Payment"> | string | null
     order?: XOR<OrderNullableScalarRelationFilter, OrderWhereInput> | null
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
@@ -14366,6 +14460,7 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    settlementMethod?: SortOrder
     userId?: SortOrderInput | SortOrder
     _count?: PaymentCountOrderByAggregateInput
     _avg?: PaymentAvgOrderByAggregateInput
@@ -14383,6 +14478,7 @@ export namespace Prisma {
     status?: EnumPaymentStatusWithAggregatesFilter<"Payment"> | $Enums.PaymentStatus
     createdAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
+    settlementMethod?: EnumSettlementMethodWithAggregatesFilter<"Payment"> | $Enums.SettlementMethod
     userId?: StringNullableWithAggregatesFilter<"Payment"> | string | null
   }
 
@@ -14981,6 +15077,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    stutus?: $Enums.OrderStutus
     products?: ProductCreateNestedManyWithoutOrdersInput
     payment?: PaymentCreateNestedOneWithoutOrderInput
     user?: UserCreateNestedOneWithoutOrdersInput
@@ -14990,6 +15087,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    stutus?: $Enums.OrderStutus
     paymentId?: string | null
     userId?: string | null
     products?: ProductUncheckedCreateNestedManyWithoutOrdersInput
@@ -14999,6 +15097,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stutus?: EnumOrderStutusFieldUpdateOperationsInput | $Enums.OrderStutus
     products?: ProductUpdateManyWithoutOrdersNestedInput
     payment?: PaymentUpdateOneWithoutOrderNestedInput
     user?: UserUpdateOneWithoutOrdersNestedInput
@@ -15008,6 +15107,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stutus?: EnumOrderStutusFieldUpdateOperationsInput | $Enums.OrderStutus
     paymentId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     products?: ProductUncheckedUpdateManyWithoutOrdersNestedInput
@@ -15017,6 +15117,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    stutus?: $Enums.OrderStutus
     paymentId?: string | null
     userId?: string | null
   }
@@ -15025,12 +15126,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stutus?: EnumOrderStutusFieldUpdateOperationsInput | $Enums.OrderStutus
   }
 
   export type OrderUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stutus?: EnumOrderStutusFieldUpdateOperationsInput | $Enums.OrderStutus
     paymentId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -15041,6 +15144,7 @@ export namespace Prisma {
     status?: $Enums.PaymentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    settlementMethod: $Enums.SettlementMethod
     order?: OrderCreateNestedOneWithoutPaymentInput
     user?: UserCreateNestedOneWithoutPaymentsInput
   }
@@ -15051,6 +15155,7 @@ export namespace Prisma {
     status?: $Enums.PaymentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    settlementMethod: $Enums.SettlementMethod
     userId?: string | null
     order?: OrderUncheckedCreateNestedOneWithoutPaymentInput
   }
@@ -15061,6 +15166,7 @@ export namespace Prisma {
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    settlementMethod?: EnumSettlementMethodFieldUpdateOperationsInput | $Enums.SettlementMethod
     order?: OrderUpdateOneWithoutPaymentNestedInput
     user?: UserUpdateOneWithoutPaymentsNestedInput
   }
@@ -15071,6 +15177,7 @@ export namespace Prisma {
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    settlementMethod?: EnumSettlementMethodFieldUpdateOperationsInput | $Enums.SettlementMethod
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: OrderUncheckedUpdateOneWithoutPaymentNestedInput
   }
@@ -15081,6 +15188,7 @@ export namespace Prisma {
     status?: $Enums.PaymentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    settlementMethod: $Enums.SettlementMethod
     userId?: string | null
   }
 
@@ -15090,6 +15198,7 @@ export namespace Prisma {
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    settlementMethod?: EnumSettlementMethodFieldUpdateOperationsInput | $Enums.SettlementMethod
   }
 
   export type PaymentUncheckedUpdateManyInput = {
@@ -15098,6 +15207,7 @@ export namespace Prisma {
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    settlementMethod?: EnumSettlementMethodFieldUpdateOperationsInput | $Enums.SettlementMethod
     userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -15712,6 +15822,13 @@ export namespace Prisma {
     rating?: SortOrder
   }
 
+  export type EnumOrderStutusFilter<$PrismaModel = never> = {
+    equals?: $Enums.OrderStutus | EnumOrderStutusFieldRefInput<$PrismaModel>
+    in?: $Enums.OrderStutus[] | ListEnumOrderStutusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OrderStutus[] | ListEnumOrderStutusFieldRefInput<$PrismaModel>
+    not?: NestedEnumOrderStutusFilter<$PrismaModel> | $Enums.OrderStutus
+  }
+
   export type PaymentNullableScalarRelationFilter = {
     is?: PaymentWhereInput | null
     isNot?: PaymentWhereInput | null
@@ -15721,6 +15838,7 @@ export namespace Prisma {
     id?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    stutus?: SortOrder
     paymentId?: SortOrder
     userId?: SortOrder
   }
@@ -15729,6 +15847,7 @@ export namespace Prisma {
     id?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    stutus?: SortOrder
     paymentId?: SortOrder
     userId?: SortOrder
   }
@@ -15737,8 +15856,19 @@ export namespace Prisma {
     id?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    stutus?: SortOrder
     paymentId?: SortOrder
     userId?: SortOrder
+  }
+
+  export type EnumOrderStutusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.OrderStutus | EnumOrderStutusFieldRefInput<$PrismaModel>
+    in?: $Enums.OrderStutus[] | ListEnumOrderStutusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OrderStutus[] | ListEnumOrderStutusFieldRefInput<$PrismaModel>
+    not?: NestedEnumOrderStutusWithAggregatesFilter<$PrismaModel> | $Enums.OrderStutus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumOrderStutusFilter<$PrismaModel>
+    _max?: NestedEnumOrderStutusFilter<$PrismaModel>
   }
 
   export type EnumPaymentStatusFilter<$PrismaModel = never> = {
@@ -15746,6 +15876,13 @@ export namespace Prisma {
     in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumPaymentStatusFilter<$PrismaModel> | $Enums.PaymentStatus
+  }
+
+  export type EnumSettlementMethodFilter<$PrismaModel = never> = {
+    equals?: $Enums.SettlementMethod | EnumSettlementMethodFieldRefInput<$PrismaModel>
+    in?: $Enums.SettlementMethod[] | ListEnumSettlementMethodFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SettlementMethod[] | ListEnumSettlementMethodFieldRefInput<$PrismaModel>
+    not?: NestedEnumSettlementMethodFilter<$PrismaModel> | $Enums.SettlementMethod
   }
 
   export type OrderNullableScalarRelationFilter = {
@@ -15759,6 +15896,7 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    settlementMethod?: SortOrder
     userId?: SortOrder
   }
 
@@ -15772,6 +15910,7 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    settlementMethod?: SortOrder
     userId?: SortOrder
   }
 
@@ -15781,6 +15920,7 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    settlementMethod?: SortOrder
     userId?: SortOrder
   }
 
@@ -15796,6 +15936,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumPaymentStatusFilter<$PrismaModel>
     _max?: NestedEnumPaymentStatusFilter<$PrismaModel>
+  }
+
+  export type EnumSettlementMethodWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SettlementMethod | EnumSettlementMethodFieldRefInput<$PrismaModel>
+    in?: $Enums.SettlementMethod[] | ListEnumSettlementMethodFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SettlementMethod[] | ListEnumSettlementMethodFieldRefInput<$PrismaModel>
+    not?: NestedEnumSettlementMethodWithAggregatesFilter<$PrismaModel> | $Enums.SettlementMethod
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSettlementMethodFilter<$PrismaModel>
+    _max?: NestedEnumSettlementMethodFilter<$PrismaModel>
   }
 
   export type UserListRelationFilter = {
@@ -16512,6 +16662,10 @@ export namespace Prisma {
     connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
   }
 
+  export type EnumOrderStutusFieldUpdateOperationsInput = {
+    set?: $Enums.OrderStutus
+  }
+
   export type ProductUpdateManyWithoutOrdersNestedInput = {
     create?: XOR<ProductCreateWithoutOrdersInput, ProductUncheckedCreateWithoutOrdersInput> | ProductCreateWithoutOrdersInput[] | ProductUncheckedCreateWithoutOrdersInput[]
     connectOrCreate?: ProductCreateOrConnectWithoutOrdersInput | ProductCreateOrConnectWithoutOrdersInput[]
@@ -16578,6 +16732,10 @@ export namespace Prisma {
 
   export type EnumPaymentStatusFieldUpdateOperationsInput = {
     set?: $Enums.PaymentStatus
+  }
+
+  export type EnumSettlementMethodFieldUpdateOperationsInput = {
+    set?: $Enums.SettlementMethod
   }
 
   export type OrderUpdateOneWithoutPaymentNestedInput = {
@@ -16905,11 +17063,35 @@ export namespace Prisma {
     _max?: NestedEnumProductStutusFilter<$PrismaModel>
   }
 
+  export type NestedEnumOrderStutusFilter<$PrismaModel = never> = {
+    equals?: $Enums.OrderStutus | EnumOrderStutusFieldRefInput<$PrismaModel>
+    in?: $Enums.OrderStutus[] | ListEnumOrderStutusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OrderStutus[] | ListEnumOrderStutusFieldRefInput<$PrismaModel>
+    not?: NestedEnumOrderStutusFilter<$PrismaModel> | $Enums.OrderStutus
+  }
+
+  export type NestedEnumOrderStutusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.OrderStutus | EnumOrderStutusFieldRefInput<$PrismaModel>
+    in?: $Enums.OrderStutus[] | ListEnumOrderStutusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OrderStutus[] | ListEnumOrderStutusFieldRefInput<$PrismaModel>
+    not?: NestedEnumOrderStutusWithAggregatesFilter<$PrismaModel> | $Enums.OrderStutus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumOrderStutusFilter<$PrismaModel>
+    _max?: NestedEnumOrderStutusFilter<$PrismaModel>
+  }
+
   export type NestedEnumPaymentStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
     in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumPaymentStatusFilter<$PrismaModel> | $Enums.PaymentStatus
+  }
+
+  export type NestedEnumSettlementMethodFilter<$PrismaModel = never> = {
+    equals?: $Enums.SettlementMethod | EnumSettlementMethodFieldRefInput<$PrismaModel>
+    in?: $Enums.SettlementMethod[] | ListEnumSettlementMethodFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SettlementMethod[] | ListEnumSettlementMethodFieldRefInput<$PrismaModel>
+    not?: NestedEnumSettlementMethodFilter<$PrismaModel> | $Enums.SettlementMethod
   }
 
   export type NestedEnumPaymentStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -16920,6 +17102,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumPaymentStatusFilter<$PrismaModel>
     _max?: NestedEnumPaymentStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumSettlementMethodWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SettlementMethod | EnumSettlementMethodFieldRefInput<$PrismaModel>
+    in?: $Enums.SettlementMethod[] | ListEnumSettlementMethodFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SettlementMethod[] | ListEnumSettlementMethodFieldRefInput<$PrismaModel>
+    not?: NestedEnumSettlementMethodWithAggregatesFilter<$PrismaModel> | $Enums.SettlementMethod
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSettlementMethodFilter<$PrismaModel>
+    _max?: NestedEnumSettlementMethodFilter<$PrismaModel>
   }
 
   export type ReviewCreateWithoutUserInput = {
@@ -16996,6 +17188,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    stutus?: $Enums.OrderStutus
     products?: ProductCreateNestedManyWithoutOrdersInput
     payment?: PaymentCreateNestedOneWithoutOrderInput
   }
@@ -17004,6 +17197,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    stutus?: $Enums.OrderStutus
     paymentId?: string | null
     products?: ProductUncheckedCreateNestedManyWithoutOrdersInput
   }
@@ -17071,6 +17265,7 @@ export namespace Prisma {
     status?: $Enums.PaymentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    settlementMethod: $Enums.SettlementMethod
     order?: OrderCreateNestedOneWithoutPaymentInput
   }
 
@@ -17080,6 +17275,7 @@ export namespace Prisma {
     status?: $Enums.PaymentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    settlementMethod: $Enums.SettlementMethod
     order?: OrderUncheckedCreateNestedOneWithoutPaymentInput
   }
 
@@ -17205,6 +17401,7 @@ export namespace Prisma {
     id?: StringFilter<"Order"> | string
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
+    stutus?: EnumOrderStutusFilter<"Order"> | $Enums.OrderStutus
     paymentId?: StringNullableFilter<"Order"> | string | null
     userId?: StringNullableFilter<"Order"> | string | null
   }
@@ -17288,6 +17485,7 @@ export namespace Prisma {
     status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
     createdAt?: DateTimeFilter<"Payment"> | Date | string
     updatedAt?: DateTimeFilter<"Payment"> | Date | string
+    settlementMethod?: EnumSettlementMethodFilter<"Payment"> | $Enums.SettlementMethod
     userId?: StringNullableFilter<"Payment"> | string | null
   }
 
@@ -17637,6 +17835,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    stutus?: $Enums.OrderStutus
     payment?: PaymentCreateNestedOneWithoutOrderInput
     user?: UserCreateNestedOneWithoutOrdersInput
   }
@@ -17645,6 +17844,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    stutus?: $Enums.OrderStutus
     paymentId?: string | null
     userId?: string | null
   }
@@ -18008,6 +18208,7 @@ export namespace Prisma {
     status?: $Enums.PaymentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    settlementMethod: $Enums.SettlementMethod
     user?: UserCreateNestedOneWithoutPaymentsInput
   }
 
@@ -18017,6 +18218,7 @@ export namespace Prisma {
     status?: $Enums.PaymentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    settlementMethod: $Enums.SettlementMethod
     userId?: string | null
   }
 
@@ -18103,6 +18305,7 @@ export namespace Prisma {
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    settlementMethod?: EnumSettlementMethodFieldUpdateOperationsInput | $Enums.SettlementMethod
     user?: UserUpdateOneWithoutPaymentsNestedInput
   }
 
@@ -18112,6 +18315,7 @@ export namespace Prisma {
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    settlementMethod?: EnumSettlementMethodFieldUpdateOperationsInput | $Enums.SettlementMethod
     userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -18170,6 +18374,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    stutus?: $Enums.OrderStutus
     products?: ProductCreateNestedManyWithoutOrdersInput
     user?: UserCreateNestedOneWithoutOrdersInput
   }
@@ -18178,6 +18383,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    stutus?: $Enums.OrderStutus
     userId?: string | null
     products?: ProductUncheckedCreateNestedManyWithoutOrdersInput
   }
@@ -18247,6 +18453,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stutus?: EnumOrderStutusFieldUpdateOperationsInput | $Enums.OrderStutus
     products?: ProductUpdateManyWithoutOrdersNestedInput
     user?: UserUpdateOneWithoutOrdersNestedInput
   }
@@ -18255,6 +18462,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stutus?: EnumOrderStutusFieldUpdateOperationsInput | $Enums.OrderStutus
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     products?: ProductUncheckedUpdateManyWithoutOrdersNestedInput
   }
@@ -18597,6 +18805,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    stutus?: $Enums.OrderStutus
     paymentId?: string | null
   }
 
@@ -18615,6 +18824,7 @@ export namespace Prisma {
     status?: $Enums.PaymentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    settlementMethod: $Enums.SettlementMethod
   }
 
   export type OTPcodeCreateManyUserInput = {
@@ -18701,6 +18911,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stutus?: EnumOrderStutusFieldUpdateOperationsInput | $Enums.OrderStutus
     products?: ProductUpdateManyWithoutOrdersNestedInput
     payment?: PaymentUpdateOneWithoutOrderNestedInput
   }
@@ -18709,6 +18920,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stutus?: EnumOrderStutusFieldUpdateOperationsInput | $Enums.OrderStutus
     paymentId?: NullableStringFieldUpdateOperationsInput | string | null
     products?: ProductUncheckedUpdateManyWithoutOrdersNestedInput
   }
@@ -18717,6 +18929,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stutus?: EnumOrderStutusFieldUpdateOperationsInput | $Enums.OrderStutus
     paymentId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -18773,6 +18986,7 @@ export namespace Prisma {
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    settlementMethod?: EnumSettlementMethodFieldUpdateOperationsInput | $Enums.SettlementMethod
     order?: OrderUpdateOneWithoutPaymentNestedInput
   }
 
@@ -18782,6 +18996,7 @@ export namespace Prisma {
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    settlementMethod?: EnumSettlementMethodFieldUpdateOperationsInput | $Enums.SettlementMethod
     order?: OrderUncheckedUpdateOneWithoutPaymentNestedInput
   }
 
@@ -18791,6 +19006,7 @@ export namespace Prisma {
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    settlementMethod?: EnumSettlementMethodFieldUpdateOperationsInput | $Enums.SettlementMethod
   }
 
   export type OTPcodeUpdateWithoutUserInput = {
@@ -18992,6 +19208,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stutus?: EnumOrderStutusFieldUpdateOperationsInput | $Enums.OrderStutus
     payment?: PaymentUpdateOneWithoutOrderNestedInput
     user?: UserUpdateOneWithoutOrdersNestedInput
   }
@@ -19000,6 +19217,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stutus?: EnumOrderStutusFieldUpdateOperationsInput | $Enums.OrderStutus
     paymentId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -19008,6 +19226,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stutus?: EnumOrderStutusFieldUpdateOperationsInput | $Enums.OrderStutus
     paymentId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: NullableStringFieldUpdateOperationsInput | string | null
   }

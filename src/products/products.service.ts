@@ -44,6 +44,22 @@ export class ProductsService {
     }
   }
 
+  async findManyByIds(productsIds: string[]){
+    try{
+      const products = await this.prisma.product.findMany({
+        where: {
+          id: {
+            in: productsIds
+          }
+        }
+      })
+
+      return products
+    }catch(error){
+      return new BadRequestException("продукты не найдены")
+    }
+  }
+
   async getAllModerationProducts(){
     try{
       return await this.prisma.product.findMany({where:{stutus: "PENDING"}})
