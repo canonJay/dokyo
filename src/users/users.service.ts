@@ -182,7 +182,6 @@ export class UsersService {
 				amount: true,
 				createdAt: true,
 				updatedAt: true,
-				product: { select: { id: true, title: true, price: true, description: true, images: true, category: { select: { id: true, name: true } } } }
 			} })
 			return payments
 		} catch (error) {

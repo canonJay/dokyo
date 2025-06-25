@@ -265,47 +265,6 @@ export class AdminController {
   }
 
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get product payments statistics by id' })
-  @ApiParam({ name: 'id', description: 'Product id', type: String })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
-  @ApiResponse({ status: 200, description: 'Product payments statistics', type: CreatePaymentDto })
-  @Authorization(Role.ADMIN)
-  @Get('products/:id/payments-statistics')
-  async getProductPaymentsStatistics(@Param('id') id: string) {
-    return this.productsService.productPaymentsStatistics(id)
-  }
-
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get top products by sales' })
-  @ApiResponse({ status: 200, description: 'Top products by sales', type: [CreateProductDto] })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
-  @Authorization(Role.ADMIN)
-  @Get('products/top-by-sales')
-  async getTopProductsBySales() {
-    return this.productsService.topProductsBySales()
-  }
-
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get top products by sum of sales' })
-  @ApiResponse({ status: 200, description: 'Top products by sum of sales', type: [CreateProductDto] })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
-  @Authorization(Role.ADMIN)
-  @Get('products/top-by-sum-of-sales')
-  async getTopProductsBySumOfSales() {  
-    return this.productsService.topProductsBySumOfSales()
-  }
-
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get all payments statistics' })
-  @ApiResponse({ status: 200, description: 'Payments statistics', type: CreatePaymentDto })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
-  @Authorization(Role.ADMIN)
-  @Get('payments/statistics')
-  async getPaymentsStatistics() {
-    return this.productsService.paymentsStatistics()
-  }
-
-  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get all payments' })
   @ApiResponse({ status: 200, description: 'Payments list', type: [CreatePaymentDto] })
   @ApiResponse({ status: 401, description: 'Unauthorized' })

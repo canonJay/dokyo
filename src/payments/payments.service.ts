@@ -135,6 +135,26 @@ export class PaymentsService {
     }
   }
 
+  async findAll() {
+    try{
+      const payments =await this.prisma.payment.findMany()
+    }catch(error){ 
+      return new BadRequestException()
+    }
+  }
+
+  async findOne(id: string) {
+    try{
+      const payments =await this.prisma.payment.findUnique({
+        where: {
+          id
+        }
+      })
+    }catch(error){ 
+      return new BadRequestException()
+    }
+  }
+
   async handleRefundSucceeded(object: any) {
     // Если возвраты реализованы как отдельная сущность — обновить её
     // Если нет — можно обновить статус заказа/платежа или просто залогировать
