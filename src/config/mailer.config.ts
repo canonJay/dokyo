@@ -4,12 +4,12 @@ import { ConfigService } from '@nestjs/config'
 export function getMailerConfig(configService: ConfigService): MailerOptions {
   return {
     transport: {
-    host: "mail.nic.ru",
-    port: 587,
+    host: configService.getOrThrow("MAILER_HOST"),
+    port: configService.getOrThrow("MAILER_PORT"),
     secure: false,
     auth: {
-      user: "noreply@dokyo.ru",
-      pass: "d33gClqT9hdSWK9Wj",
+      user: configService.getOrThrow("MAILER_USER"),
+      pass: configService.getOrThrow("MAILER_PASSWORD"),
     },
   },
     defaults: {

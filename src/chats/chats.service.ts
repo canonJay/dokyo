@@ -45,6 +45,9 @@ export class ChatsService {
             { id: randomSupport.id }
           ]
         }
+      },
+      include: {
+        messages: true
       }
     });
 
@@ -58,7 +61,8 @@ export class ChatsService {
           users: { some: { id: userId } },
         },
         include: {
-          users: true
+          users: true,
+          messages: true
         }
       })
 
