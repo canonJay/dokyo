@@ -64,14 +64,12 @@ export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect
   ) {
     try {
       // Проверяем доступ к чату
-      await this.messagesService.getChatMessages(data.chatId, userId)
+      const messages = await this.messagesService.getChatMessages(data.chatId, userId)
       
       // Присоединяемся к комнате чата
       client.join(data.chatId)
       
-      // Получаем историю сообщений
-      const messages = await this.messagesService.getChatMessages(data.chatId, userId)
-      
+      // Получаем историю сообщений      
       return { success: true, messages }
     } catch (error) {
       return { success: false, error: error.message }

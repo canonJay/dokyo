@@ -20,7 +20,7 @@ export class AuthService {
  REFRESH_TOKEN_NAME = 'refreshToken'
 
 	async signin(dto: AuthDto) {
-		const user = await this.userService.findByEmail(dto.email)
+		const user = await this.userService.findByEmailForAuth(dto.email)
 
 		if (!user) {
 			return this.signup(dto)

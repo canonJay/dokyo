@@ -75,6 +75,18 @@ export class UsersService {
     }
   }
 
+  async findByEmailForAuth(email: string) {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: { email },
+      })
+
+      return user
+    } catch (error) {
+      throw new BadRequestException(error)
+    }
+  }
+
   async findById(id: string) {
     try {
       const user = await this.prisma.user.findUnique({
