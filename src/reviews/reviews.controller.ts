@@ -1,21 +1,22 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
-import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { Authorization } from 'src/auth/decorators/auth.decorator'
 import { Authorized } from 'src/auth/decorators/authorized.decorator'
 import { CreateReviewDto } from './dto/create-review.dto'
 import { UpdateReviewDto } from './dto/update-review.dto'
 import { ReviewsService } from './reviews.service'
 
+@ApiTags('reviews')
 @Controller('reviews')
 export class ReviewsController {
   constructor(private readonly reviewsService: ReviewsService) {}
 
   @Authorization()
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Create a review' })
-  @ApiResponse({ status: 200, description: 'Review created' })
-  @ApiResponse({ status: 400, description: 'Review not created' })
-  @ApiBody({ type: CreateReviewDto }) 
+  @ApiOperation({ summary: 'Создать отзыв' })
+  @ApiBody({ type: CreateReviewDto })
+  @ApiResponse({ status: 201, description: 'Отзыв создан', schema: { example: { id: '1', text: 'Отличный товар', rating: 5, productId: 'prod1', userId: 'user1' } } })
+  @ApiResponse({ status: 400, description: 'Ошибка создания отзыва' })
   @Post()
   create(@Body() createReviewDto: CreateReviewDto, @Authorized("id") userId: string) {
     return this.reviewsService.create(createReviewDto, userId);
@@ -23,27 +24,25 @@ export class ReviewsController {
 
   @Authorization()
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get all reviews' })
-  @ApiResponse({ status: 200, description: 'Reviews' })
-  @ApiResponse({ status: 400, description: 'Reviews not found' })
+  @ApiOperation({ summary: 'Получить все отзывы' })
+  @ApiResponse({ status: 200, description: 'Список отзывов', schema: { example: [{ id: '1', text: 'Отличный товар', rating: 5, productId: 'prod1', userId: 'user1' }] } })
   @Get()
   findAll() {
     return this.reviewsService.findAll();
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get a review by id' })
-  @ApiResponse({ status: 200, description: 'Review' })
-  @ApiResponse({ status: 400, description: 'Review not found' })
+  @ApiOperation({ summary: 'Получить отзыв по id' })
+  @ApiParam({ name: 'id', description: 'ID отзыва' })
+  @ApiResponse({ status: 200, description: 'Отзыв найден', schema: { example: { id: '1', text: 'Отличный товар', rating: 5, productId: 'prod1', userId: 'user1' } } })
+  @ApiResponse({ status: 404, description: 'Отзыв не найден' })
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.reviewsService.findOne(id);
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get product reviews' })
-  @ApiResponse({ status: 200, description: 'Product reviews' })
-  @ApiResponse({ status: 400, description: 'Product reviews not found' })
+  @ApiOperation({ summary: 'Получить отзывы по продукту' })
+  @ApiParam({ name: 'id', description: 'ID продукта' })
+  @ApiResponse({ status: 200, description: 'Список отзывов по продукту', schema: { example: [{ id: '1', text: 'Отличный товар', rating: 5, productId: 'prod1', userId: 'user1' }] } })
   @Get('product/:id')
   getProductReviews(@Param('id') id: string) {
     return this.reviewsService.getProductReviews(id);
@@ -51,11 +50,11 @@ export class ReviewsController {
 
   @Authorization()
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Update a review' })
-  @ApiResponse({ status: 200, description: 'Review updated' })
-  @ApiResponse({ status: 400, description: 'Review not updated' })
-  @ApiParam({ name: 'id', description: 'The id of the review' })
+  @ApiOperation({ summary: 'Обновить отзыв' })
+  @ApiParam({ name: 'id', description: 'ID отзыва' })
   @ApiBody({ type: UpdateReviewDto })
+  @ApiResponse({ status: 200, description: 'Отзыв обновлён', schema: { example: { id: '1', text: 'Обновлённый отзыв', rating: 4, productId: 'prod1', userId: 'user1' } } })
+  @ApiResponse({ status: 400, description: 'Ошибка обновления отзыва' })
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateReviewDto: UpdateReviewDto, @Authorized("id") userId: string) {
       return this.reviewsService.update(id, updateReviewDto, userId);
@@ -63,10 +62,10 @@ export class ReviewsController {
 
   @Authorization()
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Delete a review' })
-  @ApiResponse({ status: 200, description: 'Review deleted' })
-  @ApiResponse({ status: 400, description: 'Review not deleted' })
-  @ApiParam({ name: 'id', description: 'The id of the review' })
+  @ApiOperation({ summary: 'Удалить отзыв' })
+  @ApiParam({ name: 'id', description: 'ID отзыва' })
+  @ApiResponse({ status: 200, description: 'Отзыв удалён', schema: { example: true } })
+  @ApiResponse({ status: 404, description: 'Отзыв не найден' })
   @Delete(':id')
   remove(@Param('id') id: string, @Authorized("id") userId: string) {
     return this.reviewsService.remove(id, userId);

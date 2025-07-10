@@ -10,7 +10,7 @@ ENV POSTGRES_DB=postgres
 # COPY init.sql /docker-entrypoint-initdb.d/
 
 # Порт, который будет слушать PostgreSQL
-EXPOSE 5432
+EXPOSE 5433
 
 # Команда запуска PostgreSQL (уже включена в базовый образ)
 CMD ["postgres"]

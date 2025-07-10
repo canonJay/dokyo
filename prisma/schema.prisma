@@ -57,6 +57,11 @@ model Category {
   id   String @id @default(uuid())
   name String
 
+  // Self-referencing relation
+  parentId String?
+  parent   Category?  @relation("CategoryToSubcategories", fields: [parentId], references: [id])
+  children Category[] @relation("CategoryToSubcategories")
+
   products  Product[]
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
@@ -79,6 +84,7 @@ model Product {
   id          String   @id @default(uuid())
   title       String
   description String
+  slug        Int      @default(autoincrement())
   price       Int
   oldPrice    Int      @default(0) @map("old_prise")
   images      String[]

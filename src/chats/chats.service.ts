@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable } from '@nestjs/common'
 import { PrismaService } from 'src/prisma.service'
 import { CreateChatDto } from './dto/create-chat.dto'
 
@@ -14,23 +14,27 @@ export class ChatsService {
             connect: createChatDto.users.map((user) => ({ id: user })),
           },
         },
+        include: {
+          users: true,
+          messages: true
+        }
       })
 
       return chat
     } catch (error) {
       console.log(error)
-      throw new Error('Failed to create chat')
+      throw new BadRequestException(error)
     }
   }
 
-  async createSupportChat(userId: string) {
+  async createSupportChat(userId?: string) {
     // Получаем всех support-юзеров
     const supportUsers = await this.prisma.user.findMany({
       where: { role: 'SUPPORT' }
     });
 
     if (!supportUsers.length) {
-      throw new Error('Нет доступных сотрудников поддержки');
+      throw new BadRequestException('Нет доступных сотрудников поддержки');
     }
 
     // Выбираем случайного support-юзера
@@ -47,6 +51,7 @@ export class ChatsService {
         }
       },
       include: {
+        users: true,
         messages: true
       }
     });
@@ -69,7 +74,7 @@ export class ChatsService {
       return chats
     } catch (error) {
       console.log(error)
-      throw new Error('Failed to find chats')
+      throw new BadRequestException(error)
     }
   }
 
@@ -85,7 +90,7 @@ export class ChatsService {
       });
       return chat;
     } catch (error) {
-      // обработка ошибки
+      throw new BadRequestException(error)
     }
   }
 
@@ -105,13 +110,13 @@ export class ChatsService {
       return chat
     } catch (error) {
       console.log(error)
-      throw new Error('Failed to find chat')
+      throw new BadRequestException(error)
     }
   }
 
   async remove(id: string, userId: string) {
     try{ 
-      const chat = await this.prisma.chat.delete({
+      await this.prisma.chat.delete({
         where: {
           id,
           users: { some: { id: userId } },
@@ -121,7 +126,7 @@ export class ChatsService {
       return true
     } catch (error) {
       console.log(error)
-      throw new Error('Failed to remove chat')
+      throw new BadRequestException(error)
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Patch, Post } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger'
 import { Authorization } from 'src/auth/decorators/auth.decorator'
 import { Authorized } from 'src/auth/decorators/authorized.decorator'
@@ -12,46 +12,58 @@ export class UsersController {
 
   @Authorization()
   @ApiBearerAuth()
+  @ApiOperation({ summary: 'Получить текущего пользователя' })
+  @ApiResponse({ status: 200, description: 'Информация о пользователе найдена' })
+  @ApiResponse({ status: 401, description: 'Неавторизован' })
   @Get('me')
   async getMe(@Authorized("id") userId: string) {
     return await this.usersService.findById(userId)
   }
 
-  @ApiOperation({ summary: 'Create a user' })
-  @ApiResponse({ status: 200, description: 'User created' })
-  @ApiResponse({ status: 400, description: 'User not created' })
+  @Authorization()
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Получить пользователя по id (публично)' })
+  @ApiResponse({ status: 200, description: 'Публичная информация о пользователе' })
+  @ApiResponse({ status: 404, description: 'Пользователь не найден' })
+  @ApiParam({ name: 'id', description: 'ID пользователя', required: true })
+  @Get("getUserById")
+  async getuserById(@Param() id: string) {
+    return this.usersService.publicFindById(id) 
+  }
+
+  @ApiOperation({ summary: 'Создать пользователя' })
+  @ApiResponse({ status: 201, description: 'Пользователь создан' })
+  @ApiResponse({ status: 400, description: 'Ошибка создания пользователя' })
   @ApiBody({ type: CreateUserDto })
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
-  @ApiOperation({ summary: 'Get all users' })
-  @ApiResponse({ status: 200, description: 'Users' })
-  @ApiResponse({ status: 400, description: 'Users not found' })
+  @ApiOperation({ summary: 'Получить всех пользователей' })
+  @ApiResponse({ status: 200, description: 'Список пользователей' })
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
-  @ApiBearerAuth()
   @Authorization()
-  @ApiOperation({ summary: 'Update a user' })
-  @ApiResponse({ status: 200, description: 'User updated' })
-  @ApiResponse({ status: 400, description: 'User not updated' })
-  @ApiParam({ name: 'id', description: 'The id of the user' })
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Обновить пользователя' })
+  @ApiResponse({ status: 200, description: 'Пользователь обновлён' })
+  @ApiResponse({ status: 400, description: 'Ошибка обновления пользователя' })
+  @ApiResponse({ status: 404, description: 'Пользователь не найден' })
   @ApiBody({ type: UpdateUserDto })
   @Patch(':id')
-    update( @Body() updateUserDto: UpdateUserDto, @Authorized("id") userId: string) {
+  update( @Body() updateUserDto: UpdateUserDto, @Authorized("id") userId: string) {
     return this.usersService.update(updateUserDto, userId);
   }
 
-  @ApiBearerAuth()
   @Authorization()
-  @ApiOperation({ summary: 'Delete a user' })
-  @ApiResponse({ status: 200, description: 'User deleted' })
-  @ApiResponse({ status: 400, description: 'User not deleted' })
-  @ApiParam({ name: 'id', description: 'The id of the user' })
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Удалить текущего пользователя' })
+  @ApiResponse({ status: 200, description: 'Пользователь удалён' })
+  @ApiResponse({ status: 404, description: 'Пользователь не найден' })
   @Delete('me')
   remove(@Authorized("id") userId: string) {
     return this.usersService.remove(userId);

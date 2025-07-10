@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { PrismaService } from 'src/prisma.service'
-import { CreateCotegoryDto } from './dto/create-cotegory.dto'
+import { CreateCotegoryDto, CreateSubcategoryDto } from './dto/create-cotegory.dto'
 import { UpdateCotegoryDto } from './dto/update-cotegory.dto'
 
 @Injectable()
@@ -105,6 +105,38 @@ export class CotegorysService {
       return category
     } catch (error) {
       throw new BadRequestException(error.message)
+    }
+  }
+
+  async createSubcategory(dto: CreateSubcategoryDto) {
+    try {
+      const subcategory = await this.prisma.category.create({
+        data: {
+          name: dto.name,
+          parent: { connect: { id: dto.parentId } }
+        }
+      });
+      return subcategory;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async getSubcategories(parentId: string) {
+    try {
+      return await this.prisma.category.findMany({
+        where: { parentId }
+      });
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async removeSubcategory(id: string) {
+    try {
+      return await this.prisma.category.delete({ where: { id } });
+    } catch (error) {
+      throw new BadRequestException(error.message);
     }
   }
 }

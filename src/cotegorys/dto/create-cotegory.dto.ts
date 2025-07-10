@@ -18,3 +18,16 @@ export class CreateCotegoryDto {
 	@IsString({ each: true })
 	products: string[]
 }
+
+
+export class CreateSubcategoryDto {
+  @ApiProperty({ description: 'Имя подкатегории', example: 'Смартфоны' })
+  @IsString()
+  @IsNotEmpty()
+  name: string
+
+  @ApiProperty({ description: 'ID родительской категории', example: 'parent-category-uuid' })
+  @IsString()
+  @IsNotEmpty()
+  parentId: string
+}

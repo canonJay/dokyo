@@ -424,8 +424,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.9.0
-   * Query Engine version: 81e4af48011447c3cc503a190e86995b66d2a28e
+   * Prisma Client JS version: 6.11.0
+   * Query Engine version: 9c30299f5a0ea26a96790e13f796dc6094db3173
    */
   export type PrismaVersion = {
     client: string
@@ -1851,10 +1851,12 @@ export namespace Prisma {
    */
 
   export type CategoryCountOutputType = {
+    children: number
     products: number
   }
 
   export type CategoryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    children?: boolean | CategoryCountOutputTypeCountChildrenArgs
     products?: boolean | CategoryCountOutputTypeCountProductsArgs
   }
 
@@ -1867,6 +1869,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the CategoryCountOutputType
      */
     select?: CategoryCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CategoryCountOutputType without action
+   */
+  export type CategoryCountOutputTypeCountChildrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CategoryWhereInput
   }
 
   /**
@@ -4541,6 +4550,7 @@ export namespace Prisma {
   export type CategoryMinAggregateOutputType = {
     id: string | null
     name: string | null
+    parentId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -4548,6 +4558,7 @@ export namespace Prisma {
   export type CategoryMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    parentId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -4555,6 +4566,7 @@ export namespace Prisma {
   export type CategoryCountAggregateOutputType = {
     id: number
     name: number
+    parentId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -4564,6 +4576,7 @@ export namespace Prisma {
   export type CategoryMinAggregateInputType = {
     id?: true
     name?: true
+    parentId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -4571,6 +4584,7 @@ export namespace Prisma {
   export type CategoryMaxAggregateInputType = {
     id?: true
     name?: true
+    parentId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -4578,6 +4592,7 @@ export namespace Prisma {
   export type CategoryCountAggregateInputType = {
     id?: true
     name?: true
+    parentId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -4658,6 +4673,7 @@ export namespace Prisma {
   export type CategoryGroupByOutputType = {
     id: string
     name: string
+    parentId: string | null
     createdAt: Date
     updatedAt: Date
     _count: CategoryCountAggregateOutputType | null
@@ -4682,8 +4698,11 @@ export namespace Prisma {
   export type CategorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    parentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    parent?: boolean | Category$parentArgs<ExtArgs>
+    children?: boolean | Category$childrenArgs<ExtArgs>
     products?: boolean | Category$productsArgs<ExtArgs>
     _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["category"]>
@@ -4691,40 +4710,54 @@ export namespace Prisma {
   export type CategorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    parentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    parent?: boolean | Category$parentArgs<ExtArgs>
   }, ExtArgs["result"]["category"]>
 
   export type CategorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    parentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    parent?: boolean | Category$parentArgs<ExtArgs>
   }, ExtArgs["result"]["category"]>
 
   export type CategorySelectScalar = {
     id?: boolean
     name?: boolean
+    parentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "createdAt" | "updatedAt", ExtArgs["result"]["category"]>
+  export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "parentId" | "createdAt" | "updatedAt", ExtArgs["result"]["category"]>
   export type CategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    parent?: boolean | Category$parentArgs<ExtArgs>
+    children?: boolean | Category$childrenArgs<ExtArgs>
     products?: boolean | Category$productsArgs<ExtArgs>
     _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type CategoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type CategoryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type CategoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    parent?: boolean | Category$parentArgs<ExtArgs>
+  }
+  export type CategoryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    parent?: boolean | Category$parentArgs<ExtArgs>
+  }
 
   export type $CategoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Category"
     objects: {
+      parent: Prisma.$CategoryPayload<ExtArgs> | null
+      children: Prisma.$CategoryPayload<ExtArgs>[]
       products: Prisma.$ProductPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
+      parentId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["category"]>
@@ -5121,6 +5154,8 @@ export namespace Prisma {
    */
   export interface Prisma__CategoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    parent<T extends Category$parentArgs<ExtArgs> = {}>(args?: Subset<T, Category$parentArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    children<T extends Category$childrenArgs<ExtArgs> = {}>(args?: Subset<T, Category$childrenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     products<T extends Category$productsArgs<ExtArgs> = {}>(args?: Subset<T, Category$productsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -5153,6 +5188,7 @@ export namespace Prisma {
   interface CategoryFieldRefs {
     readonly id: FieldRef<"Category", 'String'>
     readonly name: FieldRef<"Category", 'String'>
+    readonly parentId: FieldRef<"Category", 'String'>
     readonly createdAt: FieldRef<"Category", 'DateTime'>
     readonly updatedAt: FieldRef<"Category", 'DateTime'>
   }
@@ -5404,6 +5440,10 @@ export namespace Prisma {
      */
     data: CategoryCreateManyInput | CategoryCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -5474,6 +5514,10 @@ export namespace Prisma {
      * Limit how many Categories to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -5540,6 +5584,49 @@ export namespace Prisma {
      * Limit how many Categories to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Category.parent
+   */
+  export type Category$parentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryInclude<ExtArgs> | null
+    where?: CategoryWhereInput
+  }
+
+  /**
+   * Category.children
+   */
+  export type Category$childrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryInclude<ExtArgs> | null
+    where?: CategoryWhereInput
+    orderBy?: CategoryOrderByWithRelationInput | CategoryOrderByWithRelationInput[]
+    cursor?: CategoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CategoryScalarFieldEnum | CategoryScalarFieldEnum[]
   }
 
   /**
@@ -6655,11 +6742,13 @@ export namespace Prisma {
   }
 
   export type ProductAvgAggregateOutputType = {
+    slug: number | null
     price: number | null
     oldPrice: number | null
   }
 
   export type ProductSumAggregateOutputType = {
+    slug: number | null
     price: number | null
     oldPrice: number | null
   }
@@ -6668,6 +6757,7 @@ export namespace Prisma {
     id: string | null
     title: string | null
     description: string | null
+    slug: number | null
     price: number | null
     oldPrice: number | null
     createdAt: Date | null
@@ -6680,6 +6770,7 @@ export namespace Prisma {
     id: string | null
     title: string | null
     description: string | null
+    slug: number | null
     price: number | null
     oldPrice: number | null
     createdAt: Date | null
@@ -6692,6 +6783,7 @@ export namespace Prisma {
     id: number
     title: number
     description: number
+    slug: number
     price: number
     oldPrice: number
     images: number
@@ -6704,11 +6796,13 @@ export namespace Prisma {
 
 
   export type ProductAvgAggregateInputType = {
+    slug?: true
     price?: true
     oldPrice?: true
   }
 
   export type ProductSumAggregateInputType = {
+    slug?: true
     price?: true
     oldPrice?: true
   }
@@ -6717,6 +6811,7 @@ export namespace Prisma {
     id?: true
     title?: true
     description?: true
+    slug?: true
     price?: true
     oldPrice?: true
     createdAt?: true
@@ -6729,6 +6824,7 @@ export namespace Prisma {
     id?: true
     title?: true
     description?: true
+    slug?: true
     price?: true
     oldPrice?: true
     createdAt?: true
@@ -6741,6 +6837,7 @@ export namespace Prisma {
     id?: true
     title?: true
     description?: true
+    slug?: true
     price?: true
     oldPrice?: true
     images?: true
@@ -6841,6 +6938,7 @@ export namespace Prisma {
     id: string
     title: string
     description: string
+    slug: number
     price: number
     oldPrice: number
     images: string[]
@@ -6873,6 +6971,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
+    slug?: boolean
     price?: boolean
     oldPrice?: boolean
     images?: boolean
@@ -6892,6 +6991,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
+    slug?: boolean
     price?: boolean
     oldPrice?: boolean
     images?: boolean
@@ -6906,6 +7006,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
+    slug?: boolean
     price?: boolean
     oldPrice?: boolean
     images?: boolean
@@ -6920,6 +7021,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
+    slug?: boolean
     price?: boolean
     oldPrice?: boolean
     images?: boolean
@@ -6929,7 +7031,7 @@ export namespace Prisma {
     stutus?: boolean
   }
 
-  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "price" | "oldPrice" | "images" | "createdAt" | "updatedAt" | "userId" | "stutus", ExtArgs["result"]["product"]>
+  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "slug" | "price" | "oldPrice" | "images" | "createdAt" | "updatedAt" | "userId" | "stutus", ExtArgs["result"]["product"]>
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | Product$categoryArgs<ExtArgs>
     tags?: boolean | Product$tagsArgs<ExtArgs>
@@ -6958,6 +7060,7 @@ export namespace Prisma {
       id: string
       title: string
       description: string
+      slug: number
       price: number
       oldPrice: number
       images: string[]
@@ -7396,6 +7499,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Product", 'String'>
     readonly title: FieldRef<"Product", 'String'>
     readonly description: FieldRef<"Product", 'String'>
+    readonly slug: FieldRef<"Product", 'Int'>
     readonly price: FieldRef<"Product", 'Int'>
     readonly oldPrice: FieldRef<"Product", 'Int'>
     readonly images: FieldRef<"Product", 'String[]'>
@@ -13652,6 +13756,7 @@ export namespace Prisma {
   export const CategoryScalarFieldEnum: {
     id: 'id',
     name: 'name',
+    parentId: 'parentId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -13673,6 +13778,7 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     description: 'description',
+    slug: 'slug',
     price: 'price',
     oldPrice: 'oldPrice',
     images: 'images',
@@ -14088,16 +14194,22 @@ export namespace Prisma {
     NOT?: CategoryWhereInput | CategoryWhereInput[]
     id?: StringFilter<"Category"> | string
     name?: StringFilter<"Category"> | string
+    parentId?: StringNullableFilter<"Category"> | string | null
     createdAt?: DateTimeFilter<"Category"> | Date | string
     updatedAt?: DateTimeFilter<"Category"> | Date | string
+    parent?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
+    children?: CategoryListRelationFilter
     products?: ProductListRelationFilter
   }
 
   export type CategoryOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    parentId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    parent?: CategoryOrderByWithRelationInput
+    children?: CategoryOrderByRelationAggregateInput
     products?: ProductOrderByRelationAggregateInput
   }
 
@@ -14107,14 +14219,18 @@ export namespace Prisma {
     OR?: CategoryWhereInput[]
     NOT?: CategoryWhereInput | CategoryWhereInput[]
     name?: StringFilter<"Category"> | string
+    parentId?: StringNullableFilter<"Category"> | string | null
     createdAt?: DateTimeFilter<"Category"> | Date | string
     updatedAt?: DateTimeFilter<"Category"> | Date | string
+    parent?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
+    children?: CategoryListRelationFilter
     products?: ProductListRelationFilter
   }, "id">
 
   export type CategoryOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    parentId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: CategoryCountOrderByAggregateInput
@@ -14128,6 +14244,7 @@ export namespace Prisma {
     NOT?: CategoryScalarWhereWithAggregatesInput | CategoryScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Category"> | string
     name?: StringWithAggregatesFilter<"Category"> | string
+    parentId?: StringNullableWithAggregatesFilter<"Category"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Category"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Category"> | Date | string
   }
@@ -14189,6 +14306,7 @@ export namespace Prisma {
     id?: StringFilter<"Product"> | string
     title?: StringFilter<"Product"> | string
     description?: StringFilter<"Product"> | string
+    slug?: IntFilter<"Product"> | number
     price?: IntFilter<"Product"> | number
     oldPrice?: IntFilter<"Product"> | number
     images?: StringNullableListFilter<"Product">
@@ -14207,6 +14325,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    slug?: SortOrder
     price?: SortOrder
     oldPrice?: SortOrder
     images?: SortOrder
@@ -14228,6 +14347,7 @@ export namespace Prisma {
     NOT?: ProductWhereInput | ProductWhereInput[]
     title?: StringFilter<"Product"> | string
     description?: StringFilter<"Product"> | string
+    slug?: IntFilter<"Product"> | number
     price?: IntFilter<"Product"> | number
     oldPrice?: IntFilter<"Product"> | number
     images?: StringNullableListFilter<"Product">
@@ -14246,6 +14366,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    slug?: SortOrder
     price?: SortOrder
     oldPrice?: SortOrder
     images?: SortOrder
@@ -14267,6 +14388,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Product"> | string
     title?: StringWithAggregatesFilter<"Product"> | string
     description?: StringWithAggregatesFilter<"Product"> | string
+    slug?: IntWithAggregatesFilter<"Product"> | number
     price?: IntWithAggregatesFilter<"Product"> | number
     oldPrice?: IntWithAggregatesFilter<"Product"> | number
     images?: StringNullableListFilter<"Product">
@@ -14798,14 +14920,18 @@ export namespace Prisma {
     name: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    parent?: CategoryCreateNestedOneWithoutChildrenInput
+    children?: CategoryCreateNestedManyWithoutParentInput
     products?: ProductCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUncheckedCreateInput = {
     id?: string
     name: string
+    parentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    children?: CategoryUncheckedCreateNestedManyWithoutParentInput
     products?: ProductUncheckedCreateNestedManyWithoutCategoryInput
   }
 
@@ -14814,20 +14940,25 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parent?: CategoryUpdateOneWithoutChildrenNestedInput
+    children?: CategoryUpdateManyWithoutParentNestedInput
     products?: ProductUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
     products?: ProductUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryCreateManyInput = {
     id?: string
     name: string
+    parentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -14842,6 +14973,7 @@ export namespace Prisma {
   export type CategoryUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14903,6 +15035,7 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
+    slug?: number
     price: number
     oldPrice?: number
     images?: ProductCreateimagesInput | string[]
@@ -14920,6 +15053,7 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
+    slug?: number
     price: number
     oldPrice?: number
     images?: ProductCreateimagesInput | string[]
@@ -14937,6 +15071,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    slug?: IntFieldUpdateOperationsInput | number
     price?: IntFieldUpdateOperationsInput | number
     oldPrice?: IntFieldUpdateOperationsInput | number
     images?: ProductUpdateimagesInput | string[]
@@ -14954,6 +15089,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    slug?: IntFieldUpdateOperationsInput | number
     price?: IntFieldUpdateOperationsInput | number
     oldPrice?: IntFieldUpdateOperationsInput | number
     images?: ProductUpdateimagesInput | string[]
@@ -14971,6 +15107,7 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
+    slug?: number
     price: number
     oldPrice?: number
     images?: ProductCreateimagesInput | string[]
@@ -14984,6 +15121,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    slug?: IntFieldUpdateOperationsInput | number
     price?: IntFieldUpdateOperationsInput | number
     oldPrice?: IntFieldUpdateOperationsInput | number
     images?: ProductUpdateimagesInput | string[]
@@ -14996,6 +15134,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    slug?: IntFieldUpdateOperationsInput | number
     price?: IntFieldUpdateOperationsInput | number
     oldPrice?: IntFieldUpdateOperationsInput | number
     images?: ProductUpdateimagesInput | string[]
@@ -15645,9 +15784,25 @@ export namespace Prisma {
     code?: SortOrder
   }
 
+  export type CategoryNullableScalarRelationFilter = {
+    is?: CategoryWhereInput | null
+    isNot?: CategoryWhereInput | null
+  }
+
+  export type CategoryListRelationFilter = {
+    every?: CategoryWhereInput
+    some?: CategoryWhereInput
+    none?: CategoryWhereInput
+  }
+
+  export type CategoryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type CategoryCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    parentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -15655,6 +15810,7 @@ export namespace Prisma {
   export type CategoryMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    parentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -15662,6 +15818,7 @@ export namespace Prisma {
   export type CategoryMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    parentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -15702,20 +15859,10 @@ export namespace Prisma {
     not?: NestedEnumProductStutusFilter<$PrismaModel> | $Enums.ProductStutus
   }
 
-  export type CategoryListRelationFilter = {
-    every?: CategoryWhereInput
-    some?: CategoryWhereInput
-    none?: CategoryWhereInput
-  }
-
   export type TagListRelationFilter = {
     every?: TagWhereInput
     some?: TagWhereInput
     none?: TagWhereInput
-  }
-
-  export type CategoryOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type TagOrderByRelationAggregateInput = {
@@ -15726,6 +15873,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    slug?: SortOrder
     price?: SortOrder
     oldPrice?: SortOrder
     images?: SortOrder
@@ -15736,6 +15884,7 @@ export namespace Prisma {
   }
 
   export type ProductAvgOrderByAggregateInput = {
+    slug?: SortOrder
     price?: SortOrder
     oldPrice?: SortOrder
   }
@@ -15744,6 +15893,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    slug?: SortOrder
     price?: SortOrder
     oldPrice?: SortOrder
     createdAt?: SortOrder
@@ -15756,6 +15906,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    slug?: SortOrder
     price?: SortOrder
     oldPrice?: SortOrder
     createdAt?: SortOrder
@@ -15765,6 +15916,7 @@ export namespace Prisma {
   }
 
   export type ProductSumOrderByAggregateInput = {
+    slug?: SortOrder
     price?: SortOrder
     oldPrice?: SortOrder
   }
@@ -16345,16 +16497,60 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutOTPcodeInput, UserUpdateWithoutOTPcodeInput>, UserUncheckedUpdateWithoutOTPcodeInput>
   }
 
+  export type CategoryCreateNestedOneWithoutChildrenInput = {
+    create?: XOR<CategoryCreateWithoutChildrenInput, CategoryUncheckedCreateWithoutChildrenInput>
+    connectOrCreate?: CategoryCreateOrConnectWithoutChildrenInput
+    connect?: CategoryWhereUniqueInput
+  }
+
+  export type CategoryCreateNestedManyWithoutParentInput = {
+    create?: XOR<CategoryCreateWithoutParentInput, CategoryUncheckedCreateWithoutParentInput> | CategoryCreateWithoutParentInput[] | CategoryUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: CategoryCreateOrConnectWithoutParentInput | CategoryCreateOrConnectWithoutParentInput[]
+    createMany?: CategoryCreateManyParentInputEnvelope
+    connect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+  }
+
   export type ProductCreateNestedManyWithoutCategoryInput = {
     create?: XOR<ProductCreateWithoutCategoryInput, ProductUncheckedCreateWithoutCategoryInput> | ProductCreateWithoutCategoryInput[] | ProductUncheckedCreateWithoutCategoryInput[]
     connectOrCreate?: ProductCreateOrConnectWithoutCategoryInput | ProductCreateOrConnectWithoutCategoryInput[]
     connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
   }
 
+  export type CategoryUncheckedCreateNestedManyWithoutParentInput = {
+    create?: XOR<CategoryCreateWithoutParentInput, CategoryUncheckedCreateWithoutParentInput> | CategoryCreateWithoutParentInput[] | CategoryUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: CategoryCreateOrConnectWithoutParentInput | CategoryCreateOrConnectWithoutParentInput[]
+    createMany?: CategoryCreateManyParentInputEnvelope
+    connect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+  }
+
   export type ProductUncheckedCreateNestedManyWithoutCategoryInput = {
     create?: XOR<ProductCreateWithoutCategoryInput, ProductUncheckedCreateWithoutCategoryInput> | ProductCreateWithoutCategoryInput[] | ProductUncheckedCreateWithoutCategoryInput[]
     connectOrCreate?: ProductCreateOrConnectWithoutCategoryInput | ProductCreateOrConnectWithoutCategoryInput[]
     connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+  }
+
+  export type CategoryUpdateOneWithoutChildrenNestedInput = {
+    create?: XOR<CategoryCreateWithoutChildrenInput, CategoryUncheckedCreateWithoutChildrenInput>
+    connectOrCreate?: CategoryCreateOrConnectWithoutChildrenInput
+    upsert?: CategoryUpsertWithoutChildrenInput
+    disconnect?: CategoryWhereInput | boolean
+    delete?: CategoryWhereInput | boolean
+    connect?: CategoryWhereUniqueInput
+    update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutChildrenInput, CategoryUpdateWithoutChildrenInput>, CategoryUncheckedUpdateWithoutChildrenInput>
+  }
+
+  export type CategoryUpdateManyWithoutParentNestedInput = {
+    create?: XOR<CategoryCreateWithoutParentInput, CategoryUncheckedCreateWithoutParentInput> | CategoryCreateWithoutParentInput[] | CategoryUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: CategoryCreateOrConnectWithoutParentInput | CategoryCreateOrConnectWithoutParentInput[]
+    upsert?: CategoryUpsertWithWhereUniqueWithoutParentInput | CategoryUpsertWithWhereUniqueWithoutParentInput[]
+    createMany?: CategoryCreateManyParentInputEnvelope
+    set?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+    disconnect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+    delete?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+    connect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+    update?: CategoryUpdateWithWhereUniqueWithoutParentInput | CategoryUpdateWithWhereUniqueWithoutParentInput[]
+    updateMany?: CategoryUpdateManyWithWhereWithoutParentInput | CategoryUpdateManyWithWhereWithoutParentInput[]
+    deleteMany?: CategoryScalarWhereInput | CategoryScalarWhereInput[]
   }
 
   export type ProductUpdateManyWithoutCategoryNestedInput = {
@@ -16368,6 +16564,20 @@ export namespace Prisma {
     update?: ProductUpdateWithWhereUniqueWithoutCategoryInput | ProductUpdateWithWhereUniqueWithoutCategoryInput[]
     updateMany?: ProductUpdateManyWithWhereWithoutCategoryInput | ProductUpdateManyWithWhereWithoutCategoryInput[]
     deleteMany?: ProductScalarWhereInput | ProductScalarWhereInput[]
+  }
+
+  export type CategoryUncheckedUpdateManyWithoutParentNestedInput = {
+    create?: XOR<CategoryCreateWithoutParentInput, CategoryUncheckedCreateWithoutParentInput> | CategoryCreateWithoutParentInput[] | CategoryUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: CategoryCreateOrConnectWithoutParentInput | CategoryCreateOrConnectWithoutParentInput[]
+    upsert?: CategoryUpsertWithWhereUniqueWithoutParentInput | CategoryUpsertWithWhereUniqueWithoutParentInput[]
+    createMany?: CategoryCreateManyParentInputEnvelope
+    set?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+    disconnect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+    delete?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+    connect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+    update?: CategoryUpdateWithWhereUniqueWithoutParentInput | CategoryUpdateWithWhereUniqueWithoutParentInput[]
+    updateMany?: CategoryUpdateManyWithWhereWithoutParentInput | CategoryUpdateManyWithWhereWithoutParentInput[]
+    deleteMany?: CategoryScalarWhereInput | CategoryScalarWhereInput[]
   }
 
   export type ProductUncheckedUpdateManyWithoutCategoryNestedInput = {
@@ -17146,6 +17356,7 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
+    slug?: number
     price: number
     oldPrice?: number
     images?: ProductCreateimagesInput | string[]
@@ -17162,6 +17373,7 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
+    slug?: number
     price: number
     oldPrice?: number
     images?: ProductCreateimagesInput | string[]
@@ -17369,6 +17581,7 @@ export namespace Prisma {
     id?: StringFilter<"Product"> | string
     title?: StringFilter<"Product"> | string
     description?: StringFilter<"Product"> | string
+    slug?: IntFilter<"Product"> | number
     price?: IntFilter<"Product"> | number
     oldPrice?: IntFilter<"Product"> | number
     images?: StringNullableListFilter<"Product">
@@ -17614,10 +17827,62 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type CategoryCreateWithoutChildrenInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    parent?: CategoryCreateNestedOneWithoutChildrenInput
+    products?: ProductCreateNestedManyWithoutCategoryInput
+  }
+
+  export type CategoryUncheckedCreateWithoutChildrenInput = {
+    id?: string
+    name: string
+    parentId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    products?: ProductUncheckedCreateNestedManyWithoutCategoryInput
+  }
+
+  export type CategoryCreateOrConnectWithoutChildrenInput = {
+    where: CategoryWhereUniqueInput
+    create: XOR<CategoryCreateWithoutChildrenInput, CategoryUncheckedCreateWithoutChildrenInput>
+  }
+
+  export type CategoryCreateWithoutParentInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    children?: CategoryCreateNestedManyWithoutParentInput
+    products?: ProductCreateNestedManyWithoutCategoryInput
+  }
+
+  export type CategoryUncheckedCreateWithoutParentInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    children?: CategoryUncheckedCreateNestedManyWithoutParentInput
+    products?: ProductUncheckedCreateNestedManyWithoutCategoryInput
+  }
+
+  export type CategoryCreateOrConnectWithoutParentInput = {
+    where: CategoryWhereUniqueInput
+    create: XOR<CategoryCreateWithoutParentInput, CategoryUncheckedCreateWithoutParentInput>
+  }
+
+  export type CategoryCreateManyParentInputEnvelope = {
+    data: CategoryCreateManyParentInput | CategoryCreateManyParentInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ProductCreateWithoutCategoryInput = {
     id?: string
     title: string
     description: string
+    slug?: number
     price: number
     oldPrice?: number
     images?: ProductCreateimagesInput | string[]
@@ -17634,6 +17899,7 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
+    slug?: number
     price: number
     oldPrice?: number
     images?: ProductCreateimagesInput | string[]
@@ -17649,6 +17915,62 @@ export namespace Prisma {
   export type ProductCreateOrConnectWithoutCategoryInput = {
     where: ProductWhereUniqueInput
     create: XOR<ProductCreateWithoutCategoryInput, ProductUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type CategoryUpsertWithoutChildrenInput = {
+    update: XOR<CategoryUpdateWithoutChildrenInput, CategoryUncheckedUpdateWithoutChildrenInput>
+    create: XOR<CategoryCreateWithoutChildrenInput, CategoryUncheckedCreateWithoutChildrenInput>
+    where?: CategoryWhereInput
+  }
+
+  export type CategoryUpdateToOneWithWhereWithoutChildrenInput = {
+    where?: CategoryWhereInput
+    data: XOR<CategoryUpdateWithoutChildrenInput, CategoryUncheckedUpdateWithoutChildrenInput>
+  }
+
+  export type CategoryUpdateWithoutChildrenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parent?: CategoryUpdateOneWithoutChildrenNestedInput
+    products?: ProductUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type CategoryUncheckedUpdateWithoutChildrenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    products?: ProductUncheckedUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type CategoryUpsertWithWhereUniqueWithoutParentInput = {
+    where: CategoryWhereUniqueInput
+    update: XOR<CategoryUpdateWithoutParentInput, CategoryUncheckedUpdateWithoutParentInput>
+    create: XOR<CategoryCreateWithoutParentInput, CategoryUncheckedCreateWithoutParentInput>
+  }
+
+  export type CategoryUpdateWithWhereUniqueWithoutParentInput = {
+    where: CategoryWhereUniqueInput
+    data: XOR<CategoryUpdateWithoutParentInput, CategoryUncheckedUpdateWithoutParentInput>
+  }
+
+  export type CategoryUpdateManyWithWhereWithoutParentInput = {
+    where: CategoryScalarWhereInput
+    data: XOR<CategoryUpdateManyMutationInput, CategoryUncheckedUpdateManyWithoutParentInput>
+  }
+
+  export type CategoryScalarWhereInput = {
+    AND?: CategoryScalarWhereInput | CategoryScalarWhereInput[]
+    OR?: CategoryScalarWhereInput[]
+    NOT?: CategoryScalarWhereInput | CategoryScalarWhereInput[]
+    id?: StringFilter<"Category"> | string
+    name?: StringFilter<"Category"> | string
+    parentId?: StringNullableFilter<"Category"> | string | null
+    createdAt?: DateTimeFilter<"Category"> | Date | string
+    updatedAt?: DateTimeFilter<"Category"> | Date | string
   }
 
   export type ProductUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -17671,6 +17993,7 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
+    slug?: number
     price: number
     oldPrice?: number
     images?: ProductCreateimagesInput | string[]
@@ -17687,6 +18010,7 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
+    slug?: number
     price: number
     oldPrice?: number
     images?: ProductCreateimagesInput | string[]
@@ -17725,13 +18049,17 @@ export namespace Prisma {
     name: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    parent?: CategoryCreateNestedOneWithoutChildrenInput
+    children?: CategoryCreateNestedManyWithoutParentInput
   }
 
   export type CategoryUncheckedCreateWithoutProductsInput = {
     id?: string
     name: string
+    parentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    children?: CategoryUncheckedCreateNestedManyWithoutParentInput
   }
 
   export type CategoryCreateOrConnectWithoutProductsInput = {
@@ -17868,16 +18196,6 @@ export namespace Prisma {
   export type CategoryUpdateManyWithWhereWithoutProductsInput = {
     where: CategoryScalarWhereInput
     data: XOR<CategoryUpdateManyMutationInput, CategoryUncheckedUpdateManyWithoutProductsInput>
-  }
-
-  export type CategoryScalarWhereInput = {
-    AND?: CategoryScalarWhereInput | CategoryScalarWhereInput[]
-    OR?: CategoryScalarWhereInput[]
-    NOT?: CategoryScalarWhereInput | CategoryScalarWhereInput[]
-    id?: StringFilter<"Category"> | string
-    name?: StringFilter<"Category"> | string
-    createdAt?: DateTimeFilter<"Category"> | Date | string
-    updatedAt?: DateTimeFilter<"Category"> | Date | string
   }
 
   export type TagUpsertWithWhereUniqueWithoutProductsInput = {
@@ -18038,6 +18356,7 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
+    slug?: number
     price: number
     oldPrice?: number
     images?: ProductCreateimagesInput | string[]
@@ -18054,6 +18373,7 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
+    slug?: number
     price: number
     oldPrice?: number
     images?: ProductCreateimagesInput | string[]
@@ -18137,6 +18457,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    slug?: IntFieldUpdateOperationsInput | number
     price?: IntFieldUpdateOperationsInput | number
     oldPrice?: IntFieldUpdateOperationsInput | number
     images?: ProductUpdateimagesInput | string[]
@@ -18153,6 +18474,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    slug?: IntFieldUpdateOperationsInput | number
     price?: IntFieldUpdateOperationsInput | number
     oldPrice?: IntFieldUpdateOperationsInput | number
     images?: ProductUpdateimagesInput | string[]
@@ -18169,6 +18491,7 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
+    slug?: number
     price: number
     oldPrice?: number
     images?: ProductCreateimagesInput | string[]
@@ -18185,6 +18508,7 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
+    slug?: number
     price: number
     oldPrice?: number
     images?: ProductCreateimagesInput | string[]
@@ -18793,6 +19117,7 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
+    slug?: number
     price: number
     oldPrice?: number
     images?: ProductCreateimagesInput | string[]
@@ -18867,6 +19192,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    slug?: IntFieldUpdateOperationsInput | number
     price?: IntFieldUpdateOperationsInput | number
     oldPrice?: IntFieldUpdateOperationsInput | number
     images?: ProductUpdateimagesInput | string[]
@@ -18883,6 +19209,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    slug?: IntFieldUpdateOperationsInput | number
     price?: IntFieldUpdateOperationsInput | number
     oldPrice?: IntFieldUpdateOperationsInput | number
     images?: ProductUpdateimagesInput | string[]
@@ -18899,6 +19226,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    slug?: IntFieldUpdateOperationsInput | number
     price?: IntFieldUpdateOperationsInput | number
     oldPrice?: IntFieldUpdateOperationsInput | number
     images?: ProductUpdateimagesInput | string[]
@@ -19036,10 +19364,43 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CategoryCreateManyParentInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CategoryUpdateWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: CategoryUpdateManyWithoutParentNestedInput
+    products?: ProductUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type CategoryUncheckedUpdateWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
+    products?: ProductUncheckedUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type CategoryUncheckedUpdateManyWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ProductUpdateWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    slug?: IntFieldUpdateOperationsInput | number
     price?: IntFieldUpdateOperationsInput | number
     oldPrice?: IntFieldUpdateOperationsInput | number
     images?: ProductUpdateimagesInput | string[]
@@ -19056,6 +19417,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    slug?: IntFieldUpdateOperationsInput | number
     price?: IntFieldUpdateOperationsInput | number
     oldPrice?: IntFieldUpdateOperationsInput | number
     images?: ProductUpdateimagesInput | string[]
@@ -19072,6 +19434,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    slug?: IntFieldUpdateOperationsInput | number
     price?: IntFieldUpdateOperationsInput | number
     oldPrice?: IntFieldUpdateOperationsInput | number
     images?: ProductUpdateimagesInput | string[]
@@ -19085,6 +19448,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    slug?: IntFieldUpdateOperationsInput | number
     price?: IntFieldUpdateOperationsInput | number
     oldPrice?: IntFieldUpdateOperationsInput | number
     images?: ProductUpdateimagesInput | string[]
@@ -19101,6 +19465,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    slug?: IntFieldUpdateOperationsInput | number
     price?: IntFieldUpdateOperationsInput | number
     oldPrice?: IntFieldUpdateOperationsInput | number
     images?: ProductUpdateimagesInput | string[]
@@ -19117,6 +19482,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    slug?: IntFieldUpdateOperationsInput | number
     price?: IntFieldUpdateOperationsInput | number
     oldPrice?: IntFieldUpdateOperationsInput | number
     images?: ProductUpdateimagesInput | string[]
@@ -19140,18 +19506,23 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parent?: CategoryUpdateOneWithoutChildrenNestedInput
+    children?: CategoryUpdateManyWithoutParentNestedInput
   }
 
   export type CategoryUncheckedUpdateWithoutProductsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
   }
 
   export type CategoryUncheckedUpdateManyWithoutProductsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19235,6 +19606,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    slug?: IntFieldUpdateOperationsInput | number
     price?: IntFieldUpdateOperationsInput | number
     oldPrice?: IntFieldUpdateOperationsInput | number
     images?: ProductUpdateimagesInput | string[]
@@ -19251,6 +19623,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    slug?: IntFieldUpdateOperationsInput | number
     price?: IntFieldUpdateOperationsInput | number
     oldPrice?: IntFieldUpdateOperationsInput | number
     images?: ProductUpdateimagesInput | string[]
@@ -19267,6 +19640,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    slug?: IntFieldUpdateOperationsInput | number
     price?: IntFieldUpdateOperationsInput | number
     oldPrice?: IntFieldUpdateOperationsInput | number
     images?: ProductUpdateimagesInput | string[]

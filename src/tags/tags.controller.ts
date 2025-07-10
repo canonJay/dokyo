@@ -1,58 +1,62 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
-import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { Role } from 'prisma/generated/prisma'
 import { Authorization } from 'src/auth/decorators/auth.decorator'
 import { CreateTagDto } from './dto/create-tag.dto'
 import { UpdateTagDto } from './dto/update-tag.dto'
 import { TagsService } from './tags.service'
 
+@ApiTags('tags')
 @Controller('tags')
 export class TagsController {
   constructor(private readonly tagsService: TagsService) {}
 
-  @ApiOperation({ summary: 'Create a tag' })
-  @ApiResponse({ status: 200, description: 'Tag created' })
-  @ApiResponse({ status: 400, description: 'Tag not created' })
-  @ApiBody({ type: CreateTagDto })
   @Post()
-  @Authorization()
+  @Authorization(Role.ADMIN)
   @ApiBearerAuth()
+  @ApiOperation({ summary: 'Создать тег' })
+  @ApiBody({ type: CreateTagDto })
+  @ApiResponse({ status: 201, description: 'Тег создан', schema: { example: { id: '1', name: 'Tag 1', products: [{ id: 'prod1' }] } } })
+  @ApiResponse({ status: 400, description: 'Ошибка создания тега' })
   create(@Body() createTagDto: CreateTagDto) {
     return this.tagsService.create(createTagDto);
   }
 
-  @ApiOperation({ summary: 'Get all tags' })
-  @ApiResponse({ status: 200, description: 'Tags' })
-  @ApiResponse({ status: 400, description: 'Tags not found' })
+  @ApiOperation({ summary: 'Получить все теги' })
+  @ApiResponse({ status: 200, description: 'Список тегов', schema: { example: [{ id: '1', name: 'Tag 1' }] } })
   @Get()
   findAll() {
     return this.tagsService.findAll();
   }
 
-  @ApiOperation({ summary: 'Get a tag by id' })
-  @ApiResponse({ status: 200, description: 'Tag' })
-  @ApiResponse({ status: 400, description: 'Tag not found' })
+  @ApiOperation({ summary: 'Получить тег по id' })
+  @ApiParam({ name: 'id', description: 'ID тега' })
+  @ApiResponse({ status: 200, description: 'Тег найден', schema: { example: { id: '1', name: 'Tag 1' } } })
+  @ApiResponse({ status: 404, description: 'Тег не найден' })
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.tagsService.findOne(id);
   }
 
-  @ApiOperation({ summary: 'Update a tag' })
-  @ApiResponse({ status: 200, description: 'Tag updated' })
-  @ApiResponse({ status: 400, description: 'Tag not updated' })
-  @ApiParam({ name: 'id', description: 'The id of the tag' })
-  @ApiBody({ type: UpdateTagDto })
   @Patch(':id')
-  @Authorization()
+  @Authorization(Role.ADMIN)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Обновить тег' })
+  @ApiParam({ name: 'id', description: 'ID тега' })
+  @ApiBody({ type: UpdateTagDto })
+  @ApiResponse({ status: 200, description: 'Тег обновлён', schema: { example: { id: '1', name: 'Tag 1', products: [{ id: 'prod1' }] } } })
+  @ApiResponse({ status: 400, description: 'Ошибка обновления тега' })
   update(@Param('id') id: string, @Body() updateTagDto: UpdateTagDto) {
     return this.tagsService.update(id, updateTagDto);
   }
 
-  @ApiOperation({ summary: 'Delete a tag' })
-  @ApiResponse({ status: 200, description: 'Tag deleted' })
-  @ApiResponse({ status: 400, description: 'Tag not deleted' })
-  @ApiParam({ name: 'id', description: 'The id of the tag' })
   @Delete(':id')
-  @Authorization()
+  @Authorization(Role.ADMIN)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Удалить тег' })
+  @ApiParam({ name: 'id', description: 'ID тега' })
+  @ApiResponse({ status: 200, description: 'Тег удалён', schema: { example: true } })
+  @ApiResponse({ status: 404, description: 'Тег не найден' })
   remove(@Param('id') id: string) {
     return this.tagsService.remove(id);
   }
