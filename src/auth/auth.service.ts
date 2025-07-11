@@ -87,8 +87,6 @@ export class AuthService {
 	}
 
 	private async sendOtp(email: string, otp: number) {
-		console.log('Sending OTP to', email)
-
 		try {
 			await this.mailerService.sendEmail(email, 'Your OTP code', `Your OTP code is ${otp}`)
 		} catch (error) {

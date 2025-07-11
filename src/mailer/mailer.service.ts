@@ -6,6 +6,10 @@ export class MailerService {
   constructor(private readonly mailerService: NestMailerService) {}
 
   async sendEmail(to: string, subject: string, html: string) {
-    return await this.mailerService.sendMail({ to, subject, html })
+    const mail = await this.mailerService.sendMail({ to, subject, html })
+
+    console.log(mail)
+
+    return mail
   }
 }
