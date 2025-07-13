@@ -71,8 +71,8 @@ export class ProductsController {
   @ApiResponse({ status: 200, description: 'Продукт отправлен на модерацию', schema: { example: { id: '1', stutus: 'PENDING' } } })
   @ApiResponse({ status: 400, description: 'Ошибка отправки на модерацию' })
   @Patch('updateStutusByIdForSaller/:id')
-  async updateStutusByIdForSaller(@Param('id') id: string, @Body() updateProductDtoForApprove: UpdateProductDtoForApprove){ 
-    return await this.productsService.updateStutusByIdForSaller(id, updateProductDtoForApprove)
+  async updateStutusByIdForSaller(@Param('id') id: string, @Authorized('id') userId: string){ 
+    return await this.productsService.updateStutusByIdForSaller(id, userId)
   }
   
   @Authorization()

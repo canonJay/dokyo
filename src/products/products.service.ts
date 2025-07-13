@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common'
 import { ProductStutus } from 'prisma/generated/prisma'
 import { PrismaService } from 'src/prisma.service'
 import { CreateProductDto } from './dto/create-product.dto'
-import { UpdateProductDto, UpdateProductDtoForApprove, UpdateStutusDto } from './dto/update-product.dto'
+import { UpdateProductDto, UpdateStutusDto } from './dto/update-product.dto'
 
 @Injectable()
 export class ProductsService {
@@ -115,12 +115,11 @@ export class ProductsService {
     }
   }
 
-  async updateStutusByIdForSaller(id: string, updateProductDtoForApprove: UpdateProductDtoForApprove){
+  async updateStutusByIdForSaller(id: string, userId: string){
     try{
       return await this.prisma.product.update({
-        where: {id},
+        where: {id, userId},
         data: {
-          ...updateProductDtoForApprove,
           stutus: "PENDING"
         },
         include: {
