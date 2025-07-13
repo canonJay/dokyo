@@ -26,7 +26,12 @@ export class ProductsService {
             connect: { id: userId },
           },
         },
-      })
+        include: {
+          category: true,
+          tags: true,
+        }
+      },
+    )
 
       return product
     } catch (error) {
@@ -37,7 +42,11 @@ export class ProductsService {
   async findAll(stutus?: string) {
     try {
       return await this.prisma.product.findMany({
-        where: stutus ? { stutus: stutus as ProductStutus } : undefined
+        where: stutus ? { stutus: stutus as ProductStutus } : undefined,
+        include: {
+          category: true,
+          tags: true,
+        }
       });
     } catch (error) {
       throw new BadRequestException(error.message);
@@ -51,6 +60,10 @@ export class ProductsService {
           id: {
             in: productsIds
           }
+        },
+        include: {
+          category: true,
+          tags: true,
         }
       })
 
@@ -62,7 +75,9 @@ export class ProductsService {
 
   async getAllModerationProducts(){
     try{
-      return await this.prisma.product.findMany({where:{stutus: "PENDING"}})
+      return await this.prisma.product.findMany({where:{stutus: "PENDING"}},
+        
+      )
     }catch(error) {
       return new BadRequestException(error)
     }
@@ -74,6 +89,10 @@ export class ProductsService {
       return await this.prisma.product.findUnique({
         where: {
           id
+        },
+        include: {
+          category: true,
+          tags: true,
         }
       })
     }catch(error){
@@ -85,7 +104,11 @@ export class ProductsService {
     try{
       return await this.prisma.product.update({
         where: {id},
-        data: { stutus: updateStutusDto.stutus }
+        data: { stutus: updateStutusDto.stutus },
+        include: {
+          category: true,
+          tags: true,
+        }
       })
     }catch(error){
       return new BadRequestException(error)
@@ -99,6 +122,10 @@ export class ProductsService {
         data: {
           ...updateProductDtoForApprove,
           stutus: "PENDING"
+        },
+        include: {
+          category: true,
+          tags: true,
         }
       })
     }catch(error){
@@ -108,7 +135,11 @@ export class ProductsService {
 
   async findBySellerId(sellerId: string) {
     try {
-      const products = await this.prisma.product.findMany({ where: { userId: sellerId } })
+      const products = await this.prisma.product.findMany({ where: { userId: sellerId },
+        include: {
+          category: true,
+          tags: true,
+        } })
       return products
     } catch (error) {
       throw new BadRequestException(error.message)
@@ -119,6 +150,10 @@ export class ProductsService {
     try {
       const product = await this.prisma.product.findUnique({
         where: { id },
+        include: {
+          category: true,
+          tags: true,
+        }
       })
       return product
     } catch (error) {
@@ -139,6 +174,10 @@ export class ProductsService {
             connect: (updateProductDto.tagIds ?? []).map(tag => ({ id: tag })),
           },
         },
+        include: {
+          category: true,
+          tags: true,
+        }
       })
       return product
     } catch (error) {
