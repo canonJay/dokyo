@@ -92,7 +92,7 @@ export class ProductsService {
     }
   }
 
-  async updateStutusByIdForUser(id: string, updateProductDtoForApprove: UpdateProductDtoForApprove){
+  async updateStutusByIdForSaller(id: string, updateProductDtoForApprove: UpdateProductDtoForApprove){
     try{
       return await this.prisma.product.update({
         where: {id},
