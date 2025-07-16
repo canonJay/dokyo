@@ -108,9 +108,13 @@ export class UsersService {
   }
 
   async publicFindById(id: string) {
+    console.log()
+
     try {
       const user = await this.prisma.user.findUnique({
-        where: { id },
+        where: { 
+          id: id
+         },
         include: {
           reviews: true,
           products: true,

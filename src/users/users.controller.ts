@@ -20,14 +20,13 @@ export class UsersController {
     return await this.usersService.findById(userId)
   }
 
-  @Authorization()
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Получить пользователя по id (публично)' })
   @ApiResponse({ status: 200, description: 'Публичная информация о пользователе' })
   @ApiResponse({ status: 404, description: 'Пользователь не найден' })
   @ApiParam({ name: 'id', description: 'ID пользователя', required: true })
-  @Get("getUserById")
-  async getuserById(@Param() id: string) {
+  @Get("getUserById/:id")
+  async getUserById(@Param("id") id: string) {
     return this.usersService.publicFindById(id) 
   }
 
