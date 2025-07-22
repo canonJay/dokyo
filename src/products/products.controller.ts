@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req } from '@nestjs/common'
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { Role } from 'prisma/generated/prisma'
 import { Authorization } from 'src/auth/decorators/auth.decorator'
@@ -6,22 +6,37 @@ import { Authorized } from 'src/auth/decorators/authorized.decorator'
 import { CreateProductDto } from './dto/create-product.dto'
 import { UpdateProductDto, UpdateProductDtoForApprove, UpdateStutusDto } from './dto/update-product.dto'
 import { ProductsService } from './products.service'
+import { FastifyRequest } from 'fastify'
 
 @ApiTags('products')
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Authorization(Role.SALLER)
+  @Authorization(Role.SALLER, Role.ADMIN)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Создать продукт' })
   @ApiBody({ type: CreateProductDto })
   @ApiResponse({ status: 201, description: 'Продукт создан', schema: { example: { id: '1', title: 'Product 1', price: 100, description: 'Product 1 description', images: ['image1.jpg'], categoryIds: ['cat1'], tagIds: ['tag1'] } } })
   @ApiResponse({ status: 400, description: 'Ошибка создания продукта' })
   @Post()
-  create(@Body() createProductDto: CreateProductDto, @Authorized("id") userId: string) {
-    return this.productsService.create(createProductDto, userId);
-  }
+  async  create(@Body() createProductDto: CreateProductDto, @Authorized("id") userId: string, @Req() request: FastifyRequest,
+) {
+
+    const file = await request.file();
+    let files = [] as Array<{ buffer: Buffer; filename: string; mimetype: string }>;
+    
+    if (file) {
+      files = [{
+        buffer: await file.toBuffer(),
+        filename: file.filename,
+        mimetype: file.mimetype,
+      }];
+    }
+
+
+    return this.productsService.create(createProductDto, userId, files);
+}
 
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Получить все продукты (по статусу или все)' })
@@ -102,8 +117,20 @@ export class ProductsController {
   @ApiResponse({ status: 200, description: 'Продукт обновлён', schema: { example: { id: '1', title: 'Product 1', price: 100 } } })
   @ApiResponse({ status: 400, description: 'Ошибка обновления продукта' })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto,  @Authorized("id") userId: string) {
-    return this.productsService.update(id, updateProductDto, userId);
+  async update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto,  @Authorized("id") userId: string, @Req() req: FastifyRequest) {
+
+    const file = await req.file();
+
+    let files = [] as Array<{ buffer: Buffer; filename: string; mimetype: string }>;
+    
+    if (file) {
+      files = [{
+        buffer: await file.toBuffer(),
+        filename: file.filename,
+        mimetype: file.mimetype,
+      }];
+    }
+    return this.productsService.update(id, updateProductDto, userId, files);
   }
 
   @Authorization(Role.SALLER)

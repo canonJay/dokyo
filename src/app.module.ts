@@ -14,12 +14,13 @@ import { UsersModule } from './users/users.module'
 import { MessagesModule } from './messages/messages.module';
 import { ChatsModule } from './chats/chats.module';
 import { OrdersModule } from './orders/orders.module';
+import { S3Module } from './s3/s3.module';
 
 @Module({
   imports: [UsersModule, ConfigModule.forRoot({
     ignoreEnvFile: !isDevEnv,
     isGlobal: true,
-  }), AuthModule, ProductsModule, CotegorysModule, TagsModule, ReviewsModule, AdminModule, PaymentsModule, MailerModule, MessagesModule, ChatsModule, OrdersModule], 
+  }), AuthModule, ProductsModule, CotegorysModule, TagsModule, ReviewsModule, AdminModule, PaymentsModule, MailerModule, MessagesModule, ChatsModule, OrdersModule, S3Module], 
   controllers: [],
   providers: [PrismaService],
   exports: [PrismaService],

@@ -1,4 +1,5 @@
 import fastifyCookie from '@fastify/cookie'
+import fastifyMultipart, { FastifyMultipartOptions } from '@fastify/multipart'
 import { ValidationPipe } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
@@ -21,6 +22,12 @@ async function bootstrap() {
   // Register cookie plugin with the underlying Fastify instance
   await (app.getHttpAdapter().getInstance() as any).register(fastifyCookie, {
     secret: configService.get('COOKIE_SECRET') as string,
+  });
+
+  await app.register<FastifyMultipartOptions>(fastifyMultipart as any, {
+    limits: {
+      fileSize: 10 * 1024 * 1024,
+    },
   });
 
   app.use(cookieParser());

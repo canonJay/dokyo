@@ -3,19 +3,34 @@ import { ProductStutus } from 'prisma/generated/prisma'
 import { PrismaService } from 'src/prisma.service'
 import { CreateProductDto } from './dto/create-product.dto'
 import { UpdateProductDto, UpdateStutusDto } from './dto/update-product.dto'
+import { ProductImageService } from './product-image.service'
 
 @Injectable()
 export class ProductsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService, 
+    private productImageService: ProductImageService,
+  ) {}
 
-  async create(createProductDto: CreateProductDto, userId: string) {
+  async create(createProductDto: CreateProductDto, userId: string, files: Array<{ buffer: Buffer; filename: string; mimetype: string }>) {
     try {
+
+      const imageKeys = await Promise.all(
+        files.map(async (file) => {
+          return this.productImageService.uploadProductImage(
+            file.buffer,
+            file.filename,
+            file.mimetype,
+          );
+        }),
+      );
+
       const product = await this.prisma.product.create({
         data: {
           title: createProductDto.title, 
           description: createProductDto.description,
           price: createProductDto.price,
-          images: createProductDto.images,
+          images: imageKeys,
           category: {
             connect: (createProductDto.categoryIds ?? []).map(category => ({ id: category })),
           },
@@ -67,7 +82,12 @@ export class ProductsService {
         }
       })
 
-      return products
+      const imageUrls = await this.productImageService.getProductImageUrls(products.flatMap(product => product.images));
+
+      return products.map(product => ({
+        ...product,
+        images: imageUrls,
+      }))
     }catch(error){
       return new BadRequestException("продукты не найдены")
     }
@@ -154,18 +174,44 @@ export class ProductsService {
           tags: true,
         }
       })
-      return product
+
+      if (!product) {
+        throw new BadRequestException("продукт не найден")
+      }
+
+      const imageUrls = await this.productImageService.getProductImageUrls(product.images);
+
+      return {
+        ...product,
+        images: imageUrls,
+      }
     } catch (error) {
       throw new BadRequestException(error.message)
     }
   }
 
-  async update(id: string, updateProductDto: UpdateProductDto, userId: string) {
+  async update(id: string, updateProductDto: UpdateProductDto, userId: string, files: Array<{ buffer: Buffer; filename: string; mimetype: string }>) {
     try {
+
+      let imageKeys = [] as string[];
+
+      if (files.length) {
+        imageKeys = await Promise.all(
+          files.map(async (file) => {
+            return this.productImageService.uploadProductImage(
+              file.buffer,
+              file.filename,
+              file.mimetype,
+            );
+          }),
+        );
+      }
+
       const product = await this.prisma.product.update({
         where: { id, userId },
         data: {
           ...updateProductDto,
+          images: imageKeys,
           category: {
             connect: (updateProductDto.categoryIds ?? []).map(category => ({ id: category })),
           },
