@@ -7,10 +7,11 @@ import { ReviewsService } from 'src/reviews/reviews.service'
 import { UsersService } from 'src/users/users.service'
 import { AdminController } from './admin.controller'
 import { ProductImageService } from 'src/products/product-image.service'
+import { S3Service } from 'src/s3/s3.service'
 
 @Module({
   imports: [HttpModule],
   controllers: [AdminController],
-  providers: [UsersService, ReviewsService, ProductsService, PrismaService, PaymentsService, ProductImageService],
+  providers: [UsersService, ReviewsService, ProductsService, PrismaService, PaymentsService, ProductImageService, S3Service],
 })
 export class AdminModule {}
