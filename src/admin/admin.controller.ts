@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Put } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Put, Req } from '@nestjs/common'
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { FastifyRequest } from 'fastify'
 import { Role } from 'prisma/generated/prisma'
 import { Authorization } from 'src/auth/decorators/auth.decorator'
 import { Authorized } from 'src/auth/decorators/authorized.decorator'
@@ -230,8 +231,19 @@ export class AdminController {
   @ApiResponse({ status: 200, description: 'Продукт обновлён' })
   @ApiResponse({ status: 400, description: 'Ошибка обновления продукта' })
   @Put('products/:id')
-  async updateProduct(@Param('id') id: string, @Body() updateProductDto: CreateProductDto, @Authorized("id") userId: string) {
-    return this.productsService.update(id, updateProductDto, userId)
+  async updateProduct(@Param('id') id: string, @Body() updateProductDto: CreateProductDto, @Authorized("id") userId: string, @Req() req: FastifyRequest) {
+    
+    const file = await req.file();
+    let files = [] as Array<{ buffer: Buffer; filename: string; mimetype: string }>;
+    
+    if (file) {
+      files = [{
+        buffer: await file.toBuffer(),
+        filename: file.filename,
+        mimetype: file.mimetype,
+      }];
+    }
+    return this.productsService.update(id, updateProductDto, userId, files)
   }
 
   @Authorization(Role.ADMIN)
