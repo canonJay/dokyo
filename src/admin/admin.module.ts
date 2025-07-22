@@ -6,10 +6,11 @@ import { ProductsService } from 'src/products/products.service'
 import { ReviewsService } from 'src/reviews/reviews.service'
 import { UsersService } from 'src/users/users.service'
 import { AdminController } from './admin.controller'
+import { ProductImageService } from 'src/products/product-image.service'
 
 @Module({
   imports: [HttpModule],
   controllers: [AdminController],
-  providers: [UsersService, ReviewsService, ProductsService, PrismaService, PaymentsService],
+  providers: [UsersService, ReviewsService, ProductsService, PrismaService, PaymentsService, ProductImageService],
 })
 export class AdminModule {}
