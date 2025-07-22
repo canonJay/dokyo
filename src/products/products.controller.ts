@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req } from '@nestjs/common'
-import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { Role } from 'prisma/generated/prisma'
 import { Authorization } from 'src/auth/decorators/auth.decorator'
 import { Authorized } from 'src/auth/decorators/authorized.decorator'
@@ -16,7 +16,20 @@ export class ProductsController {
   @Authorization(Role.SALLER, Role.ADMIN)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Создать продукт' })
-  @ApiBody({ type: CreateProductDto })
+  @ApiBody({
+    description: 'Данные продукта и файл',
+    schema: {
+      type: 'object',
+      properties: {
+        title: { type: 'string', example: 'Product 1' },
+        price: { type: 'number', example: 100 },
+        description: { type: 'string', example: 'Описание продукта' },
+        file: { type: 'string', format: 'binary', description: 'Файл изображения' }
+      },
+      required: ['title', 'price']
+    }
+  })
+  @ApiConsumes('multipart/form-data')
   @ApiResponse({ status: 201, description: 'Продукт создан', schema: { example: { id: '1', title: 'Product 1', price: 100, description: 'Product 1 description', images: ['image1.jpg'], categoryIds: ['cat1'], tagIds: ['tag1'] } } })
   @ApiResponse({ status: 400, description: 'Ошибка создания продукта' })
   @Post()
@@ -113,7 +126,21 @@ export class ProductsController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Обновить продукт' })
   @ApiParam({ name: 'id', description: 'ID продукта' })
-  @ApiBody({ type: UpdateProductDto })
+  @ApiBody({
+    description: 'Данные для обновления продукта и файл',
+    schema: {
+      type: 'object',
+      properties: {
+        title: { type: 'string', example: 'Product 1' },
+        price: { type: 'number', example: 100 },
+        description: { type: 'string', example: 'Описание продукта' },
+        file: { type: 'string', format: 'binary', description: 'Файл изображения' },
+        categoryIds: { type: 'array', example: ['cat1'] },
+        tagIds: { type: 'array', example: ['tag1'] },
+      }
+    }
+  })
+  @ApiConsumes('multipart/form-data')
   @ApiResponse({ status: 200, description: 'Продукт обновлён', schema: { example: { id: '1', title: 'Product 1', price: 100 } } })
   @ApiResponse({ status: 400, description: 'Ошибка обновления продукта' })
   @Patch(':id')
