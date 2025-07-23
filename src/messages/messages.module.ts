@@ -6,6 +6,7 @@ import { PrismaService } from 'src/prisma.service'
 import { UsersService } from 'src/users/users.service'
 import { MessagesGateway } from './messages.gateway'
 import { MessagesService } from './messages.service'
+import { S3Service } from 'src/s3/s3.service'
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { MessagesService } from './messages.service'
     MessagesService, 
     PrismaService, 
     UsersService,
-    WsAuthGuard
+    WsAuthGuard,
+    S3Service
   ],
 })
 export class MessagesModule {}
