@@ -9,6 +9,7 @@ import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'
 import { JwtStrategy } from './jwt.startegy'
 import { OtpService } from './otp.service'
+import { S3Service } from 'src/s3/s3.service'
 
 @Module({
   imports: [
@@ -19,6 +20,6 @@ import { OtpService } from './otp.service'
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, UsersService, OtpService, JwtStrategy, PrismaService, MailerService],
+  providers: [AuthService, UsersService, OtpService, JwtStrategy, PrismaService, MailerService, S3Service],
 })
 export class AuthModule {}
