@@ -2075,6 +2075,7 @@ export namespace Prisma {
     username: string | null
     email: string | null
     phone: string | null
+    avatar: string | null
     isSuccess: boolean | null
     balance: number | null
     isVerified: boolean | null
@@ -2089,6 +2090,7 @@ export namespace Prisma {
     username: string | null
     email: string | null
     phone: string | null
+    avatar: string | null
     isSuccess: boolean | null
     balance: number | null
     isVerified: boolean | null
@@ -2103,6 +2105,7 @@ export namespace Prisma {
     username: number
     email: number
     phone: number
+    avatar: number
     isSuccess: number
     balance: number
     isVerified: number
@@ -2127,6 +2130,7 @@ export namespace Prisma {
     username?: true
     email?: true
     phone?: true
+    avatar?: true
     isSuccess?: true
     balance?: true
     isVerified?: true
@@ -2141,6 +2145,7 @@ export namespace Prisma {
     username?: true
     email?: true
     phone?: true
+    avatar?: true
     isSuccess?: true
     balance?: true
     isVerified?: true
@@ -2155,6 +2160,7 @@ export namespace Prisma {
     username?: true
     email?: true
     phone?: true
+    avatar?: true
     isSuccess?: true
     balance?: true
     isVerified?: true
@@ -2256,6 +2262,7 @@ export namespace Prisma {
     username: string | null
     email: string
     phone: string | null
+    avatar: string
     isSuccess: boolean
     balance: number
     isVerified: boolean
@@ -2289,6 +2296,7 @@ export namespace Prisma {
     username?: boolean
     email?: boolean
     phone?: boolean
+    avatar?: boolean
     isSuccess?: boolean
     balance?: boolean
     isVerified?: boolean
@@ -2311,6 +2319,7 @@ export namespace Prisma {
     username?: boolean
     email?: boolean
     phone?: boolean
+    avatar?: boolean
     isSuccess?: boolean
     balance?: boolean
     isVerified?: boolean
@@ -2325,6 +2334,7 @@ export namespace Prisma {
     username?: boolean
     email?: boolean
     phone?: boolean
+    avatar?: boolean
     isSuccess?: boolean
     balance?: boolean
     isVerified?: boolean
@@ -2339,6 +2349,7 @@ export namespace Prisma {
     username?: boolean
     email?: boolean
     phone?: boolean
+    avatar?: boolean
     isSuccess?: boolean
     balance?: boolean
     isVerified?: boolean
@@ -2348,7 +2359,7 @@ export namespace Prisma {
     role?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "email" | "phone" | "isSuccess" | "balance" | "isVerified" | "isBanned" | "createdAt" | "updatedAt" | "role", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "email" | "phone" | "avatar" | "isSuccess" | "balance" | "isVerified" | "isBanned" | "createdAt" | "updatedAt" | "role", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     reviews?: boolean | User$reviewsArgs<ExtArgs>
     products?: boolean | User$productsArgs<ExtArgs>
@@ -2378,6 +2389,7 @@ export namespace Prisma {
       username: string | null
       email: string
       phone: string | null
+      avatar: string
       isSuccess: boolean
       balance: number
       isVerified: boolean
@@ -2819,6 +2831,7 @@ export namespace Prisma {
     readonly username: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly phone: FieldRef<"User", 'String'>
+    readonly avatar: FieldRef<"User", 'String'>
     readonly isSuccess: FieldRef<"User", 'Boolean'>
     readonly balance: FieldRef<"User", 'Int'>
     readonly isVerified: FieldRef<"User", 'Boolean'>
@@ -13728,6 +13741,7 @@ export namespace Prisma {
     username: 'username',
     email: 'email',
     phone: 'phone',
+    avatar: 'avatar',
     isSuccess: 'isSuccess',
     balance: 'balance',
     isVerified: 'isVerified',
@@ -14024,6 +14038,7 @@ export namespace Prisma {
     username?: StringNullableFilter<"User"> | string | null
     email?: StringFilter<"User"> | string
     phone?: StringNullableFilter<"User"> | string | null
+    avatar?: StringFilter<"User"> | string
     isSuccess?: BoolFilter<"User"> | boolean
     balance?: IntFilter<"User"> | number
     isVerified?: BoolFilter<"User"> | boolean
@@ -14045,6 +14060,7 @@ export namespace Prisma {
     username?: SortOrderInput | SortOrder
     email?: SortOrder
     phone?: SortOrderInput | SortOrder
+    avatar?: SortOrder
     isSuccess?: SortOrder
     balance?: SortOrder
     isVerified?: SortOrder
@@ -14069,6 +14085,7 @@ export namespace Prisma {
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
+    avatar?: StringFilter<"User"> | string
     isSuccess?: BoolFilter<"User"> | boolean
     balance?: IntFilter<"User"> | number
     isVerified?: BoolFilter<"User"> | boolean
@@ -14090,6 +14107,7 @@ export namespace Prisma {
     username?: SortOrderInput | SortOrder
     email?: SortOrder
     phone?: SortOrderInput | SortOrder
+    avatar?: SortOrder
     isSuccess?: SortOrder
     balance?: SortOrder
     isVerified?: SortOrder
@@ -14112,6 +14130,7 @@ export namespace Prisma {
     username?: StringNullableWithAggregatesFilter<"User"> | string | null
     email?: StringWithAggregatesFilter<"User"> | string
     phone?: StringNullableWithAggregatesFilter<"User"> | string | null
+    avatar?: StringWithAggregatesFilter<"User"> | string
     isSuccess?: BoolWithAggregatesFilter<"User"> | boolean
     balance?: IntWithAggregatesFilter<"User"> | number
     isVerified?: BoolWithAggregatesFilter<"User"> | boolean
@@ -14725,6 +14744,7 @@ export namespace Prisma {
     username?: string | null
     email: string
     phone?: string | null
+    avatar?: string
     isSuccess?: boolean
     balance?: number
     isVerified?: boolean
@@ -14746,6 +14766,7 @@ export namespace Prisma {
     username?: string | null
     email: string
     phone?: string | null
+    avatar?: string
     isSuccess?: boolean
     balance?: number
     isVerified?: boolean
@@ -14767,6 +14788,7 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: StringFieldUpdateOperationsInput | string
     isSuccess?: BoolFieldUpdateOperationsInput | boolean
     balance?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -14788,6 +14810,7 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: StringFieldUpdateOperationsInput | string
     isSuccess?: BoolFieldUpdateOperationsInput | boolean
     balance?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -14809,6 +14832,7 @@ export namespace Prisma {
     username?: string | null
     email: string
     phone?: string | null
+    avatar?: string
     isSuccess?: boolean
     balance?: number
     isVerified?: boolean
@@ -14823,6 +14847,7 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: StringFieldUpdateOperationsInput | string
     isSuccess?: BoolFieldUpdateOperationsInput | boolean
     balance?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -14837,6 +14862,7 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: StringFieldUpdateOperationsInput | string
     isSuccess?: BoolFieldUpdateOperationsInput | boolean
     balance?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -15612,6 +15638,7 @@ export namespace Prisma {
     username?: SortOrder
     email?: SortOrder
     phone?: SortOrder
+    avatar?: SortOrder
     isSuccess?: SortOrder
     balance?: SortOrder
     isVerified?: SortOrder
@@ -15630,6 +15657,7 @@ export namespace Prisma {
     username?: SortOrder
     email?: SortOrder
     phone?: SortOrder
+    avatar?: SortOrder
     isSuccess?: SortOrder
     balance?: SortOrder
     isVerified?: SortOrder
@@ -15644,6 +15672,7 @@ export namespace Prisma {
     username?: SortOrder
     email?: SortOrder
     phone?: SortOrder
+    avatar?: SortOrder
     isSuccess?: SortOrder
     balance?: SortOrder
     isVerified?: SortOrder
@@ -17736,6 +17765,7 @@ export namespace Prisma {
     username?: string | null
     email: string
     phone?: string | null
+    avatar?: string
     isSuccess?: boolean
     balance?: number
     isVerified?: boolean
@@ -17756,6 +17786,7 @@ export namespace Prisma {
     username?: string | null
     email: string
     phone?: string | null
+    avatar?: string
     isSuccess?: boolean
     balance?: number
     isVerified?: boolean
@@ -17792,6 +17823,7 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: StringFieldUpdateOperationsInput | string
     isSuccess?: BoolFieldUpdateOperationsInput | boolean
     balance?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -17812,6 +17844,7 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: StringFieldUpdateOperationsInput | string
     isSuccess?: BoolFieldUpdateOperationsInput | boolean
     balance?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -18091,6 +18124,7 @@ export namespace Prisma {
     username?: string | null
     email: string
     phone?: string | null
+    avatar?: string
     isSuccess?: boolean
     balance?: number
     isVerified?: boolean
@@ -18111,6 +18145,7 @@ export namespace Prisma {
     username?: string | null
     email: string
     phone?: string | null
+    avatar?: string
     isSuccess?: boolean
     balance?: number
     isVerified?: boolean
@@ -18240,6 +18275,7 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: StringFieldUpdateOperationsInput | string
     isSuccess?: BoolFieldUpdateOperationsInput | boolean
     balance?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -18260,6 +18296,7 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: StringFieldUpdateOperationsInput | string
     isSuccess?: BoolFieldUpdateOperationsInput | boolean
     balance?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -18312,6 +18349,7 @@ export namespace Prisma {
     username?: string | null
     email: string
     phone?: string | null
+    avatar?: string
     isSuccess?: boolean
     balance?: number
     isVerified?: boolean
@@ -18332,6 +18370,7 @@ export namespace Prisma {
     username?: string | null
     email: string
     phone?: string | null
+    avatar?: string
     isSuccess?: boolean
     balance?: number
     isVerified?: boolean
@@ -18407,6 +18446,7 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: StringFieldUpdateOperationsInput | string
     isSuccess?: BoolFieldUpdateOperationsInput | boolean
     balance?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -18427,6 +18467,7 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: StringFieldUpdateOperationsInput | string
     isSuccess?: BoolFieldUpdateOperationsInput | boolean
     balance?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -18556,6 +18597,7 @@ export namespace Prisma {
     username?: string | null
     email: string
     phone?: string | null
+    avatar?: string
     isSuccess?: boolean
     balance?: number
     isVerified?: boolean
@@ -18576,6 +18618,7 @@ export namespace Prisma {
     username?: string | null
     email: string
     phone?: string | null
+    avatar?: string
     isSuccess?: boolean
     balance?: number
     isVerified?: boolean
@@ -18659,6 +18702,7 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: StringFieldUpdateOperationsInput | string
     isSuccess?: BoolFieldUpdateOperationsInput | boolean
     balance?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -18679,6 +18723,7 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: StringFieldUpdateOperationsInput | string
     isSuccess?: BoolFieldUpdateOperationsInput | boolean
     balance?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -18722,6 +18767,7 @@ export namespace Prisma {
     username?: string | null
     email: string
     phone?: string | null
+    avatar?: string
     isSuccess?: boolean
     balance?: number
     isVerified?: boolean
@@ -18742,6 +18788,7 @@ export namespace Prisma {
     username?: string | null
     email: string
     phone?: string | null
+    avatar?: string
     isSuccess?: boolean
     balance?: number
     isVerified?: boolean
@@ -18807,6 +18854,7 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: StringFieldUpdateOperationsInput | string
     isSuccess?: BoolFieldUpdateOperationsInput | boolean
     balance?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -18827,6 +18875,7 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: StringFieldUpdateOperationsInput | string
     isSuccess?: BoolFieldUpdateOperationsInput | boolean
     balance?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -18847,6 +18896,7 @@ export namespace Prisma {
     username?: string | null
     email: string
     phone?: string | null
+    avatar?: string
     isSuccess?: boolean
     balance?: number
     isVerified?: boolean
@@ -18867,6 +18917,7 @@ export namespace Prisma {
     username?: string | null
     email: string
     phone?: string | null
+    avatar?: string
     isSuccess?: boolean
     balance?: number
     isVerified?: boolean
@@ -18939,6 +18990,7 @@ export namespace Prisma {
     username?: StringNullableFilter<"User"> | string | null
     email?: StringFilter<"User"> | string
     phone?: StringNullableFilter<"User"> | string | null
+    avatar?: StringFilter<"User"> | string
     isSuccess?: BoolFilter<"User"> | boolean
     balance?: IntFilter<"User"> | number
     isVerified?: BoolFilter<"User"> | boolean
@@ -18969,6 +19021,7 @@ export namespace Prisma {
     username?: string | null
     email: string
     phone?: string | null
+    avatar?: string
     isSuccess?: boolean
     balance?: number
     isVerified?: boolean
@@ -18989,6 +19042,7 @@ export namespace Prisma {
     username?: string | null
     email: string
     phone?: string | null
+    avatar?: string
     isSuccess?: boolean
     balance?: number
     isVerified?: boolean
@@ -19044,6 +19098,7 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: StringFieldUpdateOperationsInput | string
     isSuccess?: BoolFieldUpdateOperationsInput | boolean
     balance?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -19064,6 +19119,7 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: StringFieldUpdateOperationsInput | string
     isSuccess?: BoolFieldUpdateOperationsInput | boolean
     balance?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -19664,6 +19720,7 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: StringFieldUpdateOperationsInput | string
     isSuccess?: BoolFieldUpdateOperationsInput | boolean
     balance?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -19684,6 +19741,7 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: StringFieldUpdateOperationsInput | string
     isSuccess?: BoolFieldUpdateOperationsInput | boolean
     balance?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -19704,6 +19762,7 @@ export namespace Prisma {
     username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: StringFieldUpdateOperationsInput | string
     isSuccess?: BoolFieldUpdateOperationsInput | boolean
     balance?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean

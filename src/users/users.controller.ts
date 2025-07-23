@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UploadedFile } from '@nestjs/common'
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger'
 import { Authorization } from 'src/auth/decorators/auth.decorator'
 import { Authorized } from 'src/auth/decorators/authorized.decorator'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { UsersService } from './users.service'
+
 
 @Controller('users')
 export class UsersController {
@@ -18,6 +19,18 @@ export class UsersController {
   @Get('me')
   async getMe(@Authorized("id") userId: string) {
     return await this.usersService.findById(userId)
+  }
+
+  @Authorization()
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Обновить аватар пользователя' })
+  @ApiResponse({ status: 200, description: 'Аватар пользователя обновлён' })
+  @ApiResponse({ status: 404, description: 'Пользователь не найден' })
+  @ApiParam({ name: 'id', description: 'ID пользователя', required: true })
+  @Patch("updateAvatar/:id")
+  async updateAvatar(@Param("id") id: string, @UploadedFile() avatar: File) {
+
+    return this.usersService.updateAvatar(id, avatar)
   }
 
   @ApiBearerAuth()

@@ -2,11 +2,24 @@ import { BadRequestException, Injectable } from '@nestjs/common'
 import { PrismaService } from 'src/prisma.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
+import { S3Service } from 'src/s3/s3.service'
 
 @Injectable()
 export class UsersService {
 
-  constructor(private prisma: PrismaService) {}
+  private readonly imagePrefix = 'users/';
+
+  constructor(private prisma: PrismaService, private s3Service: S3Service) {}
+
+  async updateAvatar(id: string, avatar: File) {
+    const key = `${this.imagePrefix}${Date.now()}-${avatar.name}`;
+    const buffer = Buffer.from(await avatar.arrayBuffer());
+    await this.s3Service.uploadFile(buffer, key, avatar.type);
+    return await this.prisma.user.update({
+      where: { id },
+      data: { avatar: key },
+    })
+  } 
 
   async getAdmin(email: string) {
     try {
